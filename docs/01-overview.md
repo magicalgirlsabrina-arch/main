@@ -1,6 +1,12 @@
 # ✨ Overview — what this whole thing is
 *spellman-manor stack · docker compose · over tailscale*
 
+> **Topology in one sentence:** 3 physical Macs run 4 OpenClaw familiar
+> processes — Salem and Hilda both live on the Mac mini (Spellman
+> Manor) on different ports, while Harvey runs on the Mac Pro and Zelda
+> on the MacBook Pro. The Android TV (Magic Mirror) is a viewer only.
+> If you remember nothing else from these docs, remember that.
+
 A self-hosted, themed dashboard for Sabrina's Spellman Manor setup. It does
 four things:
 

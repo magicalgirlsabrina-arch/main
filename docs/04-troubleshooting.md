@@ -127,6 +127,72 @@ curl -sH "Authorization: Bearer $TOKEN" \
 Docker Desktop needs to be running (the whale in your menu bar). If the whale
 isn't there, open Docker.app from Applications.
 
+## `error getting credentials - exec: "docker-credential-desktop"`
+
+Docker Desktop installs `docker` and its credential helper at
+`/Applications/Docker.app/Contents/Resources/bin`, but doesn't add that
+to your shell PATH. Fix it once:
+
+```sh
+echo 'export PATH="/Applications/Docker.app/Contents/Resources/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+`spellbook.sh` already auto-prepends this path so its commands work
+even without the rc edit — but interactive `docker` / `docker compose`
+won't work until you do.
+
+## `brew install --cask docker` failed
+
+It needs `sudo mkdir /usr/local/cli-plugins` which can fail silently on
+managed Macs and non-TTY shells. Use the .dmg directly:
+
+1. Download from https://docs.docker.com/desktop/install/mac-install/
+2. Drag Docker.app into Applications, open it.
+
+## Can't SSH into Zelda's Study or Harvey's Workshop
+
+macOS doesn't enable Remote Login by default. On the host that needs
+to be reachable:
+
+- **GUI:** System Settings → General → Sharing → enable **Remote Login**
+- **CLI:** `sudo systemsetup -setremotelogin on`
+
+Once enabled, `ssh sabrinaryan@harveys-workshop.<your-tailnet>` works
+over Tailscale.
+
+## `exec format error` on Apple Silicon
+
+You pulled an x86-only image. Either enable Rosetta in Docker Desktop
+(Settings → General → "Use Rosetta for x86_64/amd64 emulation") or pin
+the platform in `docker-compose.yml`:
+```yaml
+services:
+  some-service:
+    platform: linux/amd64
+```
+Everything in this repo is multi-arch (linux/arm64 + linux/amd64) so
+you should never hit this with the bundled stack.
+
+## `prometheus/tokens/*.token` keeps drifting from `.env`
+
+Don't edit the token files directly anymore. They're auto-generated
+from `.env` by `./scripts/sync-prometheus-tokens.sh`, which
+`spellbook.sh up` calls automatically. Update `.env`, restart, done:
+
+```sh
+nano .env                          # update SALEM_GATEWAY_TOKEN, etc.
+./scripts/spellbook.sh sync-tokens # or just `up` — same effect
+./scripts/spellbook.sh reload-prometheus
+```
+
+## OpenClaw config has `token` (singular) not `tokens` (plural)
+
+The OpenClaw config shape on the mini is `gateway.auth.token` — a single
+string. `grab-gateway-token.sh` handles both shapes (and a scoped-tokens
+variant). If your OpenClaw version uses something different again, edit
+the python block in that script — it's only ~10 lines.
+
 ## Disk filling up (Prometheus / Beszel data)
 
 Prometheus retains 30 days of metrics in a Docker volume. Check size:

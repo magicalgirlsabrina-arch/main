@@ -153,7 +153,43 @@ fi
 echo ""
 echo "✨ This host is ready. The hub will start scraping it within 30s."
 echo ""
+
+# ── Print this host's gateway token so the user can paste it into
+#    .env on the hub. Try common openclaw config locations + names.
+echo "🔑 Gateway tokens for .env on the hub:"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+for fname in salem hilda zelda harvey; do
+  for candidate in \
+      "$HOME/.openclaw/${fname}.json" \
+      "$HOME/.openclaw/openclaw.json" \
+      "$HOME/.openclaw/config.json"; do
+    if [ -f "$candidate" ]; then
+      tok=$(python3 - "$candidate" <<'PY' 2>/dev/null || true
+import json, sys
+try:
+    cfg = json.load(open(sys.argv[1]))
+    auth = cfg.get("gateway", {}).get("auth", {})
+    tok = auth.get("token")
+    if not tok:
+        toks = auth.get("tokens")
+        if isinstance(toks, list) and toks: tok = toks[0]
+        elif isinstance(toks, dict): tok = toks.get("operator") or next(iter(toks.values()), None)
+    sys.stdout.write(tok or "")
+except Exception:
+    pass
+PY
+)
+      if [ -n "$tok" ]; then
+        upper=$(echo "$fname" | tr '[:lower:]' '[:upper:]')
+        echo "   ${upper}_GATEWAY_TOKEN=${tok}"
+      fi
+      break
+    fi
+  done
+done
+
+echo ""
 echo "📜 Tell the OpenClaw familiar on this host about the bridge:"
-echo "   The Coven Mail Bridge lives at http://${HUB%%.*}.tail*.ts.net:18793"
-echo "   The Familiar's Handbook is fetchable at:"
-echo "   curl http://${HUB%%.*}.tail*.ts.net:18793/api/handbook"
+echo "   The Coven Mail Bridge lives at http://${HUB%%.*}.${HUB#*.}:18793"
+echo "   Each familiar can self-serve the Familiar's Handbook with:"
+echo "     curl http://${HUB%%.*}.${HUB#*.}:18793/api/handbook"

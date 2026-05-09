@@ -4,11 +4,24 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
+# Auto-prepend Docker Desktop's CLI path on macOS. Docker Desktop installs
+# `docker`, `docker compose`, and `docker-credential-desktop` here but
+# doesn't add it to user PATH automatically.
+if [ -d /Applications/Docker.app/Contents/Resources/bin ]; then
+  case ":$PATH:" in
+    *":/Applications/Docker.app/Contents/Resources/bin:"*) ;;
+    *) export PATH="/Applications/Docker.app/Contents/Resources/bin:$PATH" ;;
+  esac
+fi
+
 cmd=${1:-status}
 
 case "$cmd" in
   up)
     echo "🔮 Opening the linen closet..."
+    if [ -f .env ]; then
+      ./scripts/sync-prometheus-tokens.sh
+    fi
     docker compose up -d
     echo ""
     echo "✨ The Discovery of Magic → http://localhost:3000"
@@ -43,22 +56,48 @@ case "$cmd" in
     curl -X POST http://localhost:9090/-/reload
     ;;
 
+  sync-tokens)
+    ./scripts/sync-prometheus-tokens.sh
+    ;;
+
+  tailnet)
+    # Print the tailnet's MagicDNS suffix (e.g. tail4cb40.ts.net).
+    if ! command -v tailscale >/dev/null 2>&1; then
+      echo "✗ tailscale CLI not found in PATH" >&2
+      exit 1
+    fi
+    if command -v jq >/dev/null 2>&1; then
+      tailscale status --json | jq -r '.MagicDNSSuffix // "?"'
+    else
+      tailscale status --json | python3 -c 'import json,sys; print(json.load(sys.stdin).get("MagicDNSSuffix","?"))'
+    fi
+    ;;
+
+  distribute-handbook)
+    ./scripts/distribute-handbook.sh
+    ;;
+
   *)
     cat <<EOF
 ✨ Usage: $0 <command>
 
 Stack control:
-  up                       Start the whole dashboard stack
+  up                       Start the stack (auto-syncs prometheus tokens from .env)
   down                     Stop the stack
   restart                  Stop + start
   update                   docker compose pull + restart
   status                   Show running containers
   logs [service]           Tail logs (optionally for one service)
 
-Coven ops (via the Coven Mail Bridge):
+Coven ops:
   peer | ping              Health-check all 4 familiars
   broadcast "message"      Send a message to the entire coven
   selftest                 Ask every familiar to respond with 'alive'
+  distribute-handbook      Mail every familiar the URL for the handbook
+
+Setup helpers:
+  tailnet                  Print your tailnet's MagicDNS suffix
+  sync-tokens              Re-sync prometheus/tokens/*.token from .env
 
 Misc:
   reload-prometheus        Hot-reload Prometheus rules without restart

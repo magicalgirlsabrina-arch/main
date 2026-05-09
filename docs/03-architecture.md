@@ -1,6 +1,15 @@
 # 🏛 Architecture — who lives where
 *hosts · ports · auth · data flow*
 
+> **3 hosts, 4 familiars.** Salem and Hilda both run on the Mac mini
+> (Spellman Manor) — they share the host but listen on different
+> ports (`:18789` and `:18790`). Harvey runs on the Mac Pro, Zelda on
+> the MacBook Pro. The Android TV doesn't host any familiar; it's a
+> viewer for the Magic Mirror page. This colocation matters for
+> debugging — if the mini sleeps, *both* Salem and Hilda go offline at
+> once and the **Trapped in the Linen Closet** alert fires for half
+> the coven.
+
 ## Hosts and ports
 
 ```
