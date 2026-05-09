@@ -1,0 +1,226 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "type": "row",
+      "title": "🌡  Hearth-Fire Temperatures",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "id": 100,
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "type": "gauge",
+      "title": "Hilda — GPU",
+      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 1 },
+      "id": 1,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [{ "expr": "jetson_gpu_temperature{clawbot=\"hilda\"}", "refId": "A" }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "celsius",
+          "min": 0, "max": 100,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "#FF6EC7", "value": null },
+              { "color": "#FFD700", "value": 60 },
+              { "color": "#FF1493", "value": 80 }
+            ]
+          }
+        }
+      },
+      "options": { "showThresholdLabels": false, "showThresholdMarkers": true }
+    },
+    {
+      "type": "gauge",
+      "title": "Zelda — GPU",
+      "gridPos": { "h": 6, "w": 6, "x": 6, "y": 1 },
+      "id": 2,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [{ "expr": "jetson_gpu_temperature{clawbot=\"zelda\"}", "refId": "A" }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "celsius",
+          "min": 0, "max": 100,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "#B19CD9", "value": null },
+              { "color": "#FFD700", "value": 60 },
+              { "color": "#FF1493", "value": 80 }
+            ]
+          }
+        }
+      },
+      "options": { "showThresholdLabels": false, "showThresholdMarkers": true }
+    },
+    {
+      "type": "gauge",
+      "title": "Salem — GPU",
+      "gridPos": { "h": 6, "w": 6, "x": 12, "y": 1 },
+      "id": 3,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [{ "expr": "jetson_gpu_temperature{clawbot=\"salem\"}", "refId": "A" }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "celsius",
+          "min": 0, "max": 100,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "#FFD700", "value": null },
+              { "color": "#FF6EC7", "value": 60 },
+              { "color": "#FF1493", "value": 80 }
+            ]
+          }
+        }
+      },
+      "options": { "showThresholdLabels": false, "showThresholdMarkers": true }
+    },
+    {
+      "type": "gauge",
+      "title": "Harvey — GPU",
+      "gridPos": { "h": 6, "w": 6, "x": 18, "y": 1 },
+      "id": 4,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [{ "expr": "jetson_gpu_temperature{clawbot=\"harvey\"}", "refId": "A" }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "celsius",
+          "min": 0, "max": 100,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "#7EC4FF", "value": null },
+              { "color": "#FFD700", "value": 60 },
+              { "color": "#FF1493", "value": 80 }
+            ]
+          }
+        }
+      },
+      "options": { "showThresholdLabels": false, "showThresholdMarkers": true }
+    },
+    {
+      "type": "row",
+      "title": "✦  Magical Throughput (GPU & CPU utilization)",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 7 },
+      "id": 101,
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "type": "timeseries",
+      "title": "GPU utilization across the coven",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "id": 5,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [{
+        "expr": "jetson_gpu_utilization",
+        "legendFormat": "{{clawbot}}",
+        "refId": "A"
+      }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0, "max": 100,
+          "custom": { "fillOpacity": 20, "lineWidth": 2, "showPoints": "never" }
+        },
+        "overrides": [
+          { "matcher": { "id": "byName", "options": "hilda" },  "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "#FF6EC7" } }] },
+          { "matcher": { "id": "byName", "options": "zelda" },  "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "#B19CD9" } }] },
+          { "matcher": { "id": "byName", "options": "salem" },  "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "#FFD700" } }] },
+          { "matcher": { "id": "byName", "options": "harvey" }, "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "#7EC4FF" } }] }
+        ]
+      },
+      "options": { "legend": { "displayMode": "list", "placement": "bottom" } }
+    },
+    {
+      "type": "timeseries",
+      "title": "CPU utilization across the coven",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "id": 6,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [{
+        "expr": "avg by (clawbot) (jetson_cpu_utilization)",
+        "legendFormat": "{{clawbot}}",
+        "refId": "A"
+      }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0, "max": 100,
+          "custom": { "fillOpacity": 20, "lineWidth": 2, "showPoints": "never" }
+        },
+        "overrides": [
+          { "matcher": { "id": "byName", "options": "hilda" },  "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "#FF6EC7" } }] },
+          { "matcher": { "id": "byName", "options": "zelda" },  "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "#B19CD9" } }] },
+          { "matcher": { "id": "byName", "options": "salem" },  "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "#FFD700" } }] },
+          { "matcher": { "id": "byName", "options": "harvey" }, "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "#7EC4FF" } }] }
+        ]
+      }
+    },
+    {
+      "type": "row",
+      "title": "🌙  Memory & Power Draw",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 16 },
+      "id": 102,
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "type": "timeseries",
+      "title": "RAM in use (bytes)",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 17 },
+      "id": 7,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [{
+        "expr": "jetson_ram_used_bytes",
+        "legendFormat": "{{clawbot}}",
+        "refId": "A"
+      }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "custom": { "fillOpacity": 25, "lineWidth": 2, "showPoints": "never" }
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Total power (mW)",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 17 },
+      "id": 8,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [{
+        "expr": "jetson_power_total_milliwatt",
+        "legendFormat": "{{clawbot}}",
+        "refId": "A"
+      }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "watt",
+          "custom": { "fillOpacity": 25, "lineWidth": 2, "showPoints": "never", "drawStyle": "line" }
+        }
+      }
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["spellman", "jetson", "hardware"],
+  "templating": { "list": [] },
+  "time": { "from": "now-1h", "to": "now" },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Other Realm Surveillance",
+  "uid": "other-realm",
+  "version": 1,
+  "weekStart": ""
+}

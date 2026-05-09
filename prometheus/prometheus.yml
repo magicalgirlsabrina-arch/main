@@ -1,57 +1,62 @@
 global:
   scrape_interval: 30s
   evaluation_interval: 30s
+  external_labels:
+    coven: spellman
 
 scrape_configs:
-  # OpenClaw gateway metrics — one job per ClawBox so we can use per-host bearer tokens.
-  - job_name: openclaw-clawbox-1
+  # ── OpenClaw gateway metrics (one job per ClawBot for per-host bearer auth)
+  - job_name: openclaw-hilda
     metrics_path: /api/diagnostics/prometheus
     scheme: http
     authorization:
       type: Bearer
-      credentials_file: /etc/prometheus/tokens/clawbox-1.token
+      credentials_file: /etc/prometheus/tokens/hilda.token
     static_configs:
-      - targets: ['clawbox-1.tailXXXX.ts.net:18789']
-        labels: { host: clawbox-1 }
+      - targets: ['hilda.tailXXXX.ts.net:18789']
+        labels: { clawbot: hilda, role: aunt-chaos }
 
-  - job_name: openclaw-clawbox-2
+  - job_name: openclaw-zelda
     metrics_path: /api/diagnostics/prometheus
     scheme: http
     authorization:
       type: Bearer
-      credentials_file: /etc/prometheus/tokens/clawbox-2.token
+      credentials_file: /etc/prometheus/tokens/zelda.token
     static_configs:
-      - targets: ['clawbox-2.tailXXXX.ts.net:18789']
-        labels: { host: clawbox-2 }
+      - targets: ['zelda.tailXXXX.ts.net:18789']
+        labels: { clawbot: zelda, role: aunt-scholar }
 
-  - job_name: openclaw-clawbox-3
+  - job_name: openclaw-salem
     metrics_path: /api/diagnostics/prometheus
     scheme: http
     authorization:
       type: Bearer
-      credentials_file: /etc/prometheus/tokens/clawbox-3.token
+      credentials_file: /etc/prometheus/tokens/salem.token
     static_configs:
-      - targets: ['clawbox-3.tailXXXX.ts.net:18789']
-        labels: { host: clawbox-3 }
+      - targets: ['salem.tailXXXX.ts.net:18789']
+        labels: { clawbot: salem, role: cat }
 
-  - job_name: openclaw-clawbox-4
+  - job_name: openclaw-harvey
     metrics_path: /api/diagnostics/prometheus
     scheme: http
     authorization:
       type: Bearer
-      credentials_file: /etc/prometheus/tokens/clawbox-4.token
+      credentials_file: /etc/prometheus/tokens/harvey.token
     static_configs:
-      - targets: ['clawbox-4.tailXXXX.ts.net:18789']
-        labels: { host: clawbox-4 }
+      - targets: ['harvey.tailXXXX.ts.net:18789']
+        labels: { clawbot: harvey, role: mortal }
 
-  # Jetson hardware metrics (GPU, temps, power) via jetson-stats exporter on port 9100.
-  - job_name: jetson-stats
+  # ── Jetson hardware (GPU, temps, power) via jetson-stats exporter on :9100
+  - job_name: other-realm-hardware
     static_configs:
-      - targets:
-          - 'clawbox-1.tailXXXX.ts.net:9100'
-          - 'clawbox-2.tailXXXX.ts.net:9100'
-          - 'clawbox-3.tailXXXX.ts.net:9100'
-          - 'clawbox-4.tailXXXX.ts.net:9100'
+      - targets: ['hilda.tailXXXX.ts.net:9100']
+        labels: { clawbot: hilda }
+      - targets: ['zelda.tailXXXX.ts.net:9100']
+        labels: { clawbot: zelda }
+      - targets: ['salem.tailXXXX.ts.net:9100']
+        labels: { clawbot: salem }
+      - targets: ['harvey.tailXXXX.ts.net:9100']
+        labels: { clawbot: harvey }
 
   - job_name: prometheus
     static_configs:

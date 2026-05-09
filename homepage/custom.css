@@ -1,0 +1,239 @@
+/*  ✦ The Discovery of Magic — 90s Celestial Witchy Theme ✦
+    Palette:
+      Midnight   #0F0524    Deep velvet    #1A0B2E
+      Witch wine #2D1B4E    Lavender       #B19CD9
+      Sabrina pk #FF1493    Hot pink       #FF6EC7
+      Gold star  #FFD700    Cream moon     #F5E6FF
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Sacramento&family=Quicksand:wght@400;500;700&display=swap');
+
+:root {
+  --witch-midnight: #0F0524;
+  --witch-velvet:   #1A0B2E;
+  --witch-wine:     #2D1B4E;
+  --witch-purple:   #4A2C7A;
+  --sabrina-pink:   #FF1493;
+  --hot-pink:       #FF6EC7;
+  --lavender:       #B19CD9;
+  --gold-star:      #FFD700;
+  --cream-moon:     #F5E6FF;
+  --pink-glow:      0 0 12px rgba(255, 110, 199, 0.65);
+  --gold-glow:      0 0 8px rgba(255, 215, 0, 0.55);
+}
+
+/* ── Background: layered nebula + animated starfield ─────────────────────── */
+html, body, #__next {
+  background: var(--witch-midnight) !important;
+  color: var(--cream-moon) !important;
+  font-family: 'Quicksand', system-ui, sans-serif !important;
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(ellipse at 20% 10%,  rgba(255, 20, 147, 0.18), transparent 55%),
+    radial-gradient(ellipse at 85% 30%,  rgba(177, 156, 217, 0.20), transparent 55%),
+    radial-gradient(ellipse at 50% 90%,  rgba(74, 44, 122, 0.45), transparent 60%),
+    linear-gradient(180deg, var(--witch-midnight) 0%, var(--witch-velvet) 60%, var(--witch-wine) 100%);
+}
+
+/* Twinkling stars layer (pure CSS, no images) */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  z-index: -1; pointer-events: none;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 18%, var(--cream-moon), transparent 60%),
+    radial-gradient(1.5px 1.5px at 28% 72%, var(--gold-star), transparent 60%),
+    radial-gradient(1px   1px   at 47% 9%,  var(--cream-moon), transparent 60%),
+    radial-gradient(2px   2px   at 65% 44%, var(--cream-moon), transparent 60%),
+    radial-gradient(1px   1px   at 80% 80%, var(--gold-star), transparent 60%),
+    radial-gradient(1.2px 1.2px at 92% 22%, var(--cream-moon), transparent 60%),
+    radial-gradient(1px   1px   at 8%  55%, var(--cream-moon), transparent 60%),
+    radial-gradient(1.5px 1.5px at 38% 38%, var(--hot-pink),   transparent 60%),
+    radial-gradient(1px   1px   at 73% 14%, var(--cream-moon), transparent 60%),
+    radial-gradient(1.5px 1.5px at 56% 67%, var(--gold-star), transparent 60%);
+  background-size: 100% 100%;
+  animation: twinkle 6s ease-in-out infinite;
+  opacity: 0.8;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.55; transform: translateY(0); }
+  50%      { opacity: 0.95; transform: translateY(-1px); }
+}
+
+/* ── Header / title ──────────────────────────────────────────────────────── */
+#information-widgets, .information-widget-greeting span,
+.information-widget-greeting > div {
+  font-family: 'Sacramento', cursive !important;
+  color: var(--hot-pink) !important;
+  text-shadow: var(--pink-glow), 0 0 24px rgba(255, 20, 147, 0.4);
+  letter-spacing: 0.5px;
+}
+
+.information-widget-datetime {
+  font-family: 'Cinzel Decorative', serif !important;
+  color: var(--cream-moon) !important;
+  text-shadow: 0 0 6px rgba(245, 230, 255, 0.6);
+}
+
+/* ── Section headings (The Coven / The Mortal Realm / The Other Realm) ──── */
+h1, h2, h3, .services-group > h2, [class*="services-group"] h2 {
+  font-family: 'Cinzel Decorative', serif !important;
+  color: var(--lavender) !important;
+  text-shadow: 0 0 10px rgba(177, 156, 217, 0.5), var(--gold-glow);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  position: relative;
+  padding-bottom: 0.3em;
+}
+
+h2::after, .services-group > h2::after {
+  content: '✦ · ✦ · ✦';
+  display: block;
+  font-size: 0.5em;
+  color: var(--gold-star);
+  letter-spacing: 1em;
+  margin-top: 0.4em;
+  opacity: 0.7;
+  text-shadow: var(--gold-glow);
+}
+
+/* ── Service tiles (the ClawBots) ────────────────────────────────────────── */
+.service-card,
+[class*="services-block"] > div,
+ul.services-list > li > div {
+  background: linear-gradient(135deg,
+    rgba(45, 27, 78, 0.85) 0%,
+    rgba(74, 44, 122, 0.65) 100%) !important;
+  border: 1px solid rgba(255, 110, 199, 0.35) !important;
+  border-radius: 14px !important;
+  box-shadow:
+    0 4px 20px rgba(15, 5, 36, 0.6),
+    inset 0 1px 0 rgba(245, 230, 255, 0.08),
+    0 0 16px rgba(255, 20, 147, 0.12) !important;
+  backdrop-filter: blur(10px);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease !important;
+}
+
+.service-card:hover,
+ul.services-list > li > div:hover {
+  transform: translateY(-3px) scale(1.015);
+  border-color: var(--hot-pink) !important;
+  box-shadow:
+    0 8px 28px rgba(15, 5, 36, 0.8),
+    0 0 24px rgba(255, 110, 199, 0.45),
+    inset 0 1px 0 rgba(245, 230, 255, 0.15) !important;
+}
+
+/* Tile titles (Hilda, Zelda, ...) */
+.service-name, [class*="service-name"] {
+  font-family: 'Cinzel Decorative', serif !important;
+  color: var(--cream-moon) !important;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-shadow: 0 0 6px rgba(255, 110, 199, 0.5);
+}
+
+/* Tile descriptions */
+.service-description, [class*="service-description"] {
+  color: var(--lavender) !important;
+  font-style: italic;
+  opacity: 0.92;
+}
+
+/* Custom-API widget mappings (Channelling / tok/s / Spells) */
+.service-block-content, [class*="customapi"] {
+  color: var(--cream-moon) !important;
+  font-family: 'Quicksand', sans-serif !important;
+}
+
+.service-block-content .label,
+[class*="customapi"] .label,
+[class*="customapi"] dt {
+  color: var(--gold-star) !important;
+  font-size: 0.72em;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  text-shadow: var(--gold-glow);
+}
+
+.service-block-content .value,
+[class*="customapi"] .value,
+[class*="customapi"] dd {
+  color: var(--hot-pink) !important;
+  font-weight: 700;
+  text-shadow: var(--pink-glow);
+}
+
+/* ── Bookmarks ───────────────────────────────────────────────────────────── */
+.bookmark-card,
+[class*="bookmark"] {
+  background: rgba(26, 11, 46, 0.7) !important;
+  border: 1px solid rgba(177, 156, 217, 0.3) !important;
+  border-radius: 10px !important;
+  color: var(--cream-moon) !important;
+  transition: all 0.2s ease;
+}
+
+.bookmark-card:hover { border-color: var(--gold-star) !important; box-shadow: var(--gold-glow); }
+
+/* ── Search / quicklaunch ────────────────────────────────────────────────── */
+input[type="text"], input[type="search"], .search-input {
+  background: rgba(26, 11, 46, 0.7) !important;
+  border: 1px solid rgba(255, 110, 199, 0.4) !important;
+  border-radius: 10px !important;
+  color: var(--cream-moon) !important;
+  font-family: 'Quicksand', sans-serif !important;
+}
+
+input::placeholder { color: rgba(177, 156, 217, 0.6) !important; font-style: italic; }
+
+/* ── Resource widget bars ────────────────────────────────────────────────── */
+.resources-card progress,
+.resources-card [role="progressbar"] {
+  accent-color: var(--sabrina-pink);
+}
+
+.resources-card [class*="bar"] {
+  background: linear-gradient(90deg, var(--sabrina-pink), var(--hot-pink), var(--gold-star)) !important;
+}
+
+/* ── Icons get a soft pink glow ──────────────────────────────────────────── */
+.service-icon img, .service-icon svg, .bookmark-icon img {
+  filter: drop-shadow(0 0 6px rgba(255, 110, 199, 0.6));
+}
+
+/* ── A subtle moon in the corner ─────────────────────────────────────────── */
+body > div::before {
+  content: '🌙';
+  position: fixed;
+  bottom: 20px;
+  right: 24px;
+  font-size: 28px;
+  opacity: 0.4;
+  text-shadow: 0 0 18px var(--cream-moon);
+  pointer-events: none;
+  z-index: 100;
+  animation: drift 12s ease-in-out infinite;
+}
+
+@keyframes drift {
+  0%, 100% { transform: translateY(0)   rotate(-5deg); }
+  50%      { transform: translateY(-8px) rotate(5deg); }
+}
+
+/* ── Scrollbar (the small details) ───────────────────────────────────────── */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--witch-midnight); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--sabrina-pink), var(--witch-purple));
+  border-radius: 5px;
+  box-shadow: var(--pink-glow);
+}

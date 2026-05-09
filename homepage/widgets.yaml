@@ -1,14 +1,19 @@
-- resources:
-    cpu: true
-    memory: true
-    label: Mac mini
-
-- search:
-    provider: duckduckgo
-    target: _blank
+- greeting:
+    text_size: 4xl
+    text: "✨ The Discovery of Magic ✨"
 
 - datetime:
     text_size: xl
     format:
       timeStyle: short
-      dateStyle: short
+      dateStyle: full
+
+- resources:
+    cpu: true
+    memory: true
+    disk: /
+    label: Spellman Manor
+
+- search:
+    provider: duckduckgo
+    target: _blank

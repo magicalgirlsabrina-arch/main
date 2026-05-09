@@ -1,77 +1,97 @@
-# OpenClaw Dashboard
+# 🌙 The Discovery of Magic
 
-A self-hosted dashboard for monitoring 4 ClawBoxes (Jetson Orin Nano) and your
-other machines over Tailscale.
+A 90s celestial witchy dashboard for the Spellman household: 4 ClawBots
+(*hilda*, *zelda*, *salem*, *harvey*), three Macs, and an Android TV magic
+mirror — all reachable over Tailscale.
 
-**Hardware**
-- Mac mini — central hub (always on, runs the dashboard stack)
-- 4 ClawBoxes — run OpenClaw + send metrics to the hub
-- MacBook Pro / Mac Pro — show up in Beszel when online (optional)
-- Android TV — bookmark the dashboard in a browser, view when you want
+> *"The book contains everything you need to know about being a witch."*
 
-**Stack**
-- **Homepage** — front-door dashboard with tiles per ClawBox
-- **Beszel** — lightweight system monitoring (CPU/RAM/disk per host)
-- **Prometheus + Grafana** — OpenClaw AI metrics + Jetson GPU/temps
+---
 
-Everything is reached over your tailnet — nothing exposed to the public internet.
+## The household
+
+| Host | Role | Hardware |
+|---|---|---|
+| **Spellman Manor** | The hub — runs the whole dashboard | Mac mini |
+| **Hilda** | ClawBot — chaos energy | Jetson Orin Nano |
+| **Zelda** | ClawBot — precise, cold | Jetson Orin Nano |
+| **Salem** | ClawBot — mischievous | Jetson Orin Nano |
+| **Harvey** | ClawBot — steady | Jetson Orin Nano |
+| **Drell** | Council muscle | Mac Pro |
+| **Sabrina** | The mortal-realm laptop | MacBook Pro |
+| **The Magic Mirror** | Scrying surface | Android TV |
+| **Other Realm** | Primary storage | SSD |
+| **Katrina** | Backups (keep your enemies close) | Backup drive |
+
+---
+
+## The stack
+
+- **Homepage** — themed front door, one tile per ClawBot with live OpenClaw stats
+- **Beszel** — *Vital Signs of the Coven*: lightweight CPU/RAM/disk per host
+- **Prometheus + Grafana** — *Other Realm Surveillance* (Jetson GPU/temps) and
+  *The Cast Log* (OpenClaw spells per second, latency, sessions)
+
+Everything reached over the tailnet — nothing exposed to the mortal realm.
 
 ---
 
 ## Setup walkthrough
 
-### 1. On the Mac mini (the hub)
+### 1. On Spellman Manor (the Mac mini)
 
 **Install Docker Desktop.** Download from https://www.docker.com/products/docker-desktop/,
-double-click the `.dmg`, drag the whale icon to Applications, open it, click through
-the prompts. You'll see a whale in your menu bar when it's running.
+double-click the `.dmg`, drag the whale to Applications, open it. The whale
+appears in your menu bar when it's awake.
 
-**Install Tailscale** if you haven't already: https://tailscale.com/download
+**Install Tailscale** if you haven't: https://tailscale.com/download
 
-**Get this folder onto the Mac mini.** Either clone the repo or copy the files.
+**Get this folder onto Spellman Manor.** Either `git clone` it or copy.
 
-**Set your gateway tokens.** Each ClawBox has an OpenClaw gateway token (from its
-OpenClaw config). Copy the example env file and fill it in:
+**Set your gateway tokens and tailnet hostnames:**
 
 ```sh
 cp .env.example .env
-# edit .env with your real tokens and tailnet hostnames
+# edit .env — fill in real tokens and the tailnet names you see in `tailscale status`
 ```
 
-**Start the stack:**
+For each ClawBot, drop its bearer token in `prometheus/tokens/` as a single
+line (no trailing newline):
+
+```sh
+echo -n "your-hilda-token"  > prometheus/tokens/hilda.token
+echo -n "your-zelda-token"  > prometheus/tokens/zelda.token
+echo -n "your-salem-token"  > prometheus/tokens/salem.token
+echo -n "your-harvey-token" > prometheus/tokens/harvey.token
+```
+
+**Open the linen closet** (start the stack):
 
 ```sh
 docker compose up -d
 ```
 
-That's it. Wait ~30 seconds, then visit:
+Wait ~30 seconds, then visit:
 
-- Homepage:   http://localhost:3000
-- Beszel:     http://localhost:8090
-- Grafana:    http://localhost:3001  (login: admin / admin, then change it)
-- Prometheus: http://localhost:9090  (only needed for debugging)
+- 🔮 **The Discovery of Magic** (Homepage) — http://localhost:3000
+- 💗 **Vital Signs** (Beszel) — http://localhost:8090
+- 👁 **Other Realm Surveillance + Cast Log** (Grafana) — http://localhost:3001 *(login: admin / admin, change it)*
+- 🛠 **Prometheus** — http://localhost:9090 *(only for debugging)*
 
-To stop: `docker compose down`. To update: `docker compose pull && docker compose up -d`.
+### 2. On each ClawBot (hilda, zelda, salem, harvey)
 
-### 2. On each of the 4 ClawBoxes
+Confirm OpenClaw's Prometheus diagnostics plugin is enabled in the gateway
+config (`"diagnostics-prometheus": { "enabled": true }`), and grab the
+operator-scope bearer token.
 
-Open the OpenClaw control panel and confirm the Prometheus diagnostics plugin
-is enabled (it's in the gateway config — `"diagnostics-prometheus": { "enabled": true }`).
-Note the gateway token; you'll need it for `.env` on the Mac mini.
-
-Then SSH into each ClawBox and run:
+Then SSH in and install the Beszel agent + Jetson exporter:
 
 ```sh
+# 1. Beszel agent (system stats)
 curl -fsSL https://raw.githubusercontent.com/henrygd/beszel/main/supplemental/scripts/install-agent.sh | bash
-```
+# When prompted, enter:  http://spellman-manor.tailXXXX.ts.net:8090
 
-When it prompts for the hub URL, enter your Mac mini's tailnet name, e.g.
-`http://mac-mini.tailXXXX.ts.net:8090`. Copy the public key it shows you — you'll
-paste it into the Beszel UI when adding the system.
-
-For Jetson GPU + temps, install the Jetson stats exporter:
-
-```sh
+# 2. Jetson stats (GPU, temps, power) for the Other Realm Surveillance dashboard
 sudo pip3 install -U jetson-stats
 sudo systemctl enable --now jtop.service
 docker run -d --restart unless-stopped --name jetson-exporter \
@@ -79,32 +99,62 @@ docker run -d --restart unless-stopped --name jetson-exporter \
   rbonghi/jetson_stats:prometheus-exporter
 ```
 
-(If the ClawBox doesn't have Docker, install it first: `curl -fsSL https://get.docker.com | sh`.)
+(If a ClawBot doesn't have Docker: `curl -fsSL https://get.docker.com | sh`.)
 
-### 3. Add each ClawBox in Beszel
+### 3. Add each ClawBot in Beszel
 
-Open Beszel (http://mac-mini.tailXXXX.ts.net:8090), click "Add System", paste the
-public key from each ClawBox, give it a name (e.g. "clawbox-1"). Repeat for the
-other ClawBoxes, the Mac Pro, and the MacBook Pro.
+Open Vital Signs (http://spellman-manor.tailXXXX.ts.net:8090), click
+**Add System**, paste the public key the agent printed, and name them
+`hilda`, `zelda`, `salem`, `harvey`. Repeat for `drell` and `sabrina` if you
+want them in the coven view.
 
-### 4. On the Android TV
+### 4. On the Magic Mirror (Android TV)
 
-Install a browser (Brave, Firefox, etc. from the Play Store), bookmark the
-Homepage URL. Open it whenever you want a glance.
+Install a browser (Brave / Firefox) from the Play Store. Bookmark
+`http://spellman-manor.tailXXXX.ts.net:3000`. Open it whenever you want to
+gaze into the Other Realm.
+
+### 5. Optional: clean URL via Tailscale Serve
+
+Skip the port numbers — get `https://spellman-manor.tailXXXX.ts.net`:
+
+```sh
+./scripts/tailscale-serve.sh
+```
 
 ---
 
-## Customizing
+## Daily incantations
 
-- **Homepage tiles & layout** — edit `homepage/services.yaml` and `homepage/widgets.yaml`
-- **Add/remove ClawBoxes from scraping** — edit `prometheus/prometheus.yml`
-- **Grafana dashboards** — Jetson dashboard ID `22650` and the OpenClaw dashboard
-  are auto-imported. Add more via the Grafana UI.
+A small helper script wraps the common Docker commands:
+
+```sh
+./scripts/spellbook.sh up        # start everything
+./scripts/spellbook.sh down      # stop everything
+./scripts/spellbook.sh restart   # restart
+./scripts/spellbook.sh update    # pull new versions, restart
+./scripts/spellbook.sh logs      # tail logs
+./scripts/spellbook.sh status    # what's running
+./scripts/spellbook.sh peer      # health-check all 4 ClawBots
+```
+
+---
+
+## Customizing the magic
+
+- **Theme/colors** → `homepage/custom.css` (the witchy CSS lives here)
+- **Tile layout** → `homepage/services.yaml`
+- **Widgets** (moon, weather, etc.) → `homepage/widgets.yaml`
+- **Add/remove a ClawBot from scraping** → `prometheus/prometheus.yml`
+- **Grafana dashboards** — `grafana/dashboards/*.json` are auto-imported
 
 ## Troubleshooting
 
-- *"Can't reach a ClawBox"* — check Tailscale: `tailscale status` on the Mac mini.
-- *"Prometheus shows the target as DOWN"* — bearer token wrong, or OpenClaw
-  diagnostics plugin not enabled. `curl -H "Authorization: Bearer $TOKEN" http://CLAWBOX:18789/api/diagnostics/prometheus`
-- *"Beszel says agent offline"* — agent service not running. On the ClawBox:
-  `systemctl status beszel-agent`.
+- *"Can't reach a ClawBot"* — `tailscale status` on Spellman Manor; make sure
+  the tailnet name in `.env` matches.
+- *"Prometheus shows a target as DOWN"* — token wrong, or diagnostics plugin
+  not enabled. Test:
+  `curl -H "Authorization: Bearer $TOKEN" http://hilda.tailXXXX.ts.net:18789/api/diagnostics/prometheus`
+- *"Beszel says agent offline"* — on the ClawBot: `systemctl status beszel-agent`.
+- *Tile widgets blank* — the OpenClaw `/api/diagnostics/summary` field names may
+  differ in your version; tweak `mappings:` in `homepage/services.yaml`.

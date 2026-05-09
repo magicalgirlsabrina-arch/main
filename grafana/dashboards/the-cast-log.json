@@ -1,0 +1,190 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "type": "row",
+      "title": "✨  Spells Cast Across the Coven",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "id": 200,
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "type": "stat",
+      "title": "Total spells / sec",
+      "gridPos": { "h": 5, "w": 6, "x": 0, "y": 1 },
+      "id": 1,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [{
+        "expr": "sum(rate(openclaw_gateway_requests_total[1m]))",
+        "refId": "A"
+      }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "color": { "mode": "fixed", "fixedColor": "#FF1493" }
+        }
+      },
+      "options": {
+        "colorMode": "value", "graphMode": "area", "justifyMode": "center",
+        "textMode": "auto", "wideLayout": true
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Active séances",
+      "gridPos": { "h": 5, "w": 6, "x": 6, "y": 1 },
+      "id": 2,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [{
+        "expr": "sum(openclaw_gateway_active_sessions)",
+        "refId": "A"
+      }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": { "mode": "fixed", "fixedColor": "#B19CD9" }
+        }
+      },
+      "options": { "colorMode": "value", "graphMode": "none", "justifyMode": "center" }
+    },
+    {
+      "type": "stat",
+      "title": "Tokens conjured / sec",
+      "gridPos": { "h": 5, "w": 6, "x": 12, "y": 1 },
+      "id": 3,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [{
+        "expr": "sum(rate(openclaw_tokens_generated_total[1m]))",
+        "refId": "A"
+      }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": { "mode": "fixed", "fixedColor": "#FFD700" }
+        }
+      },
+      "options": { "colorMode": "value", "graphMode": "area", "justifyMode": "center" }
+    },
+    {
+      "type": "stat",
+      "title": "Backfires / sec (errors)",
+      "gridPos": { "h": 5, "w": 6, "x": 18, "y": 1 },
+      "id": 4,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [{
+        "expr": "sum(rate(openclaw_gateway_requests_total{status=~\"5..\"}[1m]))",
+        "refId": "A"
+      }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "#7EC4FF", "value": null },
+              { "color": "#FFD700", "value": 0.1 },
+              { "color": "#FF1493", "value": 1 }
+            ]
+          }
+        }
+      },
+      "options": { "colorMode": "value", "graphMode": "area", "justifyMode": "center" }
+    },
+    {
+      "type": "row",
+      "title": "🔮  Per ClawBot — Token Throughput",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 6 },
+      "id": 201,
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "type": "timeseries",
+      "title": "Tokens / sec by ClawBot",
+      "gridPos": { "h": 9, "w": 24, "x": 0, "y": 7 },
+      "id": 5,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [{
+        "expr": "sum by (clawbot) (rate(openclaw_tokens_generated_total[1m]))",
+        "legendFormat": "{{clawbot}}",
+        "refId": "A"
+      }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": { "fillOpacity": 25, "lineWidth": 2, "showPoints": "never", "gradientMode": "opacity" }
+        },
+        "overrides": [
+          { "matcher": { "id": "byName", "options": "hilda" },  "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "#FF6EC7" } }] },
+          { "matcher": { "id": "byName", "options": "zelda" },  "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "#B19CD9" } }] },
+          { "matcher": { "id": "byName", "options": "salem" },  "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "#FFD700" } }] },
+          { "matcher": { "id": "byName", "options": "harvey" }, "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "#7EC4FF" } }] }
+        ]
+      }
+    },
+    {
+      "type": "row",
+      "title": "🌙  Latency & Errors",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 16 },
+      "id": 202,
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "type": "timeseries",
+      "title": "p95 spell duration (s)",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 17 },
+      "id": 6,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [{
+        "expr": "histogram_quantile(0.95, sum by (clawbot, le) (rate(openclaw_request_duration_seconds_bucket[5m])))",
+        "legendFormat": "{{clawbot}} p95",
+        "refId": "A"
+      }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": { "fillOpacity": 15, "lineWidth": 2, "showPoints": "never" }
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Active séances per ClawBot",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 17 },
+      "id": 7,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [{
+        "expr": "openclaw_gateway_active_sessions",
+        "legendFormat": "{{clawbot}}",
+        "refId": "A"
+      }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": { "fillOpacity": 20, "lineWidth": 2, "showPoints": "never" }
+        }
+      }
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["spellman", "openclaw", "ai"],
+  "templating": { "list": [] },
+  "time": { "from": "now-1h", "to": "now" },
+  "timepicker": {},
+  "timezone": "",
+  "title": "The Cast Log",
+  "uid": "cast-log",
+  "version": 1,
+  "weekStart": ""
+}

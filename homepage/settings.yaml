@@ -1,20 +1,34 @@
-title: OpenClaw Control Center
-favicon: https://openclaw.ai/favicon.ico
+title: The Discovery of Magic
+favicon: https://twemoji.maxcdn.com/v/latest/72x72/1f52e.png
 
+# Witchy dark theme — heavy styling via custom.css (starfield, glow, fonts).
 theme: dark
 color: slate
 
+cardBlur: md
+
 layout:
-  ClawBoxes:
+  The Coven:
     style: row
     columns: 4
-  Monitoring:
+    icon: mdi-cat
+  The Mortal Realm:
+    style: row
+    columns: 3
+  The Other Realm:
     style: row
     columns: 2
 
 headerStyle: clean
 hideVersion: true
+fiveColumns: false
+disableCollapse: false
+useEqualHeights: true
 
 quicklaunch:
   searchDescriptions: true
   hideInternetSearch: true
+  hideVisitURL: true
+
+providers:
+  openweathermap: openweathermapapikey

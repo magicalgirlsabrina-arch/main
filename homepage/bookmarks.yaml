@@ -1,7 +1,15 @@
-- Admin:
-    - Tailscale:
-        - abbr: TS
+- The Linen Closet:
+    - Tailscale Admin:
+        - abbr: 🌐
           href: https://login.tailscale.com/admin/machines
     - OpenClaw docs:
-        - abbr: OC
+        - abbr: 📖
           href: https://docs.openclaw.ai/
+
+- Around Westbridge:
+    - Moon phase:
+        - abbr: 🌙
+          href: https://www.timeanddate.com/moon/phases/
+    - NOAA space weather:
+        - abbr: ☀️
+          href: https://www.swpc.noaa.gov/

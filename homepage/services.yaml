@@ -1,79 +1,104 @@
-- ClawBoxes:
-    - ClawBox 1:
-        href: http://{{HOMEPAGE_VAR_CLAWBOX_1_HOST}}:18789
-        description: OpenClaw gateway
+# Each ClawBot gets a tile with a live OpenClaw status widget.
+# Witchy descriptions match each Spellman family member's vibe.
+
+- The Coven:
+    - Hilda:
+        href: http://{{HOMEPAGE_VAR_HILDA_HOST}}:18789
+        description: ☕ Chaos energy aunt
+        icon: mdi-tea-outline-#ff6ec7
         widget:
           type: customapi
-          url: http://{{HOMEPAGE_VAR_CLAWBOX_1_HOST}}:18789/api/diagnostics/summary
+          url: http://{{HOMEPAGE_VAR_HILDA_HOST}}:18789/api/diagnostics/summary
           headers:
-            Authorization: Bearer {{HOMEPAGE_VAR_CLAWBOX_1_TOKEN}}
+            Authorization: Bearer {{HOMEPAGE_VAR_HILDA_TOKEN}}
           mappings:
             - field: model
-              label: Model
+              label: Channelling
             - field: tokens_per_sec
               label: tok/s
               format: float
             - field: active_sessions
-              label: Sessions
+              label: Spells
+              format: number
 
-    - ClawBox 2:
-        href: http://{{HOMEPAGE_VAR_CLAWBOX_2_HOST}}:18789
-        description: OpenClaw gateway
+    - Zelda:
+        href: http://{{HOMEPAGE_VAR_ZELDA_HOST}}:18789
+        description: 📖 Precise, scholarly aunt
+        icon: mdi-book-open-page-variant-#b19cd9
         widget:
           type: customapi
-          url: http://{{HOMEPAGE_VAR_CLAWBOX_2_HOST}}:18789/api/diagnostics/summary
+          url: http://{{HOMEPAGE_VAR_ZELDA_HOST}}:18789/api/diagnostics/summary
           headers:
-            Authorization: Bearer {{HOMEPAGE_VAR_CLAWBOX_2_TOKEN}}
+            Authorization: Bearer {{HOMEPAGE_VAR_ZELDA_TOKEN}}
           mappings:
             - field: model
-              label: Model
+              label: Channelling
             - field: tokens_per_sec
               label: tok/s
               format: float
             - field: active_sessions
-              label: Sessions
+              label: Spells
+              format: number
 
-    - ClawBox 3:
-        href: http://{{HOMEPAGE_VAR_CLAWBOX_3_HOST}}:18789
-        description: OpenClaw gateway
+    - Salem:
+        href: http://{{HOMEPAGE_VAR_SALEM_HOST}}:18789
+        description: 🐈‍⬛ Schemes for world domination
+        icon: mdi-cat-#ffd700
         widget:
           type: customapi
-          url: http://{{HOMEPAGE_VAR_CLAWBOX_3_HOST}}:18789/api/diagnostics/summary
+          url: http://{{HOMEPAGE_VAR_SALEM_HOST}}:18789/api/diagnostics/summary
           headers:
-            Authorization: Bearer {{HOMEPAGE_VAR_CLAWBOX_3_TOKEN}}
+            Authorization: Bearer {{HOMEPAGE_VAR_SALEM_TOKEN}}
           mappings:
             - field: model
-              label: Model
+              label: Channelling
             - field: tokens_per_sec
               label: tok/s
               format: float
             - field: active_sessions
-              label: Sessions
+              label: Spells
+              format: number
 
-    - ClawBox 4:
-        href: http://{{HOMEPAGE_VAR_CLAWBOX_4_HOST}}:18789
-        description: OpenClaw gateway
+    - Harvey:
+        href: http://{{HOMEPAGE_VAR_HARVEY_HOST}}:18789
+        description: 🛠 Steady mortal boyfriend
+        icon: mdi-tools-#7ec4ff
         widget:
           type: customapi
-          url: http://{{HOMEPAGE_VAR_CLAWBOX_4_HOST}}:18789/api/diagnostics/summary
+          url: http://{{HOMEPAGE_VAR_HARVEY_HOST}}:18789/api/diagnostics/summary
           headers:
-            Authorization: Bearer {{HOMEPAGE_VAR_CLAWBOX_4_TOKEN}}
+            Authorization: Bearer {{HOMEPAGE_VAR_HARVEY_TOKEN}}
           mappings:
             - field: model
-              label: Model
+              label: Channelling
             - field: tokens_per_sec
               label: tok/s
               format: float
             - field: active_sessions
-              label: Sessions
+              label: Spells
+              format: number
 
-- Monitoring:
-    - Beszel:
+- The Mortal Realm:
+    - Spellman Manor:
+        description: 🏠 The hub (this Mac mini)
+        icon: mdi-home-heart-#ff6ec7
+        href: http://localhost:3000
+
+    - Drell:
+        description: 🔱 Council muscle (Mac Pro)
+        icon: mdi-shield-crown-#b19cd9
+
+    - Sabrina:
+        description: ✨ The mortal-realm laptop (MacBook Pro)
+        icon: mdi-laptop-#ff69b4
+
+- The Other Realm:
+    - Vital Signs of the Coven:
         href: http://localhost:8090
-        description: System health across all hosts
-        icon: mdi-monitor-dashboard
+        description: 💗 Per-host CPU / RAM / disk
+        icon: mdi-heart-pulse-#ff1493
 
-    - Grafana:
+    - The Scrying Glass:
         href: http://localhost:3001
-        description: Deep metrics — OpenClaw + Jetson
+        description: 🔮 Other Realm Surveillance + The Cast Log
         icon: grafana.png
