@@ -1,4 +1,5 @@
 # 🔍 Peer debugging — how familiars debug each other
+*coven-mail-bridge endpoints · circuit breakers · claude bridge*
 
 The Coven Mail Bridge ships with debug primitives drawn from production
 multi-agent systems (LangSmith, Langfuse, Laminar). Each one has a

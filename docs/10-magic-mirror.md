@@ -1,4 +1,5 @@
 # 🪞 The Magic Mirror — TV kiosk view
+*nginx static page · `:8080` · android tv viewer*
 
 A stripped-down, big-text version of the dashboard tuned for ~10ft viewing
 on the Android TV in the living room. Refreshes every 10 seconds.

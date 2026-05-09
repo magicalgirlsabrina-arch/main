@@ -1,4 +1,5 @@
 # 🤖 Claude Code on the Macs
+*claude bridge · `:18794` per mac · launchd service*
 
 Each familiar host (the 3 Macs) can run Anthropic's Claude Code CLI, and the
 dashboard makes it easy for one familiar to "borrow" another's Claude.

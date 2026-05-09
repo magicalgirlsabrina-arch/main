@@ -6,7 +6,7 @@
       Gold star  #FFD700    Cream moon     #F5E6FF
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Sacramento&family=Quicksand:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Sacramento&family=Quicksand:wght@400;500;700&family=JetBrains+Mono:wght@300;400&display=swap');
 
 :root {
   --witch-midnight: #0F0524;
@@ -141,11 +141,27 @@ ul.services-list > li > div:hover {
   text-shadow: 0 0 6px rgba(255, 110, 199, 0.5);
 }
 
-/* Tile descriptions */
+/* Tile descriptions — used as TECHNICAL SUBTITLES under each themed name.
+   Monospace + lowercase + reduced opacity = "subtle code label" feel. */
 .service-description, [class*="service-description"] {
-  color: var(--lavender) !important;
-  font-style: italic;
-  opacity: 0.92;
+  color: rgba(177, 156, 217, 0.6) !important;
+  font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace !important;
+  font-style: normal !important;
+  font-weight: 300 !important;
+  font-size: 0.72em !important;
+  letter-spacing: 0.3px !important;
+  text-transform: lowercase;
+  opacity: 1 !important;
+  margin-top: 2px;
+}
+
+/* Bookmark abbreviation labels also get the same subtitle treatment */
+.bookmark-card .description, [class*="bookmark"] .description {
+  font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace !important;
+  color: rgba(177, 156, 217, 0.55) !important;
+  font-size: 0.72em !important;
+  letter-spacing: 0.3px !important;
+  text-transform: lowercase;
 }
 
 /* Custom-API widget mappings (Channelling / tok/s / Spells) */

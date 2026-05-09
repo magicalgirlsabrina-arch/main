@@ -1,4 +1,5 @@
 # 💌 Coven Mail — how it works
+*existing `mailbox-server.py` :18792 + new `coven-mail-bridge` :18793*
 
 Coven Mail is Sabrina's existing inter-familiar messaging system. The
 dashboard adds a friendlier UI on top of it without changing the underlying

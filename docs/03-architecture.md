@@ -1,4 +1,5 @@
 # 🏛 Architecture — who lives where
+*hosts · ports · auth · data flow*
 
 ## Hosts and ports
 

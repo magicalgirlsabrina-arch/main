@@ -1,4 +1,5 @@
 # 🆙 Upgrading
+*`docker compose pull` · per-service rebuilds · git rollback*
 
 How to safely update each piece without breaking the coven.
 

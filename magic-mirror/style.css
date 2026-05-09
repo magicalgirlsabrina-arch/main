@@ -64,6 +64,27 @@ header {
   text-shadow: var(--pink-glow), 0 0 32px rgba(255, 20, 147, .4);
   margin: 0;
 }
+/* Technical subtitle — sits under any themed title; monospace + dimmed */
+.tech, .tech-sub {
+  font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  color: rgba(177, 156, 217, .55);
+  letter-spacing: .5px;
+  text-transform: lowercase;
+  font-weight: 300;
+}
+.tech-sub {           /* under page title — slightly larger than per-card .tech */
+  font-size: 16px;
+  margin: 4px 0 8px;
+  text-align: center;
+}
+.familiar .tech {     /* under familiar names */
+  font-size: 13px;
+  margin-top: 4px;
+}
+.card .tech {         /* under card headings */
+  font-size: 12px;
+  margin: -8px 0 12px;
+}
 .clock {
   font-family: 'Cinzel Decorative', serif;
   font-size: 96px;

@@ -1,6 +1,7 @@
 # 🔮 Setup walkthrough
+*docker desktop + docker compose · ~30 minutes*
 
-For someone who hasn't used Docker before. ~30 minutes.
+For someone who hasn't used Docker before.
 
 ## What you need
 

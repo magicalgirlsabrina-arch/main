@@ -1,4 +1,5 @@
 # ✨ Overview — what this whole thing is
+*spellman-manor stack · docker compose · over tailscale*
 
 A self-hosted, themed dashboard for Sabrina's Spellman Manor setup. It does
 four things:

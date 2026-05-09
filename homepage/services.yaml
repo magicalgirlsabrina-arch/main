@@ -1,13 +1,11 @@
-# Layout matches the actual topology:
-#   - 3 hosts (Mac mini, Mac Pro, MacBook Pro) — "The Households"
-#   - 4 familiars (salem on mini :18789, hilda on mini :18790, zelda on macbook,
-#     harvey on mac pro) — "The Coven"
-#   - Coven Mail Bridge + Spellbook UI — "Sabrina's Console"
+# Each tile shows a themed name (big, fancy font) and a technical subtitle
+# (small monospace, dimmed lavender). The subtitle lives in `description:`
+# and is styled by .service-description in custom.css.
 
 - Sabrina's Console:
     - Coven Mail:
         href: http://localhost:18793/
-        description: 💌 Spellbook · cast history · send mail
+        description: coven-mail-bridge · :18793 · spellbook ui
         icon: mdi-mail-#ffd700
         widget:
           type: customapi
@@ -21,7 +19,7 @@
               format: number
 
     - Coven Status:
-        description: 🩺 Live peer-ping across all 4 familiars
+        description: bridge /api/peer-ping · all 4 familiars
         icon: mdi-heart-pulse-#ff1493
         href: http://localhost:18793/#debug
         widget:
@@ -43,13 +41,13 @@
 
     - Howling Hat:
         href: http://localhost:9093
-        description: 🔔 Active alerts (Alertmanager)
+        description: alertmanager · :9093
         icon: mdi-bell-ring-#ff6ec7
 
 - The Coven:
     - Salem:
         href: http://{{HOMEPAGE_VAR_SPELLMAN_MANOR_IP}}:{{HOMEPAGE_VAR_SALEM_GATEWAY_PORT}}
-        description: 🐈‍⬛ World domination from Spellman Manor
+        description: openclaw familiar · spellman-manor:18789
         icon: mdi-cat-#ffd700
         widget:
           type: customapi
@@ -68,7 +66,7 @@
 
     - Hilda:
         href: http://{{HOMEPAGE_VAR_SPELLMAN_MANOR_IP}}:{{HOMEPAGE_VAR_HILDA_GATEWAY_PORT}}
-        description: ☕ Chaos energy aunt (also on the mini)
+        description: openclaw familiar · spellman-manor:18790
         icon: mdi-tea-outline-#ff6ec7
         widget:
           type: customapi
@@ -87,7 +85,7 @@
 
     - Zelda:
         href: http://{{HOMEPAGE_VAR_ZELDAS_STUDY_IP}}:{{HOMEPAGE_VAR_ZELDA_GATEWAY_PORT}}
-        description: 📖 Precise scholarly aunt (on the MacBook)
+        description: openclaw familiar · zeldas-study:18789
         icon: mdi-book-open-page-variant-#b19cd9
         widget:
           type: customapi
@@ -106,7 +104,7 @@
 
     - Harvey:
         href: http://{{HOMEPAGE_VAR_HARVEYS_WORKSHOP_IP}}:{{HOMEPAGE_VAR_HARVEY_GATEWAY_PORT}}
-        description: 🛠 Steady mortal boyfriend (on the Mac Pro)
+        description: openclaw familiar · harveys-workshop:18789
         icon: mdi-tools-#7ec4ff
         widget:
           type: customapi
@@ -125,35 +123,35 @@
 
 - The Households:
     - Spellman Manor:
-        description: 🏠 Mac mini · runs Salem + Hilda + the Mailbox
+        description: mac mini · 100.106.134.96 · hub
         icon: mdi-home-heart-#ff6ec7
         href: http://localhost:8090
 
     - Harvey's Workshop:
-        description: 🔱 Mac Pro · runs Harvey
+        description: mac pro · 100.79.115.101
         icon: mdi-shield-crown-#7ec4ff
 
     - Zelda's Study:
-        description: 📚 MacBook Pro · runs Zelda
+        description: macbook pro · 100.112.73.96
         icon: mdi-laptop-#b19cd9
 
 - The Other Realm:
     - Vital Signs:
         href: http://localhost:8090
-        description: 💗 Per-host CPU / RAM / disk
+        description: beszel · :8090 · per-host monitoring
         icon: mdi-heart-pulse-#ff1493
 
     - The Scrying Glass:
         href: http://localhost:3001
-        description: 🔮 Cast Log + Coven Atlas (Grafana)
+        description: grafana · :3001 · cast log + coven atlas
         icon: grafana.png
 
     - The Magic Mirror:
         href: http://localhost:8080
-        description: 🪞 Kiosk view for the Android TV
+        description: nginx static · :8080 · android tv kiosk
         icon: mdi-television-shimmer-#b19cd9
 
     - The Spellbook:
         href: http://localhost:18793/
-        description: 📜 Full mail archive + console
+        description: coven-mail-bridge · :18793 · history + console
         icon: mdi-book-open-blank-variant-#ffd700

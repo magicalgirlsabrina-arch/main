@@ -2,20 +2,26 @@
     - Tailscale Admin:
         - abbr: 🌐
           href: https://login.tailscale.com/admin/machines
+          description: tailnet machine list
     - OpenClaw docs:
         - abbr: 📖
           href: https://docs.openclaw.ai/
+          description: openclaw upstream docs
     - Anthropic Console:
         - abbr: 🤖
           href: https://console.anthropic.com/
+          description: claude api keys + usage
 
 - Around Westbridge:
     - Moon phase:
         - abbr: 🌙
           href: https://www.timeanddate.com/moon/phases/
+          description: lunar calendar
     - NOAA space weather:
         - abbr: ☀️
           href: https://www.swpc.noaa.gov/
+          description: solar / geomagnetic
     - Spellman Manor docs:
         - abbr: 📚
           href: http://localhost:18793/
+          description: spellbook ui · localhost:18793

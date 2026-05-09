@@ -331,9 +331,15 @@ _SPELLBOOK_HTML = r"""<!doctype html>
   }
   h1{
     font-family:'Sacramento',cursive;font-size:64px;color:var(--hot);
-    text-align:center;margin:0 0 6px;text-shadow:0 0 16px rgba(255,20,147,.6);
+    text-align:center;margin:0 0 4px;text-shadow:0 0 16px rgba(255,20,147,.6);
   }
-  .sub{text-align:center;font-family:'Cinzel Decorative',serif;letter-spacing:3px;color:var(--lav);margin-bottom:24px}
+  /* Technical subtitle under any themed title — monospace, dimmed lavender */
+  .tech{
+    text-align:center;font-family:'JetBrains Mono','SF Mono',Consolas,monospace;
+    color:rgba(177,156,217,.55);font-size:.78em;letter-spacing:.5px;
+    text-transform:lowercase;margin-bottom:22px;
+  }
+  .sub{text-align:center;font-family:'Cinzel Decorative',serif;letter-spacing:3px;color:var(--lav);margin-bottom:6px}
   .container{max-width:900px;margin:0 auto}
   .tabs{display:flex;justify-content:center;gap:8px;margin-bottom:24px}
   .tab{
@@ -368,7 +374,13 @@ _SPELLBOOK_HTML = r"""<!doctype html>
   }
   .card h2{
     font-family:'Cinzel Decorative',serif;color:var(--lav);letter-spacing:2px;
-    text-transform:uppercase;margin:0 0 16px;font-size:1.1em;
+    text-transform:uppercase;margin:0 0 4px;font-size:1.1em;
+  }
+  /* Tech subtitle under a card heading */
+  .card .tech-sub{
+    font-family:'JetBrains Mono','SF Mono',Consolas,monospace;
+    color:rgba(177,156,217,.5);font-size:.72em;letter-spacing:.3px;
+    text-transform:lowercase;margin:0 0 16px;
   }
   label{display:block;color:var(--gold);font-size:.8em;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:6px}
   textarea, input, select{
@@ -402,6 +414,7 @@ _SPELLBOOK_HTML = r"""<!doctype html>
 <div class="container">
   <h1>✨ The Spellbook ✨</h1>
   <div class="sub">CAST HISTORY · COVEN COMMAND CONSOLE</div>
+  <div class="tech">coven-mail-bridge · localhost:18793</div>
 
   <div class="tabs">
     <button class="tab active" data-panel="history">📜 History</button>
@@ -422,12 +435,13 @@ _SPELLBOOK_HTML = r"""<!doctype html>
   <div class="panel" id="panel-send">
     <div class="card">
       <h2>💌 Send to one familiar</h2>
+      <div class="tech-sub">post /api/send/{familiar}</div>
       <label>To</label>
       <select id="send-to">
-        <option value="salem">🐈‍⬛ Salem</option>
-        <option value="hilda">☕ Hilda</option>
-        <option value="zelda">📖 Zelda</option>
-        <option value="harvey">🛠 Harvey</option>
+        <option value="salem">🐈‍⬛ Salem · spellman-manor:18789</option>
+        <option value="hilda">☕ Hilda · spellman-manor:18790</option>
+        <option value="zelda">📖 Zelda · zeldas-study:18789</option>
+        <option value="harvey">🛠 Harvey · harveys-workshop:18789</option>
       </select>
       <label>From (your sender name)</label>
       <input id="send-from" value="sabrina">
@@ -438,6 +452,7 @@ _SPELLBOOK_HTML = r"""<!doctype html>
     </div>
     <div class="card">
       <h2>🔮 Broadcast to the whole coven</h2>
+      <div class="tech-sub">post /api/broadcast · all 4 familiars</div>
       <label>From</label>
       <input id="bcast-from" value="sabrina">
       <label>Message</label>
@@ -451,12 +466,14 @@ _SPELLBOOK_HTML = r"""<!doctype html>
   <div class="panel" id="panel-debug">
     <div class="card">
       <h2>🩺 Peer ping — is everyone alive?</h2>
+      <div class="tech-sub">get /api/peer-ping · post /api/selftest</div>
       <button class="btn" onclick="peerPing()">Run peer-ping</button>
       <button class="btn ghost" onclick="selftest()">Broadcast selftest</button>
       <div class="grid" id="ping-grid"></div>
     </div>
     <div class="card">
       <h2>⚡ Circuit breakers</h2>
+      <div class="tech-sub">get /api/circuits</div>
       <button class="btn ghost" onclick="circuits()">Refresh state</button>
       <pre id="circuit-result" style="display:none"></pre>
     </div>

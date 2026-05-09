@@ -1,9 +1,18 @@
 # 🌙 Spellman Manor — The Discovery of Magic
+*self-hosted dashboard · 3 macs · 4 openclaw familiars · over tailscale*
 
 A 90s celestial witchy dashboard for Sabrina Ryan's Spellman Manor setup —
 3 Macs running 4 OpenClaw familiars (*Salem*, *Hilda*, *Zelda*, *Harvey*)
 across Tailscale, with Coven Mail integration, themed alerts, peer
 debugging, and a TV kiosk view.
+
+Throughout the dashboard and these docs, themed names appear with a
+technical subtitle in monospace underneath — like:
+
+> ### 🔮 The Discovery of Magic
+> *homepage · :3000*
+
+The fancy name is for vibes; the subtitle is for actually finding things.
 
 > *"The book contains everything you need to know about being a witch."*
 
@@ -11,14 +20,14 @@ debugging, and a TV kiosk view.
 
 ## The household
 
-| Host | What it actually is | Tailnet IP | Familiars |
+| Themed name | Real device | Tailnet IP | Familiars hosted |
 |---|---|---|---|
-| **Spellman Manor** | Mac mini · always-on hub | `100.106.134.96` | Salem :18789 · Hilda :18790 |
-| **Harvey's Workshop** | Mac Pro | `100.79.115.101` | Harvey :18789 |
-| **Zelda's Study** | MacBook Pro | `100.112.73.96` | Zelda :18789 |
-| **The Magic Mirror** | Android TV (viewer only) | — | — |
-| **Other Realm** | Primary SSD | — | — |
-| **Katrina** | Backup drive | — | — |
+| **Spellman Manor** *(mac mini · hub · always on)* | Mac mini | `100.106.134.96` | Salem :18789 · Hilda :18790 |
+| **Harvey's Workshop** *(mac pro)* | Mac Pro | `100.79.115.101` | Harvey :18789 |
+| **Zelda's Study** *(macbook pro)* | MacBook Pro | `100.112.73.96` | Zelda :18789 |
+| **The Magic Mirror** *(android tv · viewer only)* | Android TV | — | — |
+| **Other Realm** *(primary ssd)* | SSD | — | — |
+| **Katrina** *(backup drive)* | Backup drive | — | — |
 
 3 hosts, 4 familiars (Salem and Hilda share the mini because the Android TV
 can't run OpenClaw — see [`docs/03-architecture.md`](docs/03-architecture.md)).
@@ -27,15 +36,15 @@ can't run OpenClaw — see [`docs/03-architecture.md`](docs/03-architecture.md))
 
 ## The stack
 
-```
-🔮 The Discovery of Magic   Homepage              :3000   front door
-📜 The Spellbook            Coven Mail Bridge     :18793  mail UI + console
-🪞 The Magic Mirror         nginx (static)        :8080   TV kiosk
-💗 Vital Signs of the Coven Beszel                :8090   per-host monitoring
-👁 The Watcher              Prometheus            :9090   metrics scraper
-🔔 Howling Hat              Alertmanager          :9093   alert routing
-🌙 The Scrying Glass        Grafana               :3001   deep dashboards
-```
+| Themed name | Tech | Port | Job |
+|---|---|---|---|
+| 🔮 **The Discovery of Magic** | Homepage | `:3000` | front door |
+| 📜 **The Spellbook** | Coven Mail Bridge | `:18793` | mail UI + console |
+| 🪞 **The Magic Mirror** | nginx (static) | `:8080` | TV kiosk |
+| 💗 **Vital Signs of the Coven** | Beszel | `:8090` | per-host monitoring |
+| 👁 **The Watcher** | Prometheus | `:9090` | metrics scraper |
+| 🔔 **Howling Hat** | Alertmanager | `:9093` | alert routing |
+| 🌙 **The Scrying Glass** | Grafana | `:3001` | deep dashboards |
 
 Everything reaches over the tailnet — nothing exposed to the mortal realm.
 

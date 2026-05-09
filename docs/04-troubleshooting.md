@@ -1,4 +1,5 @@
 # 🛠 Troubleshooting
+*runbook for common failures*
 
 For new-to-coding readers: most "broken" things in this stack are one of:
 (1) Docker container not running, (2) Tailscale not connected, (3) wrong

@@ -1,4 +1,5 @@
 # 🎨 Customizing — make it yours
+*`.env` · `homepage/*.yaml` · `prometheus/prometheus.yml` · CSS variables*
 
 ## Adding a new familiar
 

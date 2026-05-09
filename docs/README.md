@@ -1,4 +1,5 @@
 # 📚 Spellman Manor docs
+*reading order + index*
 
 Reading order if you're new:
 
