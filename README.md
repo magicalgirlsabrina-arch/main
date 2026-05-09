@@ -79,8 +79,14 @@ Full walkthrough: [`docs/02-setup.md`](docs/02-setup.md)
   broadcast to all, mark-as-read.
 - **Peer-debug primitives** — peer-ping, broadcast self-test, circuit
   breakers (so a flaky familiar doesn't get hammered).
-- **Claude Code bridge** on each Mac — exposes `claude -p` over HTTP so any
-  familiar can borrow another Mac's Claude.
+- **Familiars are first-class users** — every endpoint is plain-HTTP
+  reachable from each familiar. The handbook at
+  [`docs/13-familiar-handbook.md`](docs/13-familiar-handbook.md)
+  walks them through how to use the bridge themselves (no Claude Code
+  required). It's also fetchable live:
+  ```sh
+  curl http://100.106.134.96:18793/api/handbook
+  ```
 - **Surveillance** — live activity feed (mail · circuits · cron · watchdog),
   per-job heartbeat tracking, available-upgrade scanner with auto-fetched
   GitHub release notes + cheap "verdict" review (safe / recommended /
@@ -134,6 +140,7 @@ Twelve focused docs in [`docs/`](docs/):
 - [`10-magic-mirror.md`](docs/10-magic-mirror.md) — TV kiosk
 - [`11-upgrading.md`](docs/11-upgrading.md) — safe upgrades + rollback
 - [`12-watchdog-cron.md`](docs/12-watchdog-cron.md) — heartbeat patterns for cron + watchdog
+- **[`13-familiar-handbook.md`](docs/13-familiar-handbook.md)** — the manual to distribute to the OpenClaw familiars (Salem, Hilda, Zelda, Harvey)
 
 ---
 

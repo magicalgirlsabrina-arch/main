@@ -8,6 +8,14 @@ Reading order if you're new:
 3. [`02-setup.md`](02-setup.md) — step-by-step install
 4. [`03-architecture.md`](03-architecture.md) — who lives where + ports + data flow
 
+For the familiars themselves:
+- **[`13-familiar-handbook.md`](13-familiar-handbook.md)** — the manual
+  you give to Salem to distribute. Covers every endpoint with Python
+  snippets. Each familiar can also fetch it live:
+  ```sh
+  curl http://100.106.134.96:18793/api/handbook
+  ```
+
 For day-to-day:
 - [`05-coven-mail.md`](05-coven-mail.md) — coven mail + the bridge API
 - [`07-alerts.md`](07-alerts.md) — what each themed alert means
@@ -19,6 +27,6 @@ When something breaks:
 - [`04-troubleshooting.md`](04-troubleshooting.md)
 
 When you're customizing or upgrading:
-- [`06-claude-on-macs.md`](06-claude-on-macs.md) — Claude Code integration
 - [`08-customizing.md`](08-customizing.md) — adding familiars, changing colors, etc.
 - [`11-upgrading.md`](11-upgrading.md) — safe upgrades, backups, rollbacks
+- [`06-claude-on-macs.md`](06-claude-on-macs.md) — *optional* Claude Code integration (`--with-claude`)

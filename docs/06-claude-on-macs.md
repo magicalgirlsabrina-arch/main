@@ -1,5 +1,13 @@
-# 🤖 Claude Code on the Macs
-*claude bridge · `:18794` per mac · launchd service*
+# 🤖 Claude Code on the Macs (OPTIONAL)
+*claude bridge · `:18794` per mac · launchd service · not installed by default*
+
+> **You probably don't need this.** Coven coordination works without
+> Claude Code — see [`13-familiar-handbook.md`](13-familiar-handbook.md).
+> The familiars talk to the bridge directly over plain HTTP.
+>
+> Keep this doc as a reference if you ever want to layer Claude on top
+> later (e.g. a familiar wants to ask Claude for heavy reasoning).
+> The setup script's `--with-claude` flag opts into installing it.
 
 Each familiar host (the 3 Macs) can run Anthropic's Claude Code CLI, and the
 dashboard makes it easy for one familiar to "borrow" another's Claude.
@@ -12,10 +20,10 @@ a stack trace and wants Claude to triage it. Instead of every familiar
 needing its own Anthropic API key, we expose Claude Code on each Mac as
 a local HTTP endpoint that other familiars can call.
 
-## How `setup-familiar-host.sh` wires it up
+## How `setup-familiar-host.sh --with-claude` wires it up
 
-If `claude` is in PATH on a Mac, the setup script installs a tiny
-**Claude Bridge** at `:18794`:
+If you pass `--with-claude` AND `claude` is in PATH on a Mac, the
+setup script installs a tiny **Claude Bridge** at `:18794`:
 
 ```
 ~/.openclaw/workspace/claude-bridge/bridge.py

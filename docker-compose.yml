@@ -34,6 +34,7 @@ services:
     ports: ["18793:18793"]
     volumes:
       - ${COVEN_MAILBOX_DIR}:/mailbox:rw
+      - ./docs/13-familiar-handbook.md:/app/handbook.md:ro
     environment:
       MAILBOX_DIR: /mailbox
       SALEM_HOST:  ${SPELLMAN_MANOR_IP}

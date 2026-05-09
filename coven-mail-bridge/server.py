@@ -37,6 +37,14 @@ Endpoints:
   Debug
     POST /api/selftest                 broadcast probe to all familiars
 
+  Familiar self-service (so familiars can use the bridge without humans)
+    POST /api/event                    log any structured event to the feed
+                                       (used for subagent lifecycle, decisions,
+                                        spell-cast markers, anything you want
+                                        surfaced in Surveillance)
+    GET  /api/handbook                 returns the Familiar's Handbook markdown
+                                       so each familiar can self-serve the manual
+
 Auth model: Tailscale is the boundary. No app-level auth.
 """
 
@@ -51,10 +59,11 @@ from collections import deque
 from pathlib import Path
 
 # ── Configuration ────────────────────────────────────────────────────────
-MAILBOX_DIR = Path(os.environ.get("MAILBOX_DIR", "/mailbox"))
-INBOX_FILE  = MAILBOX_DIR / "inbox.jsonl"
-CURSOR_FILE = MAILBOX_DIR / "cursor.txt"
-PORT        = int(os.environ.get("PORT", 18793))
+MAILBOX_DIR  = Path(os.environ.get("MAILBOX_DIR", "/mailbox"))
+INBOX_FILE   = MAILBOX_DIR / "inbox.jsonl"
+CURSOR_FILE  = MAILBOX_DIR / "cursor.txt"
+HANDBOOK_FILE = Path(os.environ.get("HANDBOOK_FILE", "/app/handbook.md"))
+PORT         = int(os.environ.get("PORT", 18793))
 
 FAMILIARS = {
     "salem":  {
@@ -122,6 +131,8 @@ METRICS = {
     "coven_selftests_total":          0,
     "coven_familiar_summary_errors_total": 0,
     "coven_upgrade_checks_total":     0,
+    "coven_events_total":             0,
+    "coven_handbook_fetches_total":   0,
 }
 
 
@@ -505,6 +516,14 @@ class Handler(http.server.BaseHTTPRequestHandler):
         if path == "/api/upgrades":
             return self._send(200, {"services": fetch_upgrade_check()})
 
+        if path == "/api/handbook":
+            METRICS["coven_handbook_fetches_total"] += 1
+            try:
+                return self._send(200, HANDBOOK_FILE.read_text(), "text/markdown; charset=utf-8")
+            except FileNotFoundError:
+                return self._send(404, {"error": "handbook not mounted",
+                                        "hint": "expected at /app/handbook.md (mount docs/13-familiar-handbook.md)"})
+
         if path == "/metrics":
             lines = []
             for k, v in METRICS.items():
@@ -578,6 +597,19 @@ class Handler(http.server.BaseHTTPRequestHandler):
                 except Exception as e:
                     results[n] = f"error: {e}"
             return self._send(200, results)
+
+        if path == "/api/event":
+            # Generic event from any familiar — used for subagent lifecycle,
+            # decisions, spell-cast markers, etc. Anything you POST here lands
+            # in the Activity feed and Prometheus event counters.
+            kind = (data.get("kind") or "").strip()
+            if not kind:
+                return self._send(400, {"error": "kind required (e.g. subagent-started)"})
+            # Accept any extra fields verbatim — feed displays whatever's there
+            extra = {k: v for k, v in data.items() if k != "kind"}
+            log_activity(kind, **extra)
+            METRICS["coven_events_total"] += 1
+            return self._send(200, {"ok": True})
 
         if path == "/api/cron/heartbeat":
             name = data.get("name", "").strip()
