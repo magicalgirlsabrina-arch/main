@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- 4-point sparkle / "shimmer star" — the iconic Sabrina ornament -->
+  <path d="M16 0
+           C16.5 7.5 17.5 11.5 19.5 13.5
+           C21.5 15.5 24.5 16.5 32 16
+           C24.5 17.5 21.5 18.5 19.5 20.5
+           C17.5 22.5 16.5 24.5 16 32
+           C15.5 24.5 14.5 22.5 12.5 20.5
+           C10.5 18.5 7.5 17.5 0 16
+           C7.5 14.5 10.5 13.5 12.5 11.5
+           C14.5 9.5 15.5 7.5 16 0 Z"
+        fill="currentColor"/>
+</svg>

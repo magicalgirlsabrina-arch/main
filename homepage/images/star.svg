@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- 5-point star — classic constellation -->
+  <path d="M16 1.5
+           L19.7 12.5
+           L31 12.5
+           L21.7 19.4
+           L25.5 30.5
+           L16 23.6
+           L6.5 30.5
+           L10.3 19.4
+           L1 12.5
+           L12.3 12.5 Z"
+        fill="currentColor"/>
+</svg>

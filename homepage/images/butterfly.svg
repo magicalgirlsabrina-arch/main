@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none">
+  <!-- Y2K butterfly — simplified silhouette with iridescent fill via currentColor -->
+  <ellipse cx="20" cy="20" rx="1.2" ry="9" fill="currentColor"/>
+  <!-- upper wings -->
+  <path d="M20 14
+           Q 8 6 4 14
+           Q 0 22 8 23
+           Q 16 22 20 17 Z"
+        fill="currentColor" opacity="0.85"/>
+  <path d="M20 14
+           Q 32 6 36 14
+           Q 40 22 32 23
+           Q 24 22 20 17 Z"
+        fill="currentColor" opacity="0.85"/>
+  <!-- lower wings -->
+  <path d="M20 22
+           Q 10 26 8 34
+           Q 12 39 18 33
+           Q 20 28 20 25 Z"
+        fill="currentColor" opacity="0.7"/>
+  <path d="M20 22
+           Q 30 26 32 34
+           Q 28 39 22 33
+           Q 20 28 20 25 Z"
+        fill="currentColor" opacity="0.7"/>
+  <!-- antennae -->
+  <path d="M19 13 Q 16 9 14 6" stroke="currentColor" stroke-width="0.8" fill="none" opacity="0.7"/>
+  <path d="M21 13 Q 24 9 26 6" stroke="currentColor" stroke-width="0.8" fill="none" opacity="0.7"/>
+</svg>

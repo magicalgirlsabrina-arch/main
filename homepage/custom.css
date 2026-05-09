@@ -1,166 +1,241 @@
 /* ─────────────────────────────────────────────────────────────────────
-   Spellman Manor · Westbridge Twilight
-   2026 take on Sabrina-the-Teenage-Witch celestial.
-   - Hot pink (Sabrina), cosmic violet, warm vintage gold, mint accents
-   - Cinzel (Roman) for chapter-heading section titles + card titles
-   - Sacramento (cursive) for the personal greeting only
-   - Inter for body, JetBrains Mono for technical subtitles
-   - Glassmorphism cards with iridescent shimmer on hover
-   - Drifting nebula starfield, gentle ornament twinkle on section heads
+   SPELLMAN MANOR · 90s Celestial × Gen Z Y2K
+   Hot pink Sabrina palette, decorative serif, iridescent chrome accents,
+   sparkle SVG ornaments, holographic hover shimmer, drifting starfield.
+
+   Core fonts:
+     - Cinzel Decorative — chapter-heading section titles + card titles
+     - Sacramento — personal greeting only
+     - Quicksand — body
+     - JetBrains Mono — technical subtitles
+
+   Decorative SVGs in /images/:
+     sparkle.svg · twinkle.svg · crescent.svg · star.svg
+     butterfly.svg · jewel.svg
    ───────────────────────────────────────────────────────────────────── */
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500&family=Sacramento&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Quicksand:wght@400;500;600;700&family=Sacramento&family=JetBrains+Mono:wght@300;400;500&display=swap');
 
 /* ── Westbridge Twilight (default · dark) ─────────────────────────── */
+/* Palette tuned to the actual Sabrina the Teenage Witch (1996-2003)
+   visual identity — hot pink #FF3FA4 from the show's logo, bubblegum
+   secondary, lavender from the bedroom drapes, midnight navy bg,
+   spell gold for accents, holo sky for the Y2K iridescent stops.    */
 :root, html, body {
-  --ink:           #0A0418;
-  --ink-velvet:    #14082C;
-  --ink-aubergine: #1F1240;
-  --ink-cosmic:    #2D1B57;
+  --ink:           #1A1B4B;       /* midnight navy — show-accurate */
+  --ink-velvet:    #2A1B5C;
+  --ink-aubergine: #3D1B6E;
+  --ink-cosmic:    #5E2A84;       /* deep cosmos */
 
-  --glass:         rgba(255, 240, 250, 0.045);
-  --glass-strong:  rgba(255, 240, 250, 0.075);
-  --glass-border:  rgba(255, 200, 230, 0.14);
+  --glass:         rgba(255, 220, 240, 0.05);
+  --glass-strong:  rgba(255, 220, 240, 0.10);
+  --glass-border:  rgba(255, 63, 164, 0.22);
 
-  --rose:          #FF6FB5;     /* Sabrina pink, refined */
-  --rose-soft:     #FFB3D9;     /* light pink for highlights / glows */
-  --rose-deep:     #C44986;     /* deep rose for shadows */
-  --violet:        #B59FFF;     /* cosmic lavender */
-  --violet-deep:   #7E66D1;
-  --gold:          #FFCB7A;     /* warm vintage gold */
-  --gold-bright:   #FFE0A8;
-  --mint:          #9FFFE4;     /* Salem's eyes / success */
-  --ember:         #FF8E8E;     /* warm coral / danger */
+  --hot-pink:      #FF3FA4;       /* Sabrina logo pink — the one */
+  --rose:          #FF6EC7;       /* lighter Sabrina pink */
+  --bubblegum:     #FFB6D5;       /* show-accurate bubblegum */
+  --rose-glow:     rgba(255, 63, 164, 0.50);
+  --lavender:      #C8A2DB;       /* show-accurate lavender (bedroom drapes) */
+  --violet:        #9B7EDE;
+  --deep-cosmos:   #5E2A84;
+  --gold:          #E8C547;       /* show-accurate spell gold */
+  --gold-warm:     #FFD66B;
+  --gold-glow:     rgba(232, 197, 71, 0.45);
+  --mint:          #A8F0D0;       /* Salem's eyes */
+  --holo-sky:      #A8E0FF;       /* iridescent stop */
+  --ember:         #FF8E8E;
+  --cream:         #F4EAFB;       /* veil */
 
-  --text:          #FAF2FF;
-  --text-2:        rgba(250, 242, 255, 0.78);
-  --text-3:        rgba(250, 242, 255, 0.50);
+  --text:          #F4EAFB;
+  --text-2:        rgba(244, 234, 251, 0.78);
+  --text-3:        rgba(244, 234, 251, 0.50);
 
-  --shimmer:       linear-gradient(135deg, var(--rose) 0%, var(--violet) 50%, var(--gold) 100%);
-  --pink-glow:     0 0 24px rgba(255, 111, 181, 0.45);
-  --gold-glow:     0 0 18px rgba(255, 203, 122, 0.35);
-  --shadow-soft:   0 4px 24px rgba(0, 0, 0, 0.30);
-  --shadow-card:   0 8px 32px rgba(20, 8, 44, 0.55), inset 0 1px 0 rgba(255, 240, 250, 0.05);
+  /* Iridescent / holographic gradients (Gen Z Y2K layer) */
+  --shimmer:       linear-gradient(135deg,
+                     #FF3FA4 0%, #FF6EC7 18%, #C8A2DB 38%,
+                     #A8E0FF 58%, #E8C547 80%, #FF6EC7 100%);
+  --chrome:        linear-gradient(180deg,
+                     #FFFFFF 0%, #FFB6D5 22%, #C8A2DB 50%,
+                     #FFB6D5 78%, #FFFFFF 100%);
+  --iridescent:    conic-gradient(from 180deg at 50% 50%,
+                     #FF6EC7, #C8A2DB, #A8E0FF, #FFD66B, #FFB6D5, #FF6EC7);
+
+  --shadow-soft:   0 4px 24px rgba(26, 27, 75, 0.6);
+  --shadow-card:   0 8px 32px rgba(26, 27, 75, 0.55), inset 0 1px 0 rgba(244, 234, 251, 0.08);
+  --shadow-glow:   0 0 24px var(--rose-glow);
+  --shadow-aura:   0 0 40px rgba(255, 63, 164, 0.20);
 }
 
 /* ── Westbridge Dawn (light) ──────────────────────────────────────── */
 html.light, body.light {
-  --ink:           #FFF5F8;
-  --ink-velvet:    #FAEAF1;
-  --ink-aubergine: #F0D9E5;
-  --ink-cosmic:    #E5C7DA;
+  --ink:           #F4EAFB;        /* veil */
+  --ink-velvet:    #FFE4EF;
+  --ink-aubergine: #F5D2E5;
+  --ink-cosmic:    #E5C0DA;
 
   --glass:         rgba(255, 255, 255, 0.65);
   --glass-strong:  rgba(255, 255, 255, 0.85);
-  --glass-border:  rgba(60, 30, 70, 0.10);
+  --glass-border:  rgba(255, 63, 164, 0.18);
 
-  --rose:          #C2487A;
-  --rose-soft:     #DD6B9B;
-  --rose-deep:     #893159;
-  --violet:        #7E66D1;
-  --violet-deep:   #5A4A9C;
+  --hot-pink:      #C12B7E;
+  --rose:          #DD4A95;
+  --bubblegum:     #F296B8;
+  --rose-glow:     rgba(193, 43, 126, 0.30);
+  --lavender:      #7E66B0;
+  --violet:        #6045A0;
+  --deep-cosmos:   #5E2A84;
   --gold:          #B8842D;
-  --gold-bright:   #D4A04B;
-  --mint:          #4A8A75;
-  --ember:         #C8485E;
+  --gold-warm:     #D4A04B;
+  --gold-glow:     rgba(184, 132, 45, 0.30);
+  --mint:          #3D8E76;
+  --holo-sky:      #5A8FBC;
+  --cream:         #F4EAFB;
 
   --text:          #2A1535;
   --text-2:        rgba(42, 21, 53, 0.78);
   --text-3:        rgba(42, 21, 53, 0.50);
 
-  --shadow-card:   0 8px 32px rgba(60, 30, 70, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  --shadow-card:   0 8px 32px rgba(94, 42, 132, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  --shadow-glow:   0 0 24px var(--rose-glow);
+  --shadow-aura:   0 0 40px rgba(193, 43, 126, 0.15);
 }
 
 /* ── Body + atmospheric background ────────────────────────────────── */
 
 body, html {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-family: 'Quicksand', system-ui, -apple-system, sans-serif !important;
   color: var(--text) !important;
   background: var(--ink) !important;
+  font-weight: 500 !important;
 }
 
+/* Layered nebula background — 90s celestial with Y2K saturation */
 body::before {
-  /* Twilight nebula — pink + violet + gold + mint washes */
+  content: '';
+  position: fixed; inset: 0; z-index: -3; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 35% at 18% 10%,  rgba(255, 63, 164, 0.30), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 85% 25%,  rgba(155, 126, 222, 0.32), transparent 60%),
+    radial-gradient(ellipse 70% 45% at 50% 90%,  rgba(232, 197, 71, 0.10), transparent 60%),
+    radial-gradient(ellipse 55% 50% at 80% 75%,  rgba(168, 224, 255, 0.10), transparent 60%),
+    linear-gradient(180deg, var(--ink) 0%, var(--ink-velvet) 50%, var(--ink-aubergine) 100%);
+}
+
+/* Drifting starfield via radial dots */
+body::after {
   content: '';
   position: fixed; inset: 0; z-index: -2; pointer-events: none;
-  background:
-    radial-gradient(ellipse 70% 40% at 18% 12%,  rgba(255, 111, 181, 0.20), transparent 60%),
-    radial-gradient(ellipse 60% 55% at 85% 30%,  rgba(181, 159, 255, 0.22), transparent 60%),
-    radial-gradient(ellipse 50% 40% at 50% 92%,  rgba(255, 203, 122, 0.10), transparent 60%),
-    radial-gradient(ellipse 80% 60% at 80% 80%,  rgba(159, 255, 228, 0.06), transparent 60%),
-    linear-gradient(180deg, var(--ink) 0%, var(--ink-velvet) 50%, var(--ink-aubergine) 100%);
-}
-
-body.light::before {
-  background:
-    radial-gradient(ellipse 70% 40% at 18% 12%,  rgba(194,  72, 122, 0.10), transparent 60%),
-    radial-gradient(ellipse 60% 55% at 85% 30%,  rgba(126, 102, 209, 0.10), transparent 60%),
-    radial-gradient(ellipse 50% 40% at 50% 92%,  rgba(184, 132,  45, 0.07), transparent 60%),
-    linear-gradient(180deg, var(--ink) 0%, var(--ink-velvet) 50%, var(--ink-aubergine) 100%);
-}
-
-body::after {
-  /* Drifting starfield — pink + gold + cream stars */
-  content: '';
-  position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background-image:
-    radial-gradient(1.5px 1.5px at 12% 18%,  rgba(250, 242, 255, 0.85), transparent 60%),
-    radial-gradient(2.5px 2.5px at 28% 72%,  rgba(255, 203, 122, 0.70), transparent 60%),
-    radial-gradient(1.2px 1.2px at 47% 9%,   rgba(255, 179, 217, 0.70), transparent 60%),
-    radial-gradient(2px   2px   at 65% 44%,  rgba(250, 242, 255, 0.55), transparent 60%),
-    radial-gradient(1.5px 1.5px at 80% 80%,  rgba(255, 203, 122, 0.50), transparent 60%),
-    radial-gradient(2.5px 2.5px at 92% 22%,  rgba(255, 179, 217, 0.55), transparent 60%),
-    radial-gradient(1.5px 1.5px at  8% 55%,  rgba(250, 242, 255, 0.70), transparent 60%),
-    radial-gradient(2px   2px   at 38% 38%,  rgba(255, 111, 181, 0.55), transparent 60%),
-    radial-gradient(1.5px 1.5px at 73% 14%,  rgba(250, 242, 255, 0.55), transparent 60%),
-    radial-gradient(2px   2px   at 56% 67%,  rgba(255, 203, 122, 0.40), transparent 60%);
-  animation: drift 40s ease-in-out infinite alternate;
-  opacity: 0.85;
+    radial-gradient(2px 2px at 12% 18%,    rgba(244, 234, 251, 0.95), transparent 60%),
+    radial-gradient(2.5px 2.5px at 28% 72%, rgba(232, 197, 71, 0.85),  transparent 60%),
+    radial-gradient(1.5px 1.5px at 47% 9%,  rgba(255, 110, 199, 0.85), transparent 60%),
+    radial-gradient(2px 2px at 65% 44%,    rgba(244, 234, 251, 0.65), transparent 60%),
+    radial-gradient(1.8px 1.8px at 80% 80%, rgba(232, 197, 71, 0.65),  transparent 60%),
+    radial-gradient(2.5px 2.5px at 92% 22%, rgba(255, 110, 199, 0.7),  transparent 60%),
+    radial-gradient(1.5px 1.5px at  8% 55%, rgba(244, 234, 251, 0.85), transparent 60%),
+    radial-gradient(2px 2px at 38% 38%,    rgba(255, 63, 164, 0.65),   transparent 60%),
+    radial-gradient(1.8px 1.8px at 73% 14%, rgba(244, 234, 251, 0.7),  transparent 60%),
+    radial-gradient(2px 2px at 56% 67%,    rgba(232, 197, 71, 0.55),   transparent 60%),
+    radial-gradient(1.5px 1.5px at 22% 35%, rgba(168, 224, 255, 0.6),   transparent 60%),
+    radial-gradient(2px 2px at 88% 55%,    rgba(244, 234, 251, 0.6),   transparent 60%);
+  animation: drift 36s ease-in-out infinite alternate;
+  opacity: 0.95;
 }
 
 body.light::after { display: none; }
 
 @keyframes drift {
-  0%   { transform: translate(0,    0)    scale(1);    opacity: 0.7; }
-  50%  { transform: translate(-6px, 4px)  scale(1.02); opacity: 0.95; }
-  100% { transform: translate(4px, -6px)  scale(1);    opacity: 0.75; }
+  0%   { transform: translate(0, 0)     scale(1);    opacity: 0.75; }
+  50%  { transform: translate(-6px, 4px) scale(1.02); opacity: 1;    }
+  100% { transform: translate(4px, -6px) scale(1);    opacity: 0.85; }
+}
+
+/* SVG sparkle layer — sprinkled through the page */
+body > div::before {
+  content: '';
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background-image:
+    url("/images/sparkle.svg"),
+    url("/images/twinkle.svg"),
+    url("/images/sparkle.svg"),
+    url("/images/twinkle.svg");
+  background-position: 8% 22%, 78% 12%, 92% 78%, 18% 88%;
+  background-size: 14px, 10px, 18px, 12px;
+  background-repeat: no-repeat;
+  opacity: 0.45;
+  animation: twinkle-sparkle 5s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.6));
+  color: var(--gold);
+}
+
+@keyframes twinkle-sparkle {
+  0%, 100% { opacity: 0.30; transform: scale(1); }
+  50%      { opacity: 0.65; transform: scale(1.1); }
 }
 
 /* ── Header / greeting / resources widget ─────────────────────────── */
 
 #information-widgets {
-  padding: 28px 36px 18px !important;
+  padding: 32px 36px 20px !important;
   border-bottom: 1px solid var(--glass-border) !important;
-  backdrop-filter: blur(40px) saturate(140%);
-  -webkit-backdrop-filter: blur(40px) saturate(140%);
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.05));
+  backdrop-filter: blur(40px) saturate(160%);
+  -webkit-backdrop-filter: blur(40px) saturate(160%);
+  background: linear-gradient(180deg, rgba(45, 15, 78, 0.40), rgba(45, 15, 78, 0.05));
+  position: relative;
 }
 
-/* Greeting: Sacramento, iridescent gradient text, with glow */
+/* Sparkle ornaments framing the greeting */
+#information-widgets::before,
+#information-widgets::after {
+  content: '';
+  position: absolute;
+  width: 24px; height: 24px;
+  background: url("/images/sparkle.svg") no-repeat center / contain;
+  filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.8));
+  color: var(--gold);
+  animation: sparkle-pulse 2.5s ease-in-out infinite;
+  pointer-events: none;
+}
+#information-widgets::before { top: 32px; left: 24px; }
+#information-widgets::after  { top: 32px; right: 24px; animation-delay: 1.25s; }
+
+@keyframes sparkle-pulse {
+  0%, 100% { opacity: 0.55; transform: scale(1)    rotate(0deg);   }
+  50%      { opacity: 1;    transform: scale(1.2)  rotate(45deg);  }
+}
+
+/* Greeting: Sacramento with iridescent gradient */
 [id*="greeting"] {
   font-family: 'Sacramento', cursive !important;
   font-weight: 400 !important;
-  font-size: 3rem !important;
+  font-size: 3.5rem !important;
   background: var(--shimmer) !important;
+  background-size: 200% 200% !important;
   -webkit-background-clip: text !important;
   background-clip: text !important;
   color: transparent !important;
-  filter: drop-shadow(0 0 24px rgba(255, 111, 181, 0.45));
+  filter: drop-shadow(0 0 28px var(--rose-glow));
   letter-spacing: 0;
   line-height: 1.05;
+  animation: shimmer-shift 8s ease-in-out infinite;
+}
+
+@keyframes shimmer-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
 }
 
 /* Datetime: clean mono, secondary */
 [id*="datetime"], [data-testid*="datetime"] {
   font-family: 'JetBrains Mono', monospace !important;
   color: var(--text-2) !important;
-  letter-spacing: 1.2px !important;
+  letter-spacing: 1.4px !important;
   text-transform: lowercase !important;
-  font-size: 0.92em !important;
+  font-size: 0.95em !important;
   font-weight: 400 !important;
 }
 
-/* Resources widget — labels + values */
+/* Resources widget */
 [id*="resources"] { font-family: 'JetBrains Mono', monospace !important; }
 
 [class*="resource"] [class*="label"] {
@@ -168,73 +243,71 @@ body.light::after { display: none; }
   text-transform: lowercase !important;
   letter-spacing: 0.8px;
   font-style: normal !important;
-  font-size: 0.7em !important;
+  font-size: 0.72em !important;
   font-family: 'JetBrains Mono', monospace !important;
   font-weight: 400 !important;
 }
 
 [class*="resource"] [class*="value"] {
-  font-family: 'Cinzel', serif !important;
+  font-family: 'Cinzel Decorative', serif !important;
   color: var(--gold) !important;
-  font-weight: 500 !important;
-  text-shadow: 0 0 8px rgba(255, 203, 122, 0.20);
+  font-weight: 700 !important;
+  text-shadow: 0 0 10px var(--gold-glow);
 }
 
 /* ── Section / Group titles (chapter-heading treatment) ───────────── */
-/* Cinzel uppercase + letter-spacing + decorative ✦ ornament prefix
-   that gently twinkles. No more plain Inter sans here. */
+/* Cinzel Decorative caps + sparkle SVG ornament prefix that twinkles. */
 
 h1, h2 { color: var(--text) !important; }
 
 [class*="layout-name"],
-[class*="services-group"] > div:first-child > h2,
-[class*="bookmarks-group"] > div:first-child > h2,
 [class*="services-group"] h2,
 [class*="bookmarks-group"] h2 {
-  font-family: 'Cinzel', serif !important;
-  font-weight: 500 !important;
+  font-family: 'Cinzel Decorative', serif !important;
+  font-weight: 700 !important;
   font-style: normal !important;
-  font-size: 1.0em !important;
-  letter-spacing: 0.20em !important;
+  font-size: 1.05em !important;
+  letter-spacing: 0.18em !important;
   text-transform: uppercase !important;
   color: var(--rose-soft) !important;
-  text-shadow: 0 0 18px rgba(255, 111, 181, 0.30);
+  text-shadow: 0 0 18px var(--rose-glow), 0 0 8px rgba(255, 110, 199, 0.4);
   margin-bottom: 16px !important;
   position: relative;
-  padding-left: 24px !important;
+  padding-left: 32px !important;
   display: inline-flex;
   align-items: center;
+  min-height: 24px;
 }
 
-/* Decorative ornament prefix */
+/* Sparkle SVG ornament prefix */
 [class*="layout-name"]::before,
 [class*="services-group"] h2::before,
 [class*="bookmarks-group"] h2::before {
-  content: '✦';
+  content: '';
   position: absolute;
-  left: 0;
-  top: 50%;
+  left: 0; top: 50%;
   transform: translateY(-50%);
+  width: 22px; height: 22px;
+  background: url("/images/sparkle.svg") no-repeat center / contain;
+  filter: drop-shadow(0 0 10px var(--gold-glow))
+          drop-shadow(0 0 4px var(--rose-glow));
   color: var(--gold);
-  font-size: 1.05em;
-  text-shadow: 0 0 14px rgba(255, 203, 122, 0.55);
-  animation: twinkle 3.5s ease-in-out infinite;
-  letter-spacing: 0;
+  animation: ornament-twinkle 3s ease-in-out infinite;
 }
 
-@keyframes twinkle {
-  0%, 100% { opacity: 1;   transform: translateY(-50%) scale(1);    }
-  50%      { opacity: 0.55; transform: translateY(-50%) scale(1.12); }
+@keyframes ornament-twinkle {
+  0%, 100% { opacity: 1;   transform: translateY(-50%) scale(1)    rotate(0deg);   }
+  50%      { opacity: 0.7; transform: translateY(-50%) scale(1.18) rotate(45deg);  }
 }
 
-/* ── Service tiles ─────────────────────────────────────────────────── */
+/* ── Service tiles (the magical artifacts) ────────────────────────── */
 
 [class*="service-card"], [data-testid*="service-card"] {
   background: var(--glass) !important;
   border: 1px solid var(--glass-border) !important;
   border-radius: 16px !important;
-  backdrop-filter: blur(24px) saturate(150%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
+  backdrop-filter: blur(24px) saturate(170%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(170%) !important;
   box-shadow: var(--shadow-card) !important;
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
   overflow: hidden;
@@ -243,27 +316,47 @@ h1, h2 { color: var(--text) !important; }
 }
 
 [class*="service-card"]:hover {
-  border-color: rgba(255, 111, 181, 0.50) !important;
-  transform: translateY(-2px);
+  border-color: var(--rose) !important;
+  transform: translateY(-3px);
   box-shadow:
-    0 16px 48px rgba(20, 8, 44, 0.65),
-    0 0 28px rgba(255, 111, 181, 0.22),
-    var(--gold-glow) !important;
+    0 16px 48px rgba(26, 27, 75, 0.7),
+    var(--shadow-aura),
+    0 0 32px var(--rose-glow),
+    0 0 16px var(--gold-glow) !important;
   background: var(--glass-strong) !important;
 }
 
-/* Iridescent shimmer sweep on hover (left → right) */
+/* Iridescent conic shimmer underlay (per Y2K research — `mix-blend-mode: screen`
+   over the dark base gives that oil-slick chrome look on hover) */
+[class*="service-card"]::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 18px;
+  background: var(--iridescent);
+  filter: saturate(1.4) brightness(1.05) blur(8px);
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+[class*="service-card"]:hover::after { opacity: 0.35; }
+
+/* Holographic shimmer sweep on hover (Y2K chrome) */
 [class*="service-card"]::before {
   content: '';
   position: absolute;
   top: 0; bottom: 0;
-  left: -120%; width: 80%;
+  left: -120%; width: 70%;
   background: linear-gradient(
     115deg,
     transparent 0%,
-    rgba(255, 179, 217, 0.10) 35%,
-    rgba(181, 159, 255, 0.16) 50%,
-    rgba(255, 203, 122, 0.10) 65%,
+    rgba(255, 179, 217, 0.10) 30%,
+    rgba(155, 126, 222, 0.18) 45%,
+    rgba(127, 255, 233, 0.16) 55%,
+    rgba(255, 215, 0, 0.14) 70%,
     transparent 100%
   );
   transition: left 0.9s cubic-bezier(0.4, 0, 0.2, 1);
@@ -273,16 +366,17 @@ h1, h2 { color: var(--text) !important; }
 
 [class*="service-card"]:hover::before { left: 220%; }
 
-/* Card title: Cinzel like a section's chapter */
+/* Card title: Cinzel Decorative — the OG witchy serif */
 [class*="service-name"], [data-testid*="service-name"] {
-  font-family: 'Cinzel', serif !important;
-  font-weight: 600 !important;
+  font-family: 'Cinzel Decorative', serif !important;
+  font-weight: 700 !important;
   font-style: normal !important;
   font-size: 1.0em !important;
   color: var(--text) !important;
-  letter-spacing: 0.06em !important;
+  letter-spacing: 0.04em !important;
   text-transform: none !important;
   line-height: 1.3 !important;
+  text-shadow: 0 0 8px rgba(255, 110, 199, 0.20);
 }
 
 /* Card description = TECHNICAL SUBTITLE (mono, dimmed) */
@@ -317,21 +411,20 @@ h1, h2 { color: var(--text) !important; }
 }
 
 [class*="widget-value"], [data-testid*="widget-value"] {
-  font-family: 'Cinzel', serif !important;
-  font-weight: 600 !important;
+  font-family: 'Cinzel Decorative', serif !important;
+  font-weight: 700 !important;
   color: var(--gold) !important;
   font-size: 1em !important;
-  text-shadow: 0 0 8px rgba(255, 203, 122, 0.25);
+  text-shadow: 0 0 10px var(--gold-glow);
 }
 
 /* ── Bookmarks ─────────────────────────────────────────────────────── */
-/* The previous CSS double-cardified children, creating chip-pill artifacts
-   on the right-hand description. Fix: only style the OUTER bookmark, then
-   reset all child backgrounds/borders so the description sits inline. */
+/* Tight pendant-like cards with sparkle accents. Kill the chip artifact
+   by NOT styling nested children as cards. */
 
-[class*="bookmarks-group"] > div:not(:first-child),
 [class*="bookmarks-group"] [role="list"],
-[class*="bookmarks"] > ul {
+[class*="bookmarks"] > ul,
+[class*="bookmarks-group"] > div:not(:first-child) {
   display: grid !important;
   grid-template-columns: 1fr !important;
   gap: 8px !important;
@@ -342,13 +435,13 @@ h1, h2 { color: var(--text) !important; }
   background: var(--glass) !important;
   border: 1px solid var(--glass-border) !important;
   border-radius: 12px !important;
-  backdrop-filter: blur(20px) saturate(140%);
-  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  padding: 10px 14px !important;
+  padding: 12px 16px !important;
   display: flex !important;
   align-items: center !important;
-  gap: 12px !important;
+  gap: 14px !important;
   text-decoration: none !important;
   position: relative;
   overflow: hidden;
@@ -356,13 +449,13 @@ h1, h2 { color: var(--text) !important; }
 
 [class*="bookmark"] a:hover,
 [class*="bookmark-card"]:hover {
-  border-color: rgba(255, 111, 181, 0.4) !important;
+  border-color: var(--rose) !important;
   background: var(--glass-strong) !important;
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(20, 8, 44, 0.4), 0 0 18px rgba(255, 111, 181, 0.12);
+  box-shadow: 0 8px 24px rgba(20, 6, 46, 0.5), 0 0 20px var(--rose-glow);
 }
 
-/* Reset child elements — kill the chip artifacts */
+/* Reset child elements — kill chip artifacts */
 [class*="bookmark"] a > *:not([class*="icon"]):not(svg):not(img),
 [class*="bookmark-card"] > *:not([class*="icon"]):not(svg):not(img) {
   background: transparent !important;
@@ -374,31 +467,32 @@ h1, h2 { color: var(--text) !important; }
   margin: 0 !important;
 }
 
-/* Bookmark text container — name + description stack */
+/* Bookmark text container — name + description stack tightly */
 [class*="bookmark"] a > div:not([class*="icon"]),
 [class*="bookmark-card"] > div:not([class*="icon"]) {
   display: flex !important;
   flex-direction: column !important;
-  gap: 2px !important;
+  gap: 3px !important;
   min-width: 0;
   flex: 1 1 auto !important;
 }
 
-/* Bookmark name: Cinzel, refined Roman */
+/* Bookmark name: Cinzel Decorative, 90s witchy */
 [class*="bookmark"] [class*="text"],
 [class*="bookmark"] [class*="name"],
 [class*="bookmark-card"] [class*="text"],
 [class*="bookmark-card"] [class*="name"] {
-  font-family: 'Cinzel', serif !important;
-  font-weight: 500 !important;
+  font-family: 'Cinzel Decorative', serif !important;
+  font-weight: 700 !important;
   font-style: normal !important;
-  font-size: 0.95em !important;
+  font-size: 0.92em !important;
   color: var(--text) !important;
-  letter-spacing: 0.06em !important;
+  letter-spacing: 0.05em !important;
   line-height: 1.2 !important;
+  text-shadow: 0 0 6px rgba(255, 110, 199, 0.18);
 }
 
-/* Bookmark description: mono lowercase, sits directly under the name */
+/* Bookmark description: tech subtitle directly under the name */
 [class*="bookmark"] [class*="description"],
 [class*="bookmark-card"] [class*="description"] {
   font-family: 'JetBrains Mono', monospace !important;
@@ -411,7 +505,7 @@ h1, h2 { color: var(--text) !important; }
   line-height: 1.4 !important;
 }
 
-/* Bookmark icon — keep it clean, no extra pill backgrounds */
+/* Bookmark icon — pink-glow drop shadow */
 [class*="bookmark"] [class*="icon"],
 [class*="bookmark-card"] [class*="icon"] {
   flex-shrink: 0 !important;
@@ -420,10 +514,34 @@ h1, h2 { color: var(--text) !important; }
 }
 
 [class*="bookmark"] [class*="icon"] img,
-[class*="bookmark"] [class*="icon"] svg {
+[class*="bookmark"] [class*="icon"] svg,
+[class*="bookmark-card"] [class*="icon"] img,
+[class*="bookmark-card"] [class*="icon"] svg {
   width: 24px !important;
   height: 24px !important;
-  filter: drop-shadow(0 0 6px rgba(255, 111, 181, 0.3));
+  filter: drop-shadow(0 0 8px var(--rose-glow)) drop-shadow(0 0 4px var(--gold-glow));
+}
+
+/* Bookmark — sparkle accent on hover (right side) */
+[class*="bookmark"] a::after,
+[class*="bookmark-card"]::after {
+  content: '';
+  position: absolute;
+  right: 14px; top: 50%;
+  transform: translateY(-50%) scale(0);
+  width: 12px; height: 12px;
+  background: url("/images/twinkle.svg") no-repeat center / contain;
+  filter: drop-shadow(0 0 6px var(--gold-glow));
+  color: var(--gold);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+[class*="bookmark"] a:hover::after,
+[class*="bookmark-card"]:hover::after {
+  opacity: 1;
+  transform: translateY(-50%) scale(1) rotate(15deg);
 }
 
 /* ── Quick-launch / search ────────────────────────────────────────── */
@@ -433,46 +551,51 @@ h1, h2 { color: var(--text) !important; }
   border: 1px solid var(--glass-border) !important;
   border-radius: 999px !important;
   color: var(--text) !important;
-  font-family: 'Inter', sans-serif !important;
+  font-family: 'Quicksand', sans-serif !important;
+  font-weight: 500 !important;
   backdrop-filter: blur(20px);
   padding: 10px 18px !important;
 }
 
 [class*="quicklaunch"] input:focus {
   border-color: var(--rose) !important;
-  box-shadow: 0 0 0 3px rgba(255, 111, 181, 0.18) !important;
+  box-shadow: 0 0 0 3px rgba(255, 20, 147, 0.20), 0 0 20px var(--rose-glow) !important;
   outline: none !important;
 }
 
-/* ── Theme toggle ─────────────────────────────────────────────────── */
+/* ── Theme toggle (day / night) ───────────────────────────────────── */
 
 [class*="theme-toggle"], [data-testid*="theme-toggle"], button[aria-label*="theme"] {
   background: var(--glass) !important;
   border: 1px solid var(--glass-border) !important;
   border-radius: 999px !important;
-  color: var(--text) !important;
+  color: var(--gold) !important;
   transition: all 0.25s ease;
 }
 
 [class*="theme-toggle"]:hover {
   border-color: var(--gold) !important;
   background: var(--glass-strong) !important;
-  box-shadow: var(--gold-glow);
+  box-shadow: 0 0 20px var(--gold-glow);
+  transform: scale(1.05);
 }
 
 /* ── Responsive ────────────────────────────────────────────────────── */
 
 @media (max-width: 1280px) {
   [class*="layout-name"], [class*="services-group"] h2 {
-    font-size: 0.92em !important;
-    letter-spacing: 0.18em !important;
+    font-size: 0.95em !important;
+    letter-spacing: 0.16em !important;
   }
+  [id*="greeting"] { font-size: 2.8rem !important; }
 }
 
 @media (max-width: 768px) {
   body { padding: 8px !important; }
   [class*="services-group"] { margin-bottom: 20px !important; }
-  [id*="greeting"] { font-size: 2.2rem !important; }
+  [id*="greeting"] { font-size: 2.4rem !important; }
+  #information-widgets::before,
+  #information-widgets::after { display: none; }
 }
 
 /* ── Scrollbars ───────────────────────────────────────────────────── */
@@ -480,16 +603,19 @@ h1, h2 { color: var(--text) !important; }
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: var(--glass-border);
+  background: linear-gradient(180deg, var(--rose), var(--lavender));
   border-radius: 4px;
 }
-::-webkit-scrollbar-thumb:hover { background: var(--rose); }
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--hot-pink), var(--rose));
+  box-shadow: 0 0 8px var(--rose-glow);
+}
 
 /* ── Selection ────────────────────────────────────────────────────── */
 
 ::selection {
-  background: rgba(255, 111, 181, 0.40);
-  color: var(--text);
+  background: rgba(255, 20, 147, 0.45);
+  color: var(--cream);
 }
 
 /* ── Footer credits ───────────────────────────────────────────────── */

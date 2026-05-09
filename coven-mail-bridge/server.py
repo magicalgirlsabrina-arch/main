@@ -650,52 +650,61 @@ _SPELLBOOK_HTML = r"""<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>The Spellbook</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400&family=Sacramento&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Quicksand:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400&family=Sacramento&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#0A0418; --ink-velvet:#14082C; --ink-aubergine:#1F1240; --ink-cosmic:#2D1B57;
-    --glass:rgba(255,240,250,.045); --glass-strong:rgba(255,240,250,.075);
-    --glass-border:rgba(255,200,230,.14);
-    --rose:#FF6FB5; --rose-soft:#FFB3D9; --rose-deep:#C44986;
-    --violet:#B59FFF; --violet-deep:#7E66D1;
-    --gold:#FFCB7A; --gold-bright:#FFE0A8;
-    --mint:#9FFFE4; --ember:#FF8E8E;
-    --text:#FAF2FF; --text-2:rgba(250,242,255,.78); --text-3:rgba(250,242,255,.50);
-    --shimmer:linear-gradient(135deg, #FF6FB5 0%, #B59FFF 50%, #FFCB7A 100%);
-    --shadow:0 8px 32px rgba(20,8,44,.55), inset 0 1px 0 rgba(255,240,250,.05);
+    /* Spellman Manor palette — show-accurate Sabrina + Y2K Gen Z layer */
+    --ink:#1A1B4B; --ink-velvet:#2A1B5C; --ink-aubergine:#3D1B6E; --ink-cosmic:#5E2A84;
+    --glass:rgba(255,220,240,.05); --glass-strong:rgba(255,220,240,.10);
+    --glass-border:rgba(255,63,164,.22);
+    --hot-pink:#FF3FA4; --rose:#FF6EC7; --bubblegum:#FFB6D5;
+    --rose-glow:rgba(255,63,164,.50);
+    --lavender:#C8A2DB; --violet:#9B7EDE; --deep-cosmos:#5E2A84;
+    --gold:#E8C547; --gold-warm:#FFD66B; --gold-glow:rgba(232,197,71,.45);
+    --mint:#A8F0D0; --holo-sky:#A8E0FF; --ember:#FF8E8E; --cream:#F4EAFB;
+    --text:#F4EAFB; --text-2:rgba(244,234,251,.78); --text-3:rgba(244,234,251,.50);
+    --shimmer:linear-gradient(135deg, #FF3FA4 0%, #FF6EC7 18%, #C8A2DB 38%, #A8E0FF 58%, #E8C547 80%, #FF6EC7 100%);
+    --iridescent:conic-gradient(from 180deg at 50% 50%, #FF6EC7, #C8A2DB, #A8E0FF, #FFD66B, #FFB6D5, #FF6EC7);
+    --shadow:0 8px 32px rgba(26,27,75,.55), inset 0 1px 0 rgba(244,234,251,.08);
   }
   *{box-sizing:border-box} html,body{margin:0;padding:0}
   body{
-    font-family:'Inter',system-ui,sans-serif;color:var(--text);min-height:100vh;
-    padding:48px 24px 64px;
+    font-family:'Quicksand',system-ui,sans-serif;color:var(--text);min-height:100vh;
+    padding:48px 24px 64px;font-weight:500;
     background:
-      radial-gradient(ellipse 70% 40% at 18% 12%, rgba(255,111,181,.20), transparent 60%),
-      radial-gradient(ellipse 60% 55% at 85% 30%, rgba(181,159,255,.22), transparent 60%),
-      radial-gradient(ellipse 50% 40% at 50% 92%, rgba(255,203,122,.10), transparent 60%),
+      radial-gradient(ellipse 70% 40% at 18% 12%, rgba(255,63,164,.28), transparent 60%),
+      radial-gradient(ellipse 60% 55% at 85% 30%, rgba(155,126,222,.30), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 50% 92%, rgba(232,197,71,.10), transparent 60%),
       linear-gradient(180deg, var(--ink), var(--ink-velvet) 50%, var(--ink-aubergine));
   }
   body::after{
     content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
     background-image:
-      radial-gradient(1.5px 1.5px at 12% 18%, rgba(250,242,255,.85), transparent 60%),
-      radial-gradient(2.5px 2.5px at 28% 72%, rgba(255,203,122,.7), transparent 60%),
-      radial-gradient(1.2px 1.2px at 47% 9%, rgba(255,179,217,.7), transparent 60%),
-      radial-gradient(2px 2px at 65% 44%, rgba(250,242,255,.55), transparent 60%),
-      radial-gradient(1.5px 1.5px at 80% 80%, rgba(255,203,122,.5), transparent 60%),
-      radial-gradient(1.5px 1.5px at 8% 55%, rgba(250,242,255,.6), transparent 60%),
-      radial-gradient(2px 2px at 38% 38%, rgba(255,111,181,.5), transparent 60%),
-      radial-gradient(2px 2px at 56% 67%, rgba(255,203,122,.4), transparent 60%);
-    animation:drift 40s ease-in-out infinite alternate;opacity:.85;
+      radial-gradient(2px 2px at 12% 18%, rgba(244,234,251,.85), transparent 60%),
+      radial-gradient(2.5px 2.5px at 28% 72%, rgba(232,197,71,.7), transparent 60%),
+      radial-gradient(1.5px 1.5px at 47% 9%, rgba(255,110,199,.7), transparent 60%),
+      radial-gradient(2px 2px at 65% 44%, rgba(244,234,251,.55), transparent 60%),
+      radial-gradient(1.5px 1.5px at 80% 80%, rgba(232,197,71,.5), transparent 60%),
+      radial-gradient(1.5px 1.5px at 8% 55%, rgba(244,234,251,.6), transparent 60%),
+      radial-gradient(2px 2px at 38% 38%, rgba(255,63,164,.5), transparent 60%),
+      radial-gradient(2px 2px at 56% 67%, rgba(232,197,71,.4), transparent 60%);
+    animation:drift 40s ease-in-out infinite alternate;opacity:.95;
   }
   @keyframes drift{
-    0%,100%{transform:translate(0,0) scale(1);opacity:.7}
-    50%{transform:translate(-6px,4px) scale(1.02);opacity:.95}
+    0%,100%{transform:translate(0,0) scale(1);opacity:.75}
+    50%{transform:translate(-6px,4px) scale(1.02);opacity:1}
   }
   h1{
-    font-family:'Sacramento',cursive;font-size:64px;font-weight:400;
-    background:var(--shimmer);-webkit-background-clip:text;background-clip:text;
+    font-family:'Sacramento',cursive;font-size:72px;font-weight:400;
+    background:var(--shimmer);background-size:200% 200%;
+    -webkit-background-clip:text;background-clip:text;
     color:transparent;text-align:center;margin:0 0 4px;
-    filter:drop-shadow(0 0 24px rgba(255,111,181,.45));line-height:1.05;
+    filter:drop-shadow(0 0 28px var(--rose-glow));line-height:1.05;
+    animation:shimmer-shift 8s ease-in-out infinite;
+  }
+  @keyframes shimmer-shift{
+    0%,100%{background-position:0% 50%}
+    50%{background-position:100% 50%}
   }
   .tech{
     text-align:center;font-family:'JetBrains Mono',monospace;
@@ -707,7 +716,7 @@ _SPELLBOOK_HTML = r"""<!doctype html>
   .tab{
     background:var(--glass);border:1px solid var(--glass-border);color:var(--text-2);
     padding:9px 20px;border-radius:999px;cursor:pointer;
-    font-family:'Cinzel',serif;font-weight:500;font-size:12px;
+    font-family:'Cinzel Decorative',serif;font-weight:500;font-size:12px;
     letter-spacing:1.4px;text-transform:uppercase;
     transition:all .25s ease;
     backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
@@ -731,14 +740,15 @@ _SPELLBOOK_HTML = r"""<!doctype html>
     position:relative;overflow:hidden;
   }
   .card h2{
-    font-family:'Cinzel',serif;font-weight:600;
-    color:var(--text);letter-spacing:.05em;margin:0 0 4px;font-size:18px;
-    text-transform:none;position:relative;padding-left:22px;
+    font-family:'Cinzel Decorative',serif;font-weight:700;
+    color:var(--text);letter-spacing:.08em;margin:0 0 4px;font-size:17px;
+    text-transform:uppercase;position:relative;padding-left:26px;
+    text-shadow:0 0 12px var(--rose-glow);
   }
   .card h2::before{
     content:'\2726';position:absolute;left:0;top:50%;transform:translateY(-50%);
-    color:var(--gold);font-size:.85em;text-shadow:0 0 12px rgba(255,203,122,.5);
-    animation:twinkle 3.5s ease-in-out infinite;
+    color:var(--gold);font-size:.95em;text-shadow:0 0 14px var(--gold-glow);
+    animation:twinkle 3s ease-in-out infinite;
   }
   @keyframes twinkle{
     0%,100%{opacity:1;transform:translateY(-50%) scale(1)}
@@ -760,13 +770,14 @@ _SPELLBOOK_HTML = r"""<!doctype html>
     box-shadow:0 0 18px rgba(255,203,122,.18);
   }
   .from{
-    color:var(--rose);font-family:'Cinzel',serif;font-weight:600;
+    color:var(--hot-pink);font-family:'Cinzel Decorative',serif;font-weight:700;
     letter-spacing:.06em;font-size:14px;
+    text-shadow:0 0 10px var(--rose-glow);
   }
   .ts{color:var(--text-3);font-family:'JetBrains Mono',monospace;font-size:11px;float:right}
-  .subj{color:var(--text);font-style:italic;margin:6px 0;font-size:14px;font-family:'Inter',sans-serif}
-  .body{color:var(--text-2);white-space:pre-wrap;margin-top:8px;font-size:14px;line-height:1.55;font-family:'Inter',sans-serif}
-  .empty{text-align:center;padding:60px 20px;color:var(--text-3);font-family:'Cinzel',serif;font-style:italic;letter-spacing:.05em}
+  .subj{color:var(--text);font-style:italic;margin:6px 0;font-size:14px;font-family:'Quicksand',sans-serif}
+  .body{color:var(--text-2);white-space:pre-wrap;margin-top:8px;font-size:14px;line-height:1.55;font-family:'Quicksand',sans-serif}
+  .empty{text-align:center;padding:60px 20px;color:var(--text-3);font-family:'Cinzel Decorative',serif;font-style:italic;letter-spacing:.05em}
   .badge{
     display:inline-block;background:var(--gold);color:var(--ink-aubergine);
     border-radius:999px;padding:2px 12px;font-size:10px;font-weight:600;
@@ -782,22 +793,34 @@ _SPELLBOOK_HTML = r"""<!doctype html>
   textarea, input, select{
     width:100%;background:var(--glass-strong);border:1px solid var(--glass-border);
     border-radius:10px;color:var(--text);padding:11px 14px;
-    font-family:'Inter',sans-serif;font-size:14px;margin-bottom:14px;
+    font-family:'Quicksand',sans-serif;font-size:14px;margin-bottom:14px;
     transition:border-color .2s, box-shadow .2s;
   }
   textarea{min-height:80px;resize:vertical}
   textarea:focus, input:focus, select:focus{
     outline:none;border-color:var(--rose);box-shadow:0 0 0 3px rgba(255,111,181,.18);
   }
+  /* Glossy bubble button — Y2K Frutiger Aero feel */
   .btn{
-    background:linear-gradient(135deg,var(--rose),var(--violet));
-    border:none;border-radius:10px;color:var(--ink-aubergine);
-    padding:10px 22px;font-family:'Cinzel',serif;font-weight:600;font-size:12px;
-    letter-spacing:1.2px;text-transform:uppercase;cursor:pointer;
-    box-shadow:0 4px 18px rgba(255,111,181,.30);
-    transition:transform .15s, box-shadow .15s;
+    background:linear-gradient(180deg,var(--rose) 0%, var(--hot-pink) 60%, #C12B7E 100%);
+    border:none;border-radius:999px;color:var(--cream);
+    padding:11px 24px;font-family:'Cinzel Decorative',serif;font-weight:700;font-size:11px;
+    letter-spacing:1.4px;text-transform:uppercase;cursor:pointer;
+    box-shadow:
+      0 4px 18px var(--rose-glow),
+      inset 0 1px 0 rgba(255,255,255,.45),
+      inset 0 -2px 4px rgba(0,0,0,.15);
+    transition:transform .18s, box-shadow .18s;
+    text-shadow:0 1px 2px rgba(0,0,0,.20);
   }
-  .btn:hover{transform:translateY(-1px);box-shadow:0 6px 28px rgba(255,111,181,.45)}
+  .btn:hover{
+    transform:translateY(-1px);
+    box-shadow:
+      0 6px 28px var(--rose-glow),
+      inset 0 1px 0 rgba(255,255,255,.55),
+      inset 0 -2px 4px rgba(0,0,0,.10),
+      0 0 24px var(--gold-glow);
+  }
   .btn.ghost{
     background:transparent;border:1px solid var(--glass-border);color:var(--text-2);
     box-shadow:none;
@@ -813,7 +836,7 @@ _SPELLBOOK_HTML = r"""<!doctype html>
   .ping.ok{border-color:rgba(159,255,228,.5)}
   .ping.fail{border-color:rgba(255,142,142,.6)}
   .ping .name{
-    font-family:'Cinzel',serif;color:var(--text);font-weight:600;
+    font-family:'Cinzel Decorative',serif;color:var(--text);font-weight:600;
     font-size:14px;letter-spacing:.06em;text-transform:capitalize;
   }
   .ping .detail{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-3);margin-top:4px}
@@ -829,7 +852,7 @@ _SPELLBOOK_HTML = r"""<!doctype html>
     display:grid;grid-template-columns:108px 110px 1fr;gap:14px;
     padding:11px 14px;border-radius:10px;align-items:start;
     border:1px solid var(--glass-border);background:var(--glass-strong);margin:6px 0;
-    font-size:13px;font-family:'Inter',sans-serif;
+    font-size:13px;font-family:'Quicksand',sans-serif;
     transition:border-color .2s ease;
   }
   .feed-row:hover{border-color:rgba(255,111,181,.30)}
@@ -847,7 +870,7 @@ _SPELLBOOK_HTML = r"""<!doctype html>
 
   .verdict{
     display:inline-block;padding:3px 12px;border-radius:999px;font-size:10px;
-    font-family:'Cinzel',serif;text-transform:uppercase;letter-spacing:1.2px;
+    font-family:'Cinzel Decorative',serif;text-transform:uppercase;letter-spacing:1.2px;
     font-weight:600;
   }
   .verdict.safe{background:rgba(159,255,228,.20);color:var(--mint)}
@@ -859,11 +882,11 @@ _SPELLBOOK_HTML = r"""<!doctype html>
   .upgrade-item{padding:16px 18px;border:1px solid var(--glass-border);border-radius:12px;background:var(--glass-strong);margin:10px 0}
   .upgrade-item .head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
   .upgrade-item .name{
-    font-family:'Cinzel',serif;font-weight:600;font-size:15px;
+    font-family:'Cinzel Decorative',serif;font-weight:600;font-size:15px;
     color:var(--text);letter-spacing:.06em;text-transform:capitalize;
   }
   .upgrade-item .meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-3);margin-top:4px}
-  .upgrade-item .summary{margin-top:10px;color:var(--text-2);font-size:13px;line-height:1.55;font-family:'Inter',sans-serif}
+  .upgrade-item .summary{margin-top:10px;color:var(--text-2);font-size:13px;line-height:1.55;font-family:'Quicksand',sans-serif}
   .upgrade-item .flags{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
   .upgrade-item .flag{padding:2px 9px;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:10px;background:rgba(255,142,142,.15);color:var(--ember);letter-spacing:.4px}
   .upgrade-item a{color:var(--violet);text-decoration:none}
