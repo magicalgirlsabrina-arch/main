@@ -2,6 +2,9 @@
 beszel-data/
 prometheus/tokens/*
 !prometheus/tokens/.gitkeep
-grafana-data/
 prometheus-data/
+grafana-data/
+alertmanager-data/
 .DS_Store
+__pycache__/
+*.pyc

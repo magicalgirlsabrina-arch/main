@@ -1,0 +1,241 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [
+    { "title": "The Cast Log", "url": "/d/cast-log/the-cast-log", "type": "link", "icon": "external link", "includeVars": false, "keepTime": false, "tags": [] },
+    { "title": "Spellbook", "url": "http://localhost:18793/", "type": "link", "targetBlank": true, "icon": "external link" }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "type": "row",
+      "title": "🌙  Coven At a Glance",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "id": 100, "collapsed": false, "panels": []
+    },
+    {
+      "type": "stat",
+      "title": "Salem",
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 1 },
+      "id": 1,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [{ "expr": "up{familiar=\"salem\"}", "refId": "A" }],
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            { "type": "value", "options": { "0": { "text": "🐈‍⬛ napping", "color": "#FF1493" }, "1": { "text": "🐈‍⬛ alive", "color": "#FFD700" } } }
+          ],
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [
+            { "color": "#FF1493", "value": null },
+            { "color": "#FFD700", "value": 1 }
+          ]}
+        }
+      },
+      "options": { "colorMode": "background", "graphMode": "none", "justifyMode": "center", "textMode": "auto" }
+    },
+    {
+      "type": "stat",
+      "title": "Hilda",
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 1 },
+      "id": 2,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [{ "expr": "up{familiar=\"hilda\"}", "refId": "A" }],
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            { "type": "value", "options": { "0": { "text": "☕ napping", "color": "#FF1493" }, "1": { "text": "☕ alive", "color": "#FF6EC7" } } }
+          ],
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "#FF1493", "value": null }, { "color": "#FF6EC7", "value": 1 }] }
+        }
+      },
+      "options": { "colorMode": "background", "graphMode": "none", "justifyMode": "center" }
+    },
+    {
+      "type": "stat",
+      "title": "Zelda",
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 1 },
+      "id": 3,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [{ "expr": "up{familiar=\"zelda\"}", "refId": "A" }],
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            { "type": "value", "options": { "0": { "text": "📖 napping", "color": "#FF1493" }, "1": { "text": "📖 alive", "color": "#B19CD9" } } }
+          ],
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "#FF1493", "value": null }, { "color": "#B19CD9", "value": 1 }] }
+        }
+      },
+      "options": { "colorMode": "background", "graphMode": "none", "justifyMode": "center" }
+    },
+    {
+      "type": "stat",
+      "title": "Harvey",
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 1 },
+      "id": 4,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [{ "expr": "up{familiar=\"harvey\"}", "refId": "A" }],
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            { "type": "value", "options": { "0": { "text": "🛠 napping", "color": "#FF1493" }, "1": { "text": "🛠 alive", "color": "#7EC4FF" } } }
+          ],
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "#FF1493", "value": null }, { "color": "#7EC4FF", "value": 1 }] }
+        }
+      },
+      "options": { "colorMode": "background", "graphMode": "none", "justifyMode": "center" }
+    },
+    {
+      "type": "row",
+      "title": "💌  Coven Mail Flow",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 5 },
+      "id": 101, "collapsed": false, "panels": []
+    },
+    {
+      "type": "stat",
+      "title": "Unread",
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 6 },
+      "id": 5,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [{ "expr": "coven_mailbox_unread", "refId": "A" }],
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [
+            { "color": "#7EC4FF", "value": null },
+            { "color": "#FFD700", "value": 1 },
+            { "color": "#FF6EC7", "value": 5 }
+          ]}
+        }
+      },
+      "options": { "colorMode": "value", "graphMode": "area", "justifyMode": "center" }
+    },
+    {
+      "type": "stat",
+      "title": "Total messages",
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 6 },
+      "id": 6,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [{ "expr": "coven_mailbox_messages_total", "refId": "A" }],
+      "fieldConfig": { "defaults": { "color": { "mode": "fixed", "fixedColor": "#B19CD9" } } },
+      "options": { "colorMode": "value", "graphMode": "area", "justifyMode": "center" }
+    },
+    {
+      "type": "stat",
+      "title": "Mail sent / 5m",
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 6 },
+      "id": 7,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [{ "expr": "increase(coven_mail_sent_total[5m])", "refId": "A" }],
+      "fieldConfig": { "defaults": { "color": { "mode": "fixed", "fixedColor": "#FFD700" } } },
+      "options": { "colorMode": "value", "graphMode": "area", "justifyMode": "center" }
+    },
+    {
+      "type": "stat",
+      "title": "Send errors / 5m",
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 6 },
+      "id": 8,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [{ "expr": "increase(coven_mail_send_errors_total[5m])", "refId": "A" }],
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [
+            { "color": "#7EC4FF", "value": null },
+            { "color": "#FF1493", "value": 1 }
+          ]}
+        }
+      },
+      "options": { "colorMode": "value", "graphMode": "area", "justifyMode": "center" }
+    },
+    {
+      "type": "row",
+      "title": "✨  Activity Over Time",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 10 },
+      "id": 102, "collapsed": false, "panels": []
+    },
+    {
+      "type": "timeseries",
+      "title": "Familiar uptime (last 24h)",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 11 },
+      "id": 9,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [{
+        "expr": "up{familiar!=\"\"}",
+        "legendFormat": "{{familiar}}",
+        "refId": "A"
+      }],
+      "fieldConfig": {
+        "defaults": {
+          "min": 0, "max": 1,
+          "custom": { "drawStyle": "bars", "fillOpacity": 40, "lineWidth": 0 }
+        },
+        "overrides": [
+          { "matcher": { "id": "byName", "options": "salem" },  "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "#FFD700" } }] },
+          { "matcher": { "id": "byName", "options": "hilda" },  "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "#FF6EC7" } }] },
+          { "matcher": { "id": "byName", "options": "zelda" },  "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "#B19CD9" } }] },
+          { "matcher": { "id": "byName", "options": "harvey" }, "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "#7EC4FF" } }] }
+        ]
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Coven mail traffic",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 11 },
+      "id": 10,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [
+        { "expr": "rate(coven_mail_sent_total[5m])",        "legendFormat": "sent",   "refId": "A" },
+        { "expr": "rate(coven_mail_send_errors_total[5m])", "legendFormat": "errors", "refId": "B" }
+      ],
+      "fieldConfig": {
+        "defaults": { "unit": "short", "custom": { "fillOpacity": 25, "lineWidth": 2, "showPoints": "never" } },
+        "overrides": [
+          { "matcher": { "id": "byName", "options": "sent" },   "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "#FFD700" } }] },
+          { "matcher": { "id": "byName", "options": "errors" }, "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "#FF1493" } }] }
+        ]
+      }
+    },
+    {
+      "type": "row",
+      "title": "🚫  Circuit Breakers",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 19 },
+      "id": 103, "collapsed": false, "panels": []
+    },
+    {
+      "type": "table",
+      "title": "Open circuits per familiar",
+      "gridPos": { "h": 6, "w": 24, "x": 0, "y": 20 },
+      "id": 11,
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "targets": [{ "expr": "coven_circuit_open", "format": "table", "instant": true, "refId": "A" }],
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "align": "center" },
+          "mappings": [
+            { "type": "value", "options": { "0": { "text": "✨ closed (healthy)", "color": "#7EC4FF" }, "1": { "text": "🚫 OPEN", "color": "#FF1493" } } }
+          ]
+        }
+      },
+      "options": { "showHeader": true }
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["spellman", "coven", "overview"],
+  "templating": { "list": [] },
+  "time": { "from": "now-3h", "to": "now" },
+  "timepicker": {},
+  "timezone": "",
+  "title": "The Coven Atlas",
+  "uid": "coven-atlas",
+  "version": 1,
+  "weekStart": ""
+}

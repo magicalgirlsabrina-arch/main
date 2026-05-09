@@ -1,0 +1,58 @@
+# 🔔 Howling Hat — Sabrina-themed alert routing.
+#
+# Default config: alerts surface in the Alertmanager UI at :9093.
+# To get push notifications, fill in one of the receivers below
+# (ntfy is the simplest path for a homelab).
+
+global:
+  resolve_timeout: 5m
+
+route:
+  group_by: ['theme', 'familiar']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 4h
+  receiver: 'silent-default'
+  routes:
+    # backfires → loud channel
+    - matchers: [severity="backfire"]
+      receiver: 'silent-default'   # change to 'ntfy-coven' once configured
+      group_wait: 10s
+      repeat_interval: 1h
+    # hexes → quieter
+    - matchers: [severity="hex"]
+      receiver: 'silent-default'
+      repeat_interval: 6h
+    # informational → very quiet (or drop)
+    - matchers: [severity="spellbook"]
+      receiver: 'silent-default'
+      repeat_interval: 24h
+
+receivers:
+  # Default — alerts only show in the UI.
+  - name: 'silent-default'
+
+  # Push to your phone via ntfy.sh — uncomment and customize.
+  # 1) Pick a topic name on https://ntfy.sh (or self-host ntfy)
+  # 2) Install the ntfy app, subscribe to that topic
+  # 3) Replace 'spellman-manor-alerts' below with your topic
+  # 4) In `route:` above, change `receiver: 'silent-default'` to 'ntfy-coven'
+  - name: 'ntfy-coven'
+    webhook_configs:
+      - url: 'https://ntfy.sh/spellman-manor-alerts'
+        send_resolved: true
+
+  # Or via Apple Push Notification through Pushover (paid one-time)
+  - name: 'pushover-coven'
+    pushover_configs:
+      - user_key: 'your-pushover-user-key'
+        token: 'your-pushover-app-token'
+        title: '{{ .CommonAnnotations.summary }}'
+        message: '{{ range .Alerts }}{{ .Annotations.description }}{{ end }}'
+
+# Inhibit informational alerts when something more serious is firing for the
+# same familiar (don't fire "Howling hat delivery" if the familiar is also down).
+inhibit_rules:
+  - source_matchers: [severity="backfire"]
+    target_matchers:  [severity="spellbook"]
+    equal: ['familiar']

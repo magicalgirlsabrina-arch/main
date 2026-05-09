@@ -1,14 +1,5 @@
 #!/usr/bin/env bash
-# ✦ The Spellbook — convenience commands for managing Spellman Manor ✦
-#
-# Usage:
-#   ./scripts/spellbook.sh up        # start the whole stack
-#   ./scripts/spellbook.sh down      # stop the stack
-#   ./scripts/spellbook.sh restart   # rebuild & restart
-#   ./scripts/spellbook.sh update    # pull new images and restart
-#   ./scripts/spellbook.sh logs      # tail logs from all services
-#   ./scripts/spellbook.sh status    # show what's running
-#   ./scripts/spellbook.sh peer      # quick health check of all 4 ClawBots
+# ✦ The Spellbook — manage Spellman Manor (the Mac mini hub) ✦
 
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -19,48 +10,59 @@ case "$cmd" in
   up)
     echo "🔮 Opening the linen closet..."
     docker compose up -d
+    echo ""
     echo "✨ The Discovery of Magic → http://localhost:3000"
+    echo "📜 The Spellbook         → http://localhost:18793/"
+    echo "🪞 The Magic Mirror      → http://localhost:8080"
+    echo "💗 Vital Signs           → http://localhost:8090"
+    echo "🌙 The Scrying Glass     → http://localhost:3001"
+    echo "🔔 Howling Hat           → http://localhost:9093"
     ;;
-  down)
-    echo "🌑 Sealing the linen closet..."
-    docker compose down
+  down)    docker compose down ;;
+  restart) docker compose down && docker compose up -d ;;
+  update)  echo "📚 Updating spellbooks..."; docker compose pull && docker compose up -d ;;
+  logs)    docker compose logs -f --tail=50 ${2:-} ;;
+  status)  docker compose ps ;;
+
+  peer|ping)
+    ./scripts/coven-status.sh
     ;;
-  restart)
-    docker compose down && docker compose up -d
+
+  broadcast)
+    shift
+    ./scripts/coven-broadcast.sh "$@"
     ;;
-  update)
-    echo "📚 Updating spellbooks..."
-    docker compose pull && docker compose up -d
+
+  selftest)
+    echo "🩺 Dispatching self-test to the coven..."
+    curl -s -X POST http://localhost:18793/api/selftest | python3 -m json.tool
     ;;
-  logs)
-    docker compose logs -f --tail=50
+
+  reload-prometheus)
+    echo "♻️  Reloading Prometheus config..."
+    curl -X POST http://localhost:9090/-/reload
     ;;
-  status)
-    docker compose ps
-    ;;
-  peer)
-    echo "🐈‍⬛ Pinging the coven..."
-    set +e
-    for bot in HILDA ZELDA SALEM HARVEY; do
-      host_var="${bot}_HOST"
-      token_var="${bot}_TOKEN"
-      host=$(grep "^${host_var}=" .env 2>/dev/null | cut -d= -f2)
-      token=$(grep "^${token_var}=" .env 2>/dev/null | cut -d= -f2)
-      if [ -z "$host" ] || [ -z "$token" ]; then
-        echo "  ${bot}: no .env entry"; continue
-      fi
-      code=$(curl -s -o /dev/null -w "%{http_code}" -m 5 \
-        -H "Authorization: Bearer $token" \
-        "http://${host}:18789/api/diagnostics/prometheus")
-      if [ "$code" = "200" ]; then
-        echo "  ${bot}: ✨ alive (${host})"
-      else
-        echo "  ${bot}: ✗ HTTP ${code} (${host})"
-      fi
-    done
-    ;;
+
   *)
-    echo "Usage: $0 {up|down|restart|update|logs|status|peer}"
+    cat <<EOF
+✨ Usage: $0 <command>
+
+Stack control:
+  up                       Start the whole dashboard stack
+  down                     Stop the stack
+  restart                  Stop + start
+  update                   docker compose pull + restart
+  status                   Show running containers
+  logs [service]           Tail logs (optionally for one service)
+
+Coven ops (via the Coven Mail Bridge):
+  peer | ping              Health-check all 4 familiars
+  broadcast "message"      Send a message to the entire coven
+  selftest                 Ask every familiar to respond with 'alive'
+
+Misc:
+  reload-prometheus        Hot-reload Prometheus rules without restart
+EOF
     exit 1
     ;;
 esac

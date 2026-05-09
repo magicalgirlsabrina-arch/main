@@ -1,0 +1,132 @@
+# 🌙 Coven Alerts — themed after Sabrina the Teenage Witch.
+#
+# Severity scheme:
+#   - "spellbook"  = informational (mail arrivals, recoveries, all-clear)
+#   - "hex"        = warning (sustained issues you should know about)
+#   - "backfire"   = critical (something is actually broken)
+#
+# Each alert's `summary` is what shows up in Alertmanager / mail / dashboard.
+# `description` adds context. `runbook_url` points to the docs.
+
+groups:
+  - name: familiar-availability
+    interval: 30s
+    rules:
+      - alert: SalemsNapping
+        # A familiar's gateway is unreachable for >2min.
+        expr: up{job=~"salem|hilda|zelda|harvey"} == 0
+        for: 2m
+        labels:
+          severity: backfire
+          theme: familiar-down
+        annotations:
+          summary: "🐈‍⬛ {{ $labels.familiar }}'s napping again — gateway unreachable for 2m"
+          description: |
+            {{ $labels.familiar }} on {{ $labels.host }} hasn't responded in 2 minutes.
+            Could be a service crash, a Tailscale hiccup, or the mac asleep.
+          runbook_url: "http://localhost:18793/docs/04-troubleshooting"
+
+      - alert: TrappedInTheLinenCloset
+        # All 4 familiars unreachable — likely Tailscale or hub down.
+        expr: count(up{job=~"salem|hilda|zelda|harvey"} == 0) == 4
+        for: 1m
+        labels:
+          severity: backfire
+          theme: portal-sealed
+        annotations:
+          summary: "🌑 The whole coven vanished — Tailscale portal may be sealed"
+          description: |
+            None of the 4 familiars are reachable. Check `tailscale status`
+            on Spellman Manor first; that's the most common cause.
+
+      - alert: WestbridgeCalm
+        # Inverse signal — everyone has been up for an hour.
+        expr: min_over_time(up{job=~"salem|hilda|zelda|harvey"}[1h]) == 1
+        for: 5m
+        labels:
+          severity: spellbook
+          theme: all-clear
+        annotations:
+          summary: "🌙 All quiet at Westbridge — coven steady for 1h"
+
+  - name: familiar-throughput
+    interval: 30s
+    rules:
+      - alert: BackfiredSpell
+        # Error rate spike — sustained 5xx from a familiar's gateway.
+        expr: rate(openclaw_gateway_requests_total{status=~"5.."}[5m]) > 0.5
+        for: 3m
+        labels:
+          severity: hex
+          theme: error-rate
+        annotations:
+          summary: "💥 {{ $labels.familiar }}'s spell keeps backfiring"
+          description: |
+            {{ $labels.familiar }} is returning 5xx at >0.5/sec for 3 minutes.
+            Check OpenClaw gateway logs on {{ $labels.host }}.
+
+      - alert: TimeBallSlowdown
+        # p95 latency > 5s.
+        expr: histogram_quantile(0.95, sum by (familiar, le) (rate(openclaw_request_duration_seconds_bucket[5m]))) > 5
+        for: 5m
+        labels:
+          severity: hex
+          theme: latency
+        annotations:
+          summary: "⏳ {{ $labels.familiar }}'s time ball has slowed — p95 > 5s"
+
+      - alert: PopsSodaFountainDry
+        # Token throughput dropped to near-zero on a familiar that should be active.
+        expr: rate(openclaw_tokens_generated_total[5m]) == 0 and openclaw_gateway_active_sessions > 0
+        for: 5m
+        labels:
+          severity: hex
+          theme: token-drop
+        annotations:
+          summary: "🥤 {{ $labels.familiar }}'s soda fountain ran dry — sessions open but no tokens"
+
+  - name: coven-mail
+    interval: 30s
+    rules:
+      - alert: HowlingHatDelivery
+        # Unread coven mail crossed 5 — informational nudge.
+        expr: coven_mailbox_unread > 5
+        for: 1m
+        labels:
+          severity: spellbook
+          theme: mail-arrived
+        annotations:
+          summary: "💌 Howling hat delivery — {{ $value }} unread coven-mail messages"
+
+      - alert: SalemAteTheSpellbook
+        # Mail send failure rate too high.
+        expr: rate(coven_mail_send_errors_total[5m]) > 0.2
+        for: 3m
+        labels:
+          severity: hex
+          theme: mail-errors
+        annotations:
+          summary: "🐈‍⬛ Salem ate the spellbook — coven mail keeps failing to send"
+
+  - name: circuit-breakers
+    interval: 30s
+    rules:
+      - alert: WitchsLicenseRevoked
+        # A familiar's circuit breaker is open.
+        expr: coven_circuit_open{familiar!=""} == 1
+        for: 30s
+        labels:
+          severity: backfire
+          theme: circuit-open
+        annotations:
+          summary: "🚫 {{ $labels.familiar }}'s witch license revoked — circuit breaker open"
+          description: |
+            The bridge has stopped sending mail to {{ $labels.familiar }} after repeated
+            failures. It will retry in 60s.
+
+  # Reminder: Beszel covers per-host CPU/RAM/disk natively with built-in alerts.
+  # Add those there (Settings → Alerts) using the themed names below:
+  #   - HotFlashHex          (CPU > 90% for 10m)
+  #   - BrainInAJar          (memory > 90% for 5m)
+  #   - PancakeHouseBuffet   (disk > 90%)
+  #   - DrellsTantrum        (load avg > 8 for 15m)

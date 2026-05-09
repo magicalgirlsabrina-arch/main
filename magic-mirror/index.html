@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>The Magic Mirror</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Sacramento&family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Pure CSS starfield + nebula lives in style.css -->
+
+  <header>
+    <h1 class="title">✨ The Discovery of Magic ✨</h1>
+    <div id="clock" class="clock">--:--</div>
+    <div id="datestamp" class="date"></div>
+  </header>
+
+  <section class="coven-row">
+    <div class="familiar" data-name="salem">
+      <div class="emoji">🐈‍⬛</div>
+      <div class="name">SALEM</div>
+      <div class="status">…</div>
+    </div>
+    <div class="familiar" data-name="hilda">
+      <div class="emoji">☕</div>
+      <div class="name">HILDA</div>
+      <div class="status">…</div>
+    </div>
+    <div class="familiar" data-name="zelda">
+      <div class="emoji">📖</div>
+      <div class="name">ZELDA</div>
+      <div class="status">…</div>
+    </div>
+    <div class="familiar" data-name="harvey">
+      <div class="emoji">🛠</div>
+      <div class="name">HARVEY</div>
+      <div class="status">…</div>
+    </div>
+  </section>
+
+  <section class="cards">
+    <div class="card">
+      <h2>💌 COVEN MAIL</h2>
+      <div id="mail-summary" class="big-number">0</div>
+      <div class="card-sub">unread messages</div>
+      <div id="mail-recent" class="recent"></div>
+    </div>
+
+    <div class="card">
+      <h2>🔮 ACTIVE SPELLS</h2>
+      <div id="active-sessions" class="big-number">—</div>
+      <div class="card-sub">sessions open across the coven</div>
+    </div>
+
+    <div class="card alert-card">
+      <h2>🔔 HOWLING HAT</h2>
+      <div id="alert-list">
+        <div class="all-clear">🌙 Westbridge calm</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span id="moon-phase">🌙</span>
+    <span class="footer-text">Spellman Manor · the linen closet is open</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

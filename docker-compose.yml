@@ -1,60 +1,110 @@
 name: spellman-manor
 
 services:
-  # 🔮 The Discovery of Magic — front-door dashboard
+  # 🔮 The Discovery of Magic — front door
   homepage:
     image: ghcr.io/gethomepage/homepage:latest
     container_name: discovery-of-magic
     restart: unless-stopped
-    ports:
-      - "3000:3000"
+    ports: ["3000:3000"]
     volumes:
       - ./homepage:/app/config
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       HOMEPAGE_ALLOWED_HOSTS: "*"
-      HILDA_HOST:  ${HILDA_HOST}
-      ZELDA_HOST:  ${ZELDA_HOST}
-      SALEM_HOST:  ${SALEM_HOST}
-      HARVEY_HOST: ${HARVEY_HOST}
-      HILDA_TOKEN:  ${HILDA_TOKEN}
-      ZELDA_TOKEN:  ${ZELDA_TOKEN}
-      SALEM_TOKEN:  ${SALEM_TOKEN}
-      HARVEY_TOKEN: ${HARVEY_TOKEN}
+      # Hosts (Tailscale IPs)
+      SPELLMAN_MANOR_IP:   ${SPELLMAN_MANOR_IP}
+      HARVEYS_WORKSHOP_IP: ${HARVEYS_WORKSHOP_IP}
+      ZELDAS_STUDY_IP:     ${ZELDAS_STUDY_IP}
+      # Familiar gateway ports + tokens
+      SALEM_GATEWAY_PORT:   ${SALEM_GATEWAY_PORT}
+      HILDA_GATEWAY_PORT:   ${HILDA_GATEWAY_PORT}
+      ZELDA_GATEWAY_PORT:   ${ZELDA_GATEWAY_PORT}
+      HARVEY_GATEWAY_PORT:  ${HARVEY_GATEWAY_PORT}
+      SALEM_GATEWAY_TOKEN:  ${SALEM_GATEWAY_TOKEN}
+      HILDA_GATEWAY_TOKEN:  ${HILDA_GATEWAY_TOKEN}
+      ZELDA_GATEWAY_TOKEN:  ${ZELDA_GATEWAY_TOKEN}
+      HARVEY_GATEWAY_TOKEN: ${HARVEY_GATEWAY_TOKEN}
 
-  # 💗 Vital Signs of the Coven — lightweight per-host monitoring
+  # 💌 Coven Mail Bridge — exposes Salem's inbox + a send proxy
+  coven-mail:
+    build: ./coven-mail-bridge
+    container_name: coven-mail
+    restart: unless-stopped
+    ports: ["18793:18793"]
+    volumes:
+      - ${COVEN_MAILBOX_DIR}:/mailbox:rw
+    environment:
+      MAILBOX_DIR: /mailbox
+      SALEM_HOST:  ${SPELLMAN_MANOR_IP}
+      HILDA_HOST:  ${SPELLMAN_MANOR_IP}
+      ZELDA_HOST:  ${ZELDAS_STUDY_IP}
+      HARVEY_HOST: ${HARVEYS_WORKSHOP_IP}
+      SALEM_GATEWAY_PORT:  ${SALEM_GATEWAY_PORT}
+      HILDA_GATEWAY_PORT:  ${HILDA_GATEWAY_PORT}
+      ZELDA_GATEWAY_PORT:  ${ZELDA_GATEWAY_PORT}
+      HARVEY_GATEWAY_PORT: ${HARVEY_GATEWAY_PORT}
+      SALEM_HOOK_TOKEN:  ${SALEM_HOOK_TOKEN}
+      HILDA_HOOK_TOKEN:  ${HILDA_HOOK_TOKEN}
+      ZELDA_HOOK_TOKEN:  ${ZELDA_HOOK_TOKEN}
+      HARVEY_HOOK_TOKEN: ${HARVEY_HOOK_TOKEN}
+      MAILBOX_PORT:  ${MAILBOX_PORT}
+      MAILBOX_TOKEN: ${MAILBOX_TOKEN}
+
+  # 🪞 The Magic Mirror — kiosk view for the Android TV
+  magic-mirror:
+    image: nginx:alpine
+    container_name: magic-mirror
+    restart: unless-stopped
+    ports: ["8080:80"]
+    volumes:
+      - ./magic-mirror:/usr/share/nginx/html:ro
+
+  # 💗 Vital Signs of the Coven — lightweight host monitoring
   beszel:
     image: henrygd/beszel:latest
     container_name: vital-signs
     restart: unless-stopped
-    ports:
-      - "8090:8090"
+    ports: ["8090:8090"]
     volumes:
       - ./beszel-data:/beszel_data
 
-  # 👁 The eye that watches — scrapes OpenClaw + Jetson metrics
+  # 👁 The Watcher — scrapes OpenClaw familiars over Tailscale
   prometheus:
     image: prom/prometheus:latest
     container_name: the-watcher
     restart: unless-stopped
-    ports:
-      - "9090:9090"
+    ports: ["9090:9090"]
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/alerts.yml:/etc/prometheus/alerts.yml:ro
       - ./prometheus/tokens:/etc/prometheus/tokens:ro
       - prometheus-data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
       - '--storage.tsdb.retention.time=30d'
+      - '--web.enable-lifecycle'
 
-  # 🌙 The scrying glass — Other Realm Surveillance + The Cast Log
+  # 🔔 Howling Hat Delivery — alert routing
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: howling-hat
+    restart: unless-stopped
+    ports: ["9093:9093"]
+    volumes:
+      - ./alertmanager/config.yml:/etc/alertmanager/alertmanager.yml:ro
+      - alertmanager-data:/alertmanager
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - '--storage.path=/alertmanager'
+
+  # 🌙 The Scrying Glass — Cast Log + Coven Atlas
   grafana:
     image: grafana/grafana:latest
     container_name: scrying-glass
     restart: unless-stopped
-    ports:
-      - "3001:3000"
+    ports: ["3001:3000"]
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
       - ./grafana/dashboards:/var/lib/grafana/dashboards
@@ -62,10 +112,10 @@ services:
     environment:
       GF_SECURITY_ADMIN_PASSWORD: admin
       GF_USERS_ALLOW_SIGN_UP: "false"
-      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/other-realm-surveillance.json
-      # Witchy dark theme
       GF_USERS_DEFAULT_THEME: dark
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/the-coven-atlas.json
 
 volumes:
   prometheus-data:
   grafana-data:
+  alertmanager-data:

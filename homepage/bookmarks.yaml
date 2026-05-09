@@ -5,6 +5,9 @@
     - OpenClaw docs:
         - abbr: 📖
           href: https://docs.openclaw.ai/
+    - Anthropic Console:
+        - abbr: 🤖
+          href: https://console.anthropic.com/
 
 - Around Westbridge:
     - Moon phase:
@@ -13,3 +16,6 @@
     - NOAA space weather:
         - abbr: ☀️
           href: https://www.swpc.noaa.gov/
+    - Spellman Manor docs:
+        - abbr: 📚
+          href: http://localhost:18793/

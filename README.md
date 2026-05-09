@@ -1,8 +1,9 @@
-# 🌙 The Discovery of Magic
+# 🌙 Spellman Manor — The Discovery of Magic
 
-A 90s celestial witchy dashboard for the Spellman household: 4 ClawBots
-(*hilda*, *zelda*, *salem*, *harvey*), three Macs, and an Android TV magic
-mirror — all reachable over Tailscale.
+A 90s celestial witchy dashboard for Sabrina Ryan's Spellman Manor setup —
+3 Macs running 4 OpenClaw familiars (*Salem*, *Hilda*, *Zelda*, *Harvey*)
+across Tailscale, with Coven Mail integration, themed alerts, peer
+debugging, and a TV kiosk view.
 
 > *"The book contains everything you need to know about being a witch."*
 
@@ -10,151 +11,149 @@ mirror — all reachable over Tailscale.
 
 ## The household
 
-| Host | Role | Hardware |
-|---|---|---|
-| **Spellman Manor** | The hub — runs the whole dashboard | Mac mini |
-| **Hilda** | ClawBot — chaos energy | Jetson Orin Nano |
-| **Zelda** | ClawBot — precise, cold | Jetson Orin Nano |
-| **Salem** | ClawBot — mischievous | Jetson Orin Nano |
-| **Harvey** | ClawBot — steady | Jetson Orin Nano |
-| **Drell** | Council muscle | Mac Pro |
-| **Sabrina** | The mortal-realm laptop | MacBook Pro |
-| **The Magic Mirror** | Scrying surface | Android TV |
-| **Other Realm** | Primary storage | SSD |
-| **Katrina** | Backups (keep your enemies close) | Backup drive |
+| Host | What it actually is | Tailnet IP | Familiars |
+|---|---|---|---|
+| **Spellman Manor** | Mac mini · always-on hub | `100.106.134.96` | Salem :18789 · Hilda :18790 |
+| **Harvey's Workshop** | Mac Pro | `100.79.115.101` | Harvey :18789 |
+| **Zelda's Study** | MacBook Pro | `100.112.73.96` | Zelda :18789 |
+| **The Magic Mirror** | Android TV (viewer only) | — | — |
+| **Other Realm** | Primary SSD | — | — |
+| **Katrina** | Backup drive | — | — |
+
+3 hosts, 4 familiars (Salem and Hilda share the mini because the Android TV
+can't run OpenClaw — see [`docs/03-architecture.md`](docs/03-architecture.md)).
 
 ---
 
 ## The stack
 
-- **Homepage** — themed front door, one tile per ClawBot with live OpenClaw stats
-- **Beszel** — *Vital Signs of the Coven*: lightweight CPU/RAM/disk per host
-- **Prometheus + Grafana** — *Other Realm Surveillance* (Jetson GPU/temps) and
-  *The Cast Log* (OpenClaw spells per second, latency, sessions)
+```
+🔮 The Discovery of Magic   Homepage              :3000   front door
+📜 The Spellbook            Coven Mail Bridge     :18793  mail UI + console
+🪞 The Magic Mirror         nginx (static)        :8080   TV kiosk
+💗 Vital Signs of the Coven Beszel                :8090   per-host monitoring
+👁 The Watcher              Prometheus            :9090   metrics scraper
+🔔 Howling Hat              Alertmanager          :9093   alert routing
+🌙 The Scrying Glass        Grafana               :3001   deep dashboards
+```
 
-Everything reached over the tailnet — nothing exposed to the mortal realm.
+Everything reaches over the tailnet — nothing exposed to the mortal realm.
 
 ---
 
-## Setup walkthrough
-
-### 1. On Spellman Manor (the Mac mini)
-
-**Install Docker Desktop.** Download from https://www.docker.com/products/docker-desktop/,
-double-click the `.dmg`, drag the whale to Applications, open it. The whale
-appears in your menu bar when it's awake.
-
-**Install Tailscale** if you haven't: https://tailscale.com/download
-
-**Get this folder onto Spellman Manor.** Either `git clone` it or copy.
-
-**Set your gateway tokens and tailnet hostnames:**
+## Quick start
 
 ```sh
-cp .env.example .env
-# edit .env — fill in real tokens and the tailnet names you see in `tailscale status`
+# 1. On Spellman Manor (the Mac mini):
+cp .env.example .env                              # then fill in real values
+echo -n "your-token" > prometheus/tokens/salem.token   # and the other 3
+./scripts/spellbook.sh up                         # starts everything
 ```
 
-For each ClawBot, drop its bearer token in `prometheus/tokens/` as a single
-line (no trailing newline):
+After ~30 seconds the script prints all the URLs.
 
 ```sh
-echo -n "your-hilda-token"  > prometheus/tokens/hilda.token
-echo -n "your-zelda-token"  > prometheus/tokens/zelda.token
-echo -n "your-salem-token"  > prometheus/tokens/salem.token
-echo -n "your-harvey-token" > prometheus/tokens/harvey.token
+# 2. On each other Mac (Mac Pro, MacBook Pro):
+./scripts/setup-familiar-host.sh spellman-manor.tailXXXX.ts.net
 ```
 
-**Open the linen closet** (start the stack):
+Full walkthrough: [`docs/02-setup.md`](docs/02-setup.md)
 
-```sh
-docker compose up -d
-```
+---
 
-Wait ~30 seconds, then visit:
+## What it does
 
-- 🔮 **The Discovery of Magic** (Homepage) — http://localhost:3000
-- 💗 **Vital Signs** (Beszel) — http://localhost:8090
-- 👁 **Other Realm Surveillance + Cast Log** (Grafana) — http://localhost:3001 *(login: admin / admin, change it)*
-- 🛠 **Prometheus** — http://localhost:9090 *(only for debugging)*
-
-### 2. On each ClawBot (hilda, zelda, salem, harvey)
-
-Confirm OpenClaw's Prometheus diagnostics plugin is enabled in the gateway
-config (`"diagnostics-prometheus": { "enabled": true }`), and grab the
-operator-scope bearer token.
-
-Then SSH in and install the Beszel agent + Jetson exporter:
-
-```sh
-# 1. Beszel agent (system stats)
-curl -fsSL https://raw.githubusercontent.com/henrygd/beszel/main/supplemental/scripts/install-agent.sh | bash
-# When prompted, enter:  http://spellman-manor.tailXXXX.ts.net:8090
-
-# 2. Jetson stats (GPU, temps, power) for the Other Realm Surveillance dashboard
-sudo pip3 install -U jetson-stats
-sudo systemctl enable --now jtop.service
-docker run -d --restart unless-stopped --name jetson-exporter \
-  --device /dev/i2c-0 --device /dev/i2c-1 -p 9100:9100 \
-  rbonghi/jetson_stats:prometheus-exporter
-```
-
-(If a ClawBot doesn't have Docker: `curl -fsSL https://get.docker.com | sh`.)
-
-### 3. Add each ClawBot in Beszel
-
-Open Vital Signs (http://spellman-manor.tailXXXX.ts.net:8090), click
-**Add System**, paste the public key the agent printed, and name them
-`hilda`, `zelda`, `salem`, `harvey`. Repeat for `drell` and `sabrina` if you
-want them in the coven view.
-
-### 4. On the Magic Mirror (Android TV)
-
-Install a browser (Brave / Firefox) from the Play Store. Bookmark
-`http://spellman-manor.tailXXXX.ts.net:3000`. Open it whenever you want to
-gaze into the Other Realm.
-
-### 5. Optional: clean URL via Tailscale Serve
-
-Skip the port numbers — get `https://spellman-manor.tailXXXX.ts.net`:
-
-```sh
-./scripts/tailscale-serve.sh
-```
+- **Live status per familiar** — model, tok/s, active sessions on each tile.
+- **Coven Mail UI** at `:18793/` — read history, send mail to one familiar,
+  broadcast to all, mark-as-read.
+- **Peer-debug primitives** — peer-ping, broadcast self-test, circuit
+  breakers (so a flaky familiar doesn't get hammered).
+- **Claude Code bridge** on each Mac — exposes `claude -p` over HTTP so any
+  familiar can borrow another Mac's Claude.
+- **Themed alerts** — *Salem's Napping*, *Backfired Spell*, *Time Ball
+  Slowdown*, *Howling Hat Delivery*, *Witch's License Revoked*. Every
+  alert mapped to a real Prometheus condition. See
+  [`docs/07-alerts.md`](docs/07-alerts.md).
+- **Magic Mirror** at `:8080` — TV-optimized view with big text and
+  pulsing indicators.
+- **Spellbook** at `:18793/` — full coven-mail archive with three tabs:
+  History, Send, Debug.
 
 ---
 
 ## Daily incantations
 
-A small helper script wraps the common Docker commands:
-
 ```sh
-./scripts/spellbook.sh up        # start everything
-./scripts/spellbook.sh down      # stop everything
-./scripts/spellbook.sh restart   # restart
-./scripts/spellbook.sh update    # pull new versions, restart
-./scripts/spellbook.sh logs      # tail logs
-./scripts/spellbook.sh status    # what's running
-./scripts/spellbook.sh peer      # health-check all 4 ClawBots
+./scripts/spellbook.sh up         # start everything
+./scripts/spellbook.sh down       # stop everything
+./scripts/spellbook.sh status     # what's running
+./scripts/spellbook.sh logs       # tail logs
+./scripts/spellbook.sh update     # pull new images, restart
+./scripts/spellbook.sh peer       # health-check all familiars
+./scripts/spellbook.sh broadcast "message"   # mail every familiar
+./scripts/spellbook.sh selftest   # ask each to respond with 'alive'
+```
+
+Or directly:
+```sh
+./scripts/coven-status.sh
+./scripts/coven-broadcast.sh --from sabrina "STATUS — please respond"
 ```
 
 ---
 
-## Customizing the magic
+## Documentation
 
-- **Theme/colors** → `homepage/custom.css` (the witchy CSS lives here)
-- **Tile layout** → `homepage/services.yaml`
-- **Widgets** (moon, weather, etc.) → `homepage/widgets.yaml`
-- **Add/remove a ClawBot from scraping** → `prometheus/prometheus.yml`
-- **Grafana dashboards** — `grafana/dashboards/*.json` are auto-imported
+Twelve focused docs in [`docs/`](docs/):
 
-## Troubleshooting
+- [`00-glossary.md`](docs/00-glossary.md) — terminology key
+- [`01-overview.md`](docs/01-overview.md) — what this whole thing is
+- [`02-setup.md`](docs/02-setup.md) — step-by-step install
+- [`03-architecture.md`](docs/03-architecture.md) — who lives where
+- [`04-troubleshooting.md`](docs/04-troubleshooting.md) — when things break
+- [`05-coven-mail.md`](docs/05-coven-mail.md) — mail + bridge API
+- [`06-claude-on-macs.md`](docs/06-claude-on-macs.md) — Claude integration
+- [`07-alerts.md`](docs/07-alerts.md) — what each themed alert means
+- [`08-customizing.md`](docs/08-customizing.md) — adding familiars, colors
+- [`09-debugging.md`](docs/09-debugging.md) — peer-debug primitives
+- [`10-magic-mirror.md`](docs/10-magic-mirror.md) — TV kiosk
+- [`11-upgrading.md`](docs/11-upgrading.md) — safe upgrades + rollback
 
-- *"Can't reach a ClawBot"* — `tailscale status` on Spellman Manor; make sure
-  the tailnet name in `.env` matches.
-- *"Prometheus shows a target as DOWN"* — token wrong, or diagnostics plugin
-  not enabled. Test:
-  `curl -H "Authorization: Bearer $TOKEN" http://hilda.tailXXXX.ts.net:18789/api/diagnostics/prometheus`
-- *"Beszel says agent offline"* — on the ClawBot: `systemctl status beszel-agent`.
-- *Tile widgets blank* — the OpenClaw `/api/diagnostics/summary` field names may
-  differ in your version; tweak `mappings:` in `homepage/services.yaml`.
+---
+
+## Repo layout
+
+```
+.env.example                          credentials template (copy to .env)
+docker-compose.yml                    the stack (one file runs everything)
+homepage/                             Homepage YAML config + custom.css theme
+coven-mail-bridge/                    custom Python service (no deps)
+magic-mirror/                         static HTML/CSS/JS for the TV
+prometheus/                           scrape config + themed alert rules
+alertmanager/                         alert routing
+grafana/                              auto-imported dashboards
+scripts/                              spellbook, broadcast, status, setup-host
+docs/                                 13 markdown files
+```
+
+---
+
+## Honest caveats
+
+- **OpenClaw metric names** in `prometheus/alerts.yml` and the Grafana
+  dashboards are educated guesses (`openclaw_gateway_requests_total`,
+  `openclaw_tokens_generated_total`, etc.). If your version exposes
+  different names, the panels show "no data" and alerts won't fire.
+  Find the real names with:
+  ```sh
+  curl -sH "Authorization: Bearer $TOKEN" http://salem-host:18789/api/diagnostics/prometheus | grep -v ^#
+  ```
+- **OpenClaw `/api/diagnostics/summary`** — assumed shape:
+  `{model, tokens_per_sec, active_sessions}`. Adjust mappings in
+  `homepage/services.yaml` if your version differs.
+- **First `docker compose up -d`** may surface tweaks. Most likely
+  fixes: token mismatch, wrong tailnet IP in `.env`, or
+  `COVEN_MAILBOX_DIR` not pointing at the right home folder.
+
+If a familiar shows offline on the dashboard but you can ping it directly,
+[`docs/04-troubleshooting.md`](docs/04-troubleshooting.md) has the runbook.
