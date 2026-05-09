@@ -1,0 +1,7 @@
+- Admin:
+    - Tailscale:
+        - abbr: TS
+          href: https://login.tailscale.com/admin/machines
+    - OpenClaw docs:
+        - abbr: OC
+          href: https://docs.openclaw.ai/

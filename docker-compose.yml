@@ -1,0 +1,62 @@
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./homepage:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      HOMEPAGE_ALLOWED_HOSTS: "*"
+      CLAWBOX_1_HOST: ${CLAWBOX_1_HOST}
+      CLAWBOX_2_HOST: ${CLAWBOX_2_HOST}
+      CLAWBOX_3_HOST: ${CLAWBOX_3_HOST}
+      CLAWBOX_4_HOST: ${CLAWBOX_4_HOST}
+      CLAWBOX_1_TOKEN: ${CLAWBOX_1_TOKEN}
+      CLAWBOX_2_TOKEN: ${CLAWBOX_2_TOKEN}
+      CLAWBOX_3_TOKEN: ${CLAWBOX_3_TOKEN}
+      CLAWBOX_4_TOKEN: ${CLAWBOX_4_TOKEN}
+
+  beszel:
+    image: henrygd/beszel:latest
+    container_name: beszel
+    restart: unless-stopped
+    ports:
+      - "8090:8090"
+    volumes:
+      - ./beszel-data:/beszel_data
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/tokens:/etc/prometheus/tokens:ro
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=30d'
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - grafana-data:/var/lib/grafana
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_USERS_ALLOW_SIGN_UP: "false"
+
+volumes:
+  prometheus-data:
+  grafana-data:

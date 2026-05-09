@@ -1,0 +1,3 @@
+# Place one file per ClawBox here, named clawbox-1.token, clawbox-2.token, etc.
+# Each file should contain ONLY the bearer token (no newline at the end).
+# This directory is gitignored.

@@ -1,0 +1,20 @@
+title: OpenClaw Control Center
+favicon: https://openclaw.ai/favicon.ico
+
+theme: dark
+color: slate
+
+layout:
+  ClawBoxes:
+    style: row
+    columns: 4
+  Monitoring:
+    style: row
+    columns: 2
+
+headerStyle: clean
+hideVersion: true
+
+quicklaunch:
+  searchDescriptions: true
+  hideInternetSearch: true

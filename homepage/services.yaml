@@ -1,0 +1,79 @@
+- ClawBoxes:
+    - ClawBox 1:
+        href: http://{{HOMEPAGE_VAR_CLAWBOX_1_HOST}}:18789
+        description: OpenClaw gateway
+        widget:
+          type: customapi
+          url: http://{{HOMEPAGE_VAR_CLAWBOX_1_HOST}}:18789/api/diagnostics/summary
+          headers:
+            Authorization: Bearer {{HOMEPAGE_VAR_CLAWBOX_1_TOKEN}}
+          mappings:
+            - field: model
+              label: Model
+            - field: tokens_per_sec
+              label: tok/s
+              format: float
+            - field: active_sessions
+              label: Sessions
+
+    - ClawBox 2:
+        href: http://{{HOMEPAGE_VAR_CLAWBOX_2_HOST}}:18789
+        description: OpenClaw gateway
+        widget:
+          type: customapi
+          url: http://{{HOMEPAGE_VAR_CLAWBOX_2_HOST}}:18789/api/diagnostics/summary
+          headers:
+            Authorization: Bearer {{HOMEPAGE_VAR_CLAWBOX_2_TOKEN}}
+          mappings:
+            - field: model
+              label: Model
+            - field: tokens_per_sec
+              label: tok/s
+              format: float
+            - field: active_sessions
+              label: Sessions
+
+    - ClawBox 3:
+        href: http://{{HOMEPAGE_VAR_CLAWBOX_3_HOST}}:18789
+        description: OpenClaw gateway
+        widget:
+          type: customapi
+          url: http://{{HOMEPAGE_VAR_CLAWBOX_3_HOST}}:18789/api/diagnostics/summary
+          headers:
+            Authorization: Bearer {{HOMEPAGE_VAR_CLAWBOX_3_TOKEN}}
+          mappings:
+            - field: model
+              label: Model
+            - field: tokens_per_sec
+              label: tok/s
+              format: float
+            - field: active_sessions
+              label: Sessions
+
+    - ClawBox 4:
+        href: http://{{HOMEPAGE_VAR_CLAWBOX_4_HOST}}:18789
+        description: OpenClaw gateway
+        widget:
+          type: customapi
+          url: http://{{HOMEPAGE_VAR_CLAWBOX_4_HOST}}:18789/api/diagnostics/summary
+          headers:
+            Authorization: Bearer {{HOMEPAGE_VAR_CLAWBOX_4_TOKEN}}
+          mappings:
+            - field: model
+              label: Model
+            - field: tokens_per_sec
+              label: tok/s
+              format: float
+            - field: active_sessions
+              label: Sessions
+
+- Monitoring:
+    - Beszel:
+        href: http://localhost:8090
+        description: System health across all hosts
+        icon: mdi-monitor-dashboard
+
+    - Grafana:
+        href: http://localhost:3001
+        description: Deep metrics — OpenClaw + Jetson
+        icon: grafana.png

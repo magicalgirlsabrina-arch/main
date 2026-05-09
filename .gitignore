@@ -1,0 +1,7 @@
+.env
+beszel-data/
+prometheus/tokens/*
+!prometheus/tokens/.gitkeep
+grafana-data/
+prometheus-data/
+.DS_Store

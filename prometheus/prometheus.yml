@@ -1,0 +1,58 @@
+global:
+  scrape_interval: 30s
+  evaluation_interval: 30s
+
+scrape_configs:
+  # OpenClaw gateway metrics — one job per ClawBox so we can use per-host bearer tokens.
+  - job_name: openclaw-clawbox-1
+    metrics_path: /api/diagnostics/prometheus
+    scheme: http
+    authorization:
+      type: Bearer
+      credentials_file: /etc/prometheus/tokens/clawbox-1.token
+    static_configs:
+      - targets: ['clawbox-1.tailXXXX.ts.net:18789']
+        labels: { host: clawbox-1 }
+
+  - job_name: openclaw-clawbox-2
+    metrics_path: /api/diagnostics/prometheus
+    scheme: http
+    authorization:
+      type: Bearer
+      credentials_file: /etc/prometheus/tokens/clawbox-2.token
+    static_configs:
+      - targets: ['clawbox-2.tailXXXX.ts.net:18789']
+        labels: { host: clawbox-2 }
+
+  - job_name: openclaw-clawbox-3
+    metrics_path: /api/diagnostics/prometheus
+    scheme: http
+    authorization:
+      type: Bearer
+      credentials_file: /etc/prometheus/tokens/clawbox-3.token
+    static_configs:
+      - targets: ['clawbox-3.tailXXXX.ts.net:18789']
+        labels: { host: clawbox-3 }
+
+  - job_name: openclaw-clawbox-4
+    metrics_path: /api/diagnostics/prometheus
+    scheme: http
+    authorization:
+      type: Bearer
+      credentials_file: /etc/prometheus/tokens/clawbox-4.token
+    static_configs:
+      - targets: ['clawbox-4.tailXXXX.ts.net:18789']
+        labels: { host: clawbox-4 }
+
+  # Jetson hardware metrics (GPU, temps, power) via jetson-stats exporter on port 9100.
+  - job_name: jetson-stats
+    static_configs:
+      - targets:
+          - 'clawbox-1.tailXXXX.ts.net:9100'
+          - 'clawbox-2.tailXXXX.ts.net:9100'
+          - 'clawbox-3.tailXXXX.ts.net:9100'
+          - 'clawbox-4.tailXXXX.ts.net:9100'
+
+  - job_name: prometheus
+    static_configs:
+      - targets: ['localhost:9090']
