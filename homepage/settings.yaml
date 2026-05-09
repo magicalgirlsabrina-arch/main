@@ -1,32 +1,30 @@
-title: The Discovery of Magic
-favicon: https://twemoji.maxcdn.com/v/latest/72x72/1f52e.png
+title: Spellman Manor
+favicon: https://twemoji.maxcdn.com/v/latest/72x72/1f319.png
 
+# Westbridge Dusk by default. Light mode = Westbridge Dawn (see custom.css).
 theme: dark
 color: slate
-cardBlur: md
+cardBlur: xl
 
-# Section order + columns. (Heavy theme work lives in custom.css.)
 layout:
   Sabrina's Console:
-    style: row
-    columns: 3
+    style: column
     icon: mdi-star-four-points
-  The Coven:
-    style: row
-    columns: 4
+  Coven:
+    style: column
     icon: mdi-cat
-  The Households:
-    style: row
-    columns: 3
+  Households:
+    style: column
     icon: mdi-home-group
-  The Other Realm:
-    style: row
-    columns: 4
+  Other Realm:
+    style: column
     icon: mdi-eye-outline
 
 headerStyle: clean
 hideVersion: true
 useEqualHeights: true
+fiveColumns: false
+disableCollapse: false
 
 quicklaunch:
   searchDescriptions: true

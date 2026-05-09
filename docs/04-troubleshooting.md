@@ -87,19 +87,29 @@ const BRIDGE_URL = 'http://spellman-manor.tailXXXX.ts.net:18793';
 
 Then `docker compose up -d magic-mirror` to reload nginx.
 
-## Homepage tiles say "no data" / show errors
+## Familiar tiles say "API Error Information"
 
-The widget is hitting an OpenClaw endpoint over the network. Check:
+The familiar tiles route through the bridge at `http://coven-mail:18793/api/familiar/{name}` — the bridge handles auth and falls back to `/health` if `/api/diagnostics/summary` is unavailable. So a tile error usually means:
 
-1. `.env` has the right `*_GATEWAY_TOKEN` and `*_HOST` values.
-2. The widget URL works from the Mac mini's terminal:
+1. **The bridge can't reach the familiar.** Test directly:
    ```sh
    curl -sH "Authorization: Bearer $SALEM_GATEWAY_TOKEN" \
-     http://$SPELLMAN_MANOR_IP:18789/api/diagnostics/summary
+     http://100.106.134.96:18789/api/diagnostics/summary
+   curl http://100.106.134.96:18789/health
    ```
-3. The fields (`model`, `tokens_per_sec`, `active_sessions`) actually exist
-   in the response. If the field names differ, edit `homepage/services.yaml`
-   `mappings:`.
+   If the second one works but the first doesn't, your gateway token is wrong or the diagnostics plugin isn't enabled — the tile will still show "alive" via the fallback, just without the model/tokens.
+
+2. **The bridge isn't running.** `docker compose ps coven-mail`. If down: `docker compose up -d coven-mail`.
+
+3. **Tailscale.** From the bridge container: `docker exec coven-mail wget -qO- http://100.106.134.96:18789/health`. If that times out, the bridge container can't see the tailnet — check Docker host networking.
+
+## Surveillance shows no cron / watchdog data
+
+That's expected on first boot — those are heartbeats, not scrapes. They only show up after a job/watchdog has actively reported in. See [`12-watchdog-cron.md`](12-watchdog-cron.md) to wire up your first one.
+
+## Upgrades panel slow / shows errors
+
+`/api/upgrades` hits Docker Hub + GitHub on first load, then caches for an hour. If it errors, GitHub is rate-limiting unauthenticated calls (60/hr per IP). Either wait an hour or set `GITHUB_TOKEN` in `.env` and pass it through to the bridge (currently not wired — easy add if you need it).
 
 ## Grafana shows "no data" in panels
 

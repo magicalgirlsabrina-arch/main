@@ -72,21 +72,27 @@ Full walkthrough: [`docs/02-setup.md`](docs/02-setup.md)
 
 ## What it does
 
-- **Live status per familiar** — model, tok/s, active sessions on each tile.
+- **Live status per familiar** — model, tok/s, active sessions on each tile,
+  served by the bridge so the dashboard never breaks if an OpenClaw
+  endpoint changes.
 - **Coven Mail UI** at `:18793/` — read history, send mail to one familiar,
   broadcast to all, mark-as-read.
 - **Peer-debug primitives** — peer-ping, broadcast self-test, circuit
   breakers (so a flaky familiar doesn't get hammered).
 - **Claude Code bridge** on each Mac — exposes `claude -p` over HTTP so any
   familiar can borrow another Mac's Claude.
+- **Surveillance** — live activity feed (mail · circuits · cron · watchdog),
+  per-job heartbeat tracking, available-upgrade scanner with auto-fetched
+  GitHub release notes + cheap "verdict" review (safe / recommended /
+  review / wait).
 - **Themed alerts** — *Salem's Napping*, *Backfired Spell*, *Time Ball
-  Slowdown*, *Howling Hat Delivery*, *Witch's License Revoked*. Every
-  alert mapped to a real Prometheus condition. See
-  [`docs/07-alerts.md`](docs/07-alerts.md).
+  Slowdown*, *Howling Hat Delivery*, *Witch's License Revoked*, *Cron Gone
+  Silent*, *Watchdog Stopped*. Every alert mapped to a real Prometheus
+  condition. See [`docs/07-alerts.md`](docs/07-alerts.md).
 - **Magic Mirror** at `:8080` — TV-optimized view with big text and
   pulsing indicators.
-- **Spellbook** at `:18793/` — full coven-mail archive with three tabs:
-  History, Send, Debug.
+- **Spellbook** at `:18793/` — coven-mail archive with four tabs:
+  History · Send · Debug · Surveillance.
 
 ---
 
@@ -127,6 +133,7 @@ Twelve focused docs in [`docs/`](docs/):
 - [`09-debugging.md`](docs/09-debugging.md) — peer-debug primitives
 - [`10-magic-mirror.md`](docs/10-magic-mirror.md) — TV kiosk
 - [`11-upgrading.md`](docs/11-upgrading.md) — safe upgrades + rollback
+- [`12-watchdog-cron.md`](docs/12-watchdog-cron.md) — heartbeat patterns for cron + watchdog
 
 ---
 

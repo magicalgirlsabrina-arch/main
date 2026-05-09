@@ -64,16 +64,37 @@ POST /api/broadcast
    → {"salem":"sent","hilda":"sent","zelda":"sent","harvey":"error: ..."}
 ```
 
+### Familiar status endpoints
+
+These power the Homepage tiles. Routing through the bridge lets the
+tiles survive any OpenClaw API change — only the bridge needs updating.
+
+```http
+GET /api/familiar/{name}      → {ok, model, tokens_per_sec, active_sessions, latency_ms}
+                                 Tries /api/diagnostics/summary then falls back to /health.
+GET /api/coven-summary        → all four familiars in one call
+GET /api/peer-ping            → quick /health roundtrip per peer
+GET /api/circuits             → circuit-breaker state per familiar
+```
+
+### Surveillance endpoints
+
+```http
+GET  /api/activity?limit=N    → live feed (mail received/sent, circuit events,
+                                 cron + watchdog heartbeats, send errors)
+GET  /api/cron                → list of cron jobs with their last heartbeat
+POST /api/cron/heartbeat      → cron jobs call this when they run
+GET  /api/watchdog            → list of watchdogs with their last heartbeat
+POST /api/watchdog/heartbeat  → watchdogs call this each cycle
+GET  /api/upgrades            → docker image upgrade availability + GitHub
+                                 release notes "review" (cached 1h)
+```
+
+See [`12-watchdog-cron.md`](12-watchdog-cron.md) for heartbeat payload shapes.
+
 ### Debug endpoints
 
 ```http
-GET /api/peer-ping
-   → calls each familiar's /health endpoint with a 5s timeout
-   → {"salem":{"ok":true,"latency_ms":12}, "hilda":{"ok":false,"error":"..."}}
-
-GET /api/circuits
-   → state, failure count, last success/failure timestamp per familiar
-
 POST /api/selftest
    → broadcasts "respond with 'alive'" to all familiars
    → useful before debugging — confirms hooks are working

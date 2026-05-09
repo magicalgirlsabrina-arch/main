@@ -70,6 +70,20 @@ A circuit breaker is open (3+ consecutive send failures).
 
 **What to do:** The bridge has stopped trying to send to that familiar. Once you fix the underlying issue, the circuit auto-recovers in 60s. Force-close manually: restart the bridge (`docker compose restart coven-mail`).
 
+## 🌙 Cron Gone Silent
+*`coven_cron_age_seconds > 25 * 3600` for 5m · severity: hex*
+
+A cron job hasn't checked in for over a day (one missed daily window).
+
+**What to do:** Either the script broke, the host slept past the schedule, or the heartbeat curl line is missing. Check the job manually: `crontab -l` on the host, then run the script by hand. See [`12-watchdog-cron.md`](12-watchdog-cron.md).
+
+## 🐺 Watchdog Stopped
+*`coven_watchdog_age_seconds > 600` for 2m · severity: backfire*
+
+A watchdog hasn't reported in 10 minutes (they're supposed to ping every minute).
+
+**What to do:** The watchdog itself crashed. Check its launchd status: `launchctl list | grep watchdog`. Tail its log. Restart with `launchctl kickstart`.
+
 ---
 
 ## Beszel-only alerts (configure in Beszel UI)

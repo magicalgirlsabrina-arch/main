@@ -72,3 +72,25 @@ small monospace font underneath. This page is the master key.
 | "The Linen Closet" | Tailscale tunnel / docker network |
 | "The Other Realm" | The metrics/observability layer |
 | "Westbridge calm" | All-systems-healthy state |
+| "Heartbeat" | A cron/watchdog `POST /api/{cron,watchdog}/heartbeat` |
+| "Stale" | A heartbeat that's older than the threshold (24h cron / 10m watchdog) |
+| "Verdict" | The bridge's cheap review of a release: safe / recommended / review / wait |
+
+## The palette: Westbridge Dusk + Dawn
+
+The dashboard is themed in two modes that share the show's celestial feel
+but lean into a more 2026 glassmorphism aesthetic.
+
+| Token | Westbridge Dusk (dark) | Westbridge Dawn (light) | Used for |
+|---|---|---|---|
+| `--ink` | `#0A0418` | `#FBF5F8` | page background |
+| `--rose` | `#E879A6` | `#A4476A` | primary accent (Sabrina pink, refined) |
+| `--violet` | `#9F8FE3` | `#6E5BA8` | secondary accent (lavender) |
+| `--gold` | `#F4D58D` | `#B8842D` | values / highlights |
+| `--mint` | `#7FE3CC` | `#3D8E76` | success / Salem's eyes |
+| `--ember` | `#FF7E73` | `#C8485E` | danger / open circuits |
+| `--text` | `#F5EFFF` | `#2A1535` | primary copy |
+
+Fonts: **Fraunces** (italic serif for titles), **Inter** (body),
+**JetBrains Mono** (technical subtitles), **Sacramento** (the personal
+greeting — "Welcome home, Sabrina" only).

@@ -1,27 +1,27 @@
-- The Linen Closet:
-    - Tailscale Admin:
-        - abbr: 🌐
-          href: https://login.tailscale.com/admin/machines
+- Linen Closet:
+    - Tailscale:
+        - href: https://login.tailscale.com/admin/machines
           description: tailnet machine list
-    - OpenClaw docs:
-        - abbr: 📖
-          href: https://docs.openclaw.ai/
-          description: openclaw upstream docs
-    - Anthropic Console:
-        - abbr: 🤖
-          href: https://console.anthropic.com/
-          description: claude api keys + usage
+          icon: tailscale.png
+    - OpenClaw:
+        - href: https://docs.openclaw.ai/
+          description: openclaw docs
+          icon: mdi-paw-#E879A6
+    - Anthropic:
+        - href: https://console.anthropic.com/
+          description: claude api · usage · keys
+          icon: mdi-creation-#9F8FE3
 
 - Around Westbridge:
     - Moon phase:
-        - abbr: 🌙
-          href: https://www.timeanddate.com/moon/phases/
+        - href: https://www.timeanddate.com/moon/phases/
           description: lunar calendar
-    - NOAA space weather:
-        - abbr: ☀️
-          href: https://www.swpc.noaa.gov/
-          description: solar / geomagnetic
-    - Spellman Manor docs:
-        - abbr: 📚
-          href: http://localhost:18793/
-          description: spellbook ui · localhost:18793
+          icon: mdi-moon-waning-crescent-#F4D58D
+    - Space weather:
+        - href: https://www.swpc.noaa.gov/
+          description: noaa solar · geomagnetic
+          icon: mdi-weather-night-#7FE3CC
+    - Spellbook docs:
+        - href: http://localhost:18793/
+          description: full mail archive · console
+          icon: mdi-book-open-blank-variant-#F4D58D

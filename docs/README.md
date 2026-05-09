@@ -13,6 +13,7 @@ For day-to-day:
 - [`07-alerts.md`](07-alerts.md) — what each themed alert means
 - [`09-debugging.md`](09-debugging.md) — peer debugging + workflows
 - [`10-magic-mirror.md`](10-magic-mirror.md) — the TV kiosk
+- [`12-watchdog-cron.md`](12-watchdog-cron.md) — wiring cron + watchdog heartbeats
 
 When something breaks:
 - [`04-troubleshooting.md`](04-troubleshooting.md)

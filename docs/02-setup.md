@@ -67,6 +67,11 @@ echo -n "your-zelda-operator-token"  > prometheus/tokens/zelda.token
 echo -n "your-harvey-operator-token" > prometheus/tokens/harvey.token
 ```
 
+> The same gateway tokens go in `.env` as `SALEM_GATEWAY_TOKEN` etc. —
+> the bridge uses them to fetch `/api/diagnostics/summary` for the
+> Homepage tiles. If you skip this step, the tiles still show alive/dead
+> via `/health` fallback; you just lose model/tok-s details.
+
 ## Step 5 — Start the stack
 
 ```sh

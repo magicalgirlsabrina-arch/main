@@ -1,15 +1,15 @@
 - greeting:
     text_size: 4xl
-    text: "✨ Welcome home, Sabrina ✨"
+    text: "Welcome home, Sabrina"
 
 - datetime:
-    text_size: xl
+    text_size: lg
     format:
       timeStyle: short
-      dateStyle: full
+      dateStyle: medium
 
 - resources:
     cpu: true
     memory: true
     disk: /
-    label: Spellman Manor
+    label: spellman-manor

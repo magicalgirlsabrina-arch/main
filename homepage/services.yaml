@@ -1,12 +1,13 @@
-# Each tile shows a themed name (big, fancy font) and a technical subtitle
-# (small monospace, dimmed lavender). The subtitle lives in `description:`
-# and is styled by .service-description in custom.css.
+# Familiar tiles route through the Coven Mail Bridge (`/api/familiar/{name}`)
+# so they get a consistent shape and survive OpenClaw API changes.
+# The themed name is the title; description = technical subtitle (monospaced,
+# dimmed lavender — see custom.css → .service-description).
 
 - Sabrina's Console:
     - Coven Mail:
         href: http://localhost:18793/
-        description: coven-mail-bridge · :18793 · spellbook ui
-        icon: mdi-mail-#ffd700
+        description: coven-mail-bridge · spellbook UI
+        icon: mdi-mail-#E879A6
         widget:
           type: customapi
           url: http://coven-mail:18793/api/unread-count
@@ -15,12 +16,12 @@
               label: Unread
               format: number
             - field: total
-              label: Total messages
+              label: Total
               format: number
 
     - Coven Status:
-        description: bridge /api/peer-ping · all 4 familiars
-        icon: mdi-heart-pulse-#ff1493
+        description: live peer-ping · all 4 familiars
+        icon: mdi-heart-pulse-#E879A6
         href: http://localhost:18793/#debug
         widget:
           type: customapi
@@ -39,21 +40,31 @@
               label: Harvey
               format: text
 
+    - Surveillance:
+        description: activity · cron · watchdog · upgrades
+        icon: mdi-radar-#9F8FE3
+        href: http://localhost:18793/#surveillance
+        widget:
+          type: customapi
+          url: http://coven-mail:18793/api/activity?limit=1
+          mappings:
+            - field: events.0.kind
+              label: Latest event
+              format: text
+
     - Howling Hat:
         href: http://localhost:9093
         description: alertmanager · :9093
-        icon: mdi-bell-ring-#ff6ec7
+        icon: mdi-bell-ring-#FF7E73
 
-- The Coven:
+- Coven:
     - Salem:
         href: http://{{HOMEPAGE_VAR_SPELLMAN_MANOR_IP}}:{{HOMEPAGE_VAR_SALEM_GATEWAY_PORT}}
         description: openclaw familiar · spellman-manor:18789
-        icon: mdi-cat-#ffd700
+        icon: mdi-cat-#F4D58D
         widget:
           type: customapi
-          url: http://{{HOMEPAGE_VAR_SPELLMAN_MANOR_IP}}:{{HOMEPAGE_VAR_SALEM_GATEWAY_PORT}}/api/diagnostics/summary
-          headers:
-            Authorization: Bearer {{HOMEPAGE_VAR_SALEM_GATEWAY_TOKEN}}
+          url: http://coven-mail:18793/api/familiar/salem
           mappings:
             - field: model
               label: Channelling
@@ -61,18 +72,16 @@
               label: tok/s
               format: float
             - field: active_sessions
-              label: Spells
+              label: Sessions
               format: number
 
     - Hilda:
         href: http://{{HOMEPAGE_VAR_SPELLMAN_MANOR_IP}}:{{HOMEPAGE_VAR_HILDA_GATEWAY_PORT}}
         description: openclaw familiar · spellman-manor:18790
-        icon: mdi-tea-outline-#ff6ec7
+        icon: mdi-tea-outline-#E879A6
         widget:
           type: customapi
-          url: http://{{HOMEPAGE_VAR_SPELLMAN_MANOR_IP}}:{{HOMEPAGE_VAR_HILDA_GATEWAY_PORT}}/api/diagnostics/summary
-          headers:
-            Authorization: Bearer {{HOMEPAGE_VAR_HILDA_GATEWAY_TOKEN}}
+          url: http://coven-mail:18793/api/familiar/hilda
           mappings:
             - field: model
               label: Channelling
@@ -80,18 +89,16 @@
               label: tok/s
               format: float
             - field: active_sessions
-              label: Spells
+              label: Sessions
               format: number
 
     - Zelda:
         href: http://{{HOMEPAGE_VAR_ZELDAS_STUDY_IP}}:{{HOMEPAGE_VAR_ZELDA_GATEWAY_PORT}}
         description: openclaw familiar · zeldas-study:18789
-        icon: mdi-book-open-page-variant-#b19cd9
+        icon: mdi-book-open-page-variant-#9F8FE3
         widget:
           type: customapi
-          url: http://{{HOMEPAGE_VAR_ZELDAS_STUDY_IP}}:{{HOMEPAGE_VAR_ZELDA_GATEWAY_PORT}}/api/diagnostics/summary
-          headers:
-            Authorization: Bearer {{HOMEPAGE_VAR_ZELDA_GATEWAY_TOKEN}}
+          url: http://coven-mail:18793/api/familiar/zelda
           mappings:
             - field: model
               label: Channelling
@@ -99,18 +106,16 @@
               label: tok/s
               format: float
             - field: active_sessions
-              label: Spells
+              label: Sessions
               format: number
 
     - Harvey:
         href: http://{{HOMEPAGE_VAR_HARVEYS_WORKSHOP_IP}}:{{HOMEPAGE_VAR_HARVEY_GATEWAY_PORT}}
         description: openclaw familiar · harveys-workshop:18789
-        icon: mdi-tools-#7ec4ff
+        icon: mdi-tools-#7FE3CC
         widget:
           type: customapi
-          url: http://{{HOMEPAGE_VAR_HARVEYS_WORKSHOP_IP}}:{{HOMEPAGE_VAR_HARVEY_GATEWAY_PORT}}/api/diagnostics/summary
-          headers:
-            Authorization: Bearer {{HOMEPAGE_VAR_HARVEY_GATEWAY_TOKEN}}
+          url: http://coven-mail:18793/api/familiar/harvey
           mappings:
             - field: model
               label: Channelling
@@ -118,40 +123,40 @@
               label: tok/s
               format: float
             - field: active_sessions
-              label: Spells
+              label: Sessions
               format: number
 
-- The Households:
+- Households:
     - Spellman Manor:
         description: mac mini · 100.106.134.96 · hub
-        icon: mdi-home-heart-#ff6ec7
+        icon: mdi-home-heart-#E879A6
         href: http://localhost:8090
 
     - Harvey's Workshop:
         description: mac pro · 100.79.115.101
-        icon: mdi-shield-crown-#7ec4ff
+        icon: mdi-shield-crown-#7FE3CC
 
     - Zelda's Study:
         description: macbook pro · 100.112.73.96
-        icon: mdi-laptop-#b19cd9
+        icon: mdi-laptop-#9F8FE3
 
-- The Other Realm:
+- Other Realm:
     - Vital Signs:
         href: http://localhost:8090
         description: beszel · :8090 · per-host monitoring
-        icon: mdi-heart-pulse-#ff1493
+        icon: mdi-heart-pulse-#E879A6
 
-    - The Scrying Glass:
+    - Scrying Glass:
         href: http://localhost:3001
-        description: grafana · :3001 · cast log + coven atlas
+        description: grafana · :3001
         icon: grafana.png
 
-    - The Magic Mirror:
+    - Magic Mirror:
         href: http://localhost:8080
         description: nginx static · :8080 · android tv kiosk
-        icon: mdi-television-shimmer-#b19cd9
+        icon: mdi-television-shimmer-#9F8FE3
 
-    - The Spellbook:
+    - Spellbook:
         href: http://localhost:18793/
-        description: coven-mail-bridge · :18793 · history + console
-        icon: mdi-book-open-blank-variant-#ffd700
+        description: coven-mail-bridge · :18793
+        icon: mdi-book-open-blank-variant-#F4D58D

@@ -124,6 +124,36 @@ groups:
             The bridge has stopped sending mail to {{ $labels.familiar }} after repeated
             failures. It will retry in 60s.
 
+  - name: heartbeats
+    interval: 30s
+    rules:
+      - alert: CronGoneSilent
+        # A cron job hasn't checked in for 25h (one missed daily window).
+        expr: coven_cron_age_seconds > 25 * 3600
+        for: 5m
+        labels:
+          severity: hex
+          theme: cron-stale
+        annotations:
+          summary: "🌙 cron job '{{ $labels.job }}' has gone silent"
+          description: |
+            Last heartbeat from {{ $labels.job }} was {{ $value }}s ago.
+            Either the job stopped running, the host is offline, or the
+            heartbeat curl is broken. See docs/12-watchdog-cron.md.
+
+      - alert: WatchdogStopped
+        # A watchdog hasn't checked in for 10 minutes.
+        expr: coven_watchdog_age_seconds > 600
+        for: 2m
+        labels:
+          severity: backfire
+          theme: watchdog-stale
+        annotations:
+          summary: "🐺 watchdog '{{ $labels.watchdog }}' stopped reporting"
+          description: |
+            Watchdogs are supposed to ping every minute. Silence usually
+            means the watchdog process itself crashed.
+
   # Reminder: Beszel covers per-host CPU/RAM/disk natively with built-in alerts.
   # Add those there (Settings → Alerts) using the themed names below:
   #   - HotFlashHex          (CPU > 90% for 10m)
