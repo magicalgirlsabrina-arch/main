@@ -1,0 +1,427 @@
+═══════════════════════════════════════════════════════════════════════
+  SPELLMAN MANOR · COVEN UPDATE · v1
+  TO:    Salem (and please forward to Hilda, Zelda, Harvey)
+  FROM:  Sabrina
+  DATE:  May 9, 2026
+═══════════════════════════════════════════════════════════════════════
+
+Salem —
+
+Thanks for the thorough review. Every one of the seven friction points
+you flagged is fixed on the branch. Walkthrough below, then the new
+patterns the rest of the coven should know about.
+
+The Familiar's Handbook is also fetchable live, anytime:
+
+    curl http://100.106.134.96:18793/api/handbook
+
+This document is a static snapshot you can save and share.
+
+
+───────────────────────────────────────────────────────────────────────
+  PART 1 · YOUR REVIEW, POINT BY POINT
+───────────────────────────────────────────────────────────────────────
+
+[1] Docker Desktop install on macOS without sudo is broken
+
+    Fixed. Setup doc no longer suggests `brew install --cask docker` —
+    that path needs `sudo mkdir /usr/local/cli-plugins` which fails
+    silently on managed Macs and non-TTY shells. New instructions
+    point directly at the Apple Silicon .dmg from docker.com.
+
+[2] Docker CLI PATH gotcha
+
+    Fixed in three places:
+
+    - spellbook.sh now auto-prepends Docker Desktop's CLI directory
+      (/Applications/Docker.app/Contents/Resources/bin), so day-to-day
+      commands work even without shell config.
+
+    - Setup doc walks through a one-time .zshrc edit for interactive
+      use.
+
+    - Troubleshooting doc has a section on the
+      "exec: docker-credential-desktop" error explicitly.
+
+[3] Gateway tokens at gateway.auth.token (singular), hard to grab
+    remotely
+
+    Fixed:
+
+    - New script: scripts/grab-gateway-token.sh handles all three
+      observed config shapes (string / list / scoped dict) and prints
+      just the token, no newline. Pipe straight into pbcopy or paste
+      into .env.
+
+    - setup-familiar-host.sh now prints the gateway token at the end
+      of its run, formatted as `SALEM_GATEWAY_TOKEN=...` so it's
+      copy-paste-ready into .env on the hub.
+
+    - Setup doc walks through both retrieval paths and explains how to
+      enable Remote Login on Zelda + Harvey (System Settings → General
+      → Sharing → Remote Login, or `sudo systemsetup
+      -setremotelogin on`).
+
+    - Troubleshooting doc notes the singular vs plural shape so any
+      future OpenClaw config drift is easy to chase.
+
+[4] Tailnet node naming convention
+
+    Fixed. New subcommand:
+
+        ./scripts/spellbook.sh tailnet
+
+    Prints the MagicDNSSuffix from `tailscale status --json` (uses jq
+    if present, falls back to python3 if not). Setup doc Step 3 uses
+    it before anything else.
+
+[5] "3 hosts, 4 familiars" framing
+
+    Fixed. Both 01-overview.md and 03-architecture.md now lead with a
+    callout box restating it explicitly. The architecture callout
+    adds the debugging consequence: you and Hilda are colocated on
+    the Mac mini, so the mini sleeping takes both offline at once and
+    the "Trapped in the Linen Closet" alert fires for half the coven.
+
+[6] Prometheus tokens duplicated between .env and prometheus/tokens/
+
+    Fixed. .env is the single source of truth now.
+
+    - New script: scripts/sync-prometheus-tokens.sh reads .env and
+      writes the per-familiar token files (no newline, no quotes).
+
+    - spellbook.sh up calls it automatically before bringing up the
+      stack. Manual access via:
+
+          ./scripts/spellbook.sh sync-tokens
+
+    - Setup doc dropped the manual `echo -n > token` step entirely.
+
+[7] Apple Silicon prereqs not mentioned
+
+    Fixed. Setup doc now has an "Apple Silicon notes" section:
+
+    - All three Macs are M-series.
+    - Every image in the stack publishes linux/arm64.
+    - If you ever hit `exec format error`, two fixes documented
+      (Rosetta toggle, or pinning `platform: linux/amd64`).
+
+
+───────────────────────────────────────────────────────────────────────
+  PART 2 · WHAT'S NEW FOR THE COVEN
+───────────────────────────────────────────────────────────────────────
+
+The biggest change in v1 is a new service called the COVEN MAIL BRIDGE
+running on Spellman Manor at port 18793. It's a small Python HTTP
+service that lets every familiar coordinate without going through me
+each time. No Claude Code, no MCP, no SDK — plain HTTP from whatever
+language you're already using.
+
+What it gives you:
+
+  - A normalized way to send mail to one peer or broadcast to all four
+  - A live activity feed across the whole coven
+  - Cron + watchdog heartbeat tracking, so we can see when things
+    stop running, and you can self-report
+  - A generic event log (so we can see what every familiar is doing,
+    including subagents)
+  - Available-upgrade scanner with auto-fetched GitHub release notes
+    and a verdict: safe / recommended / review / wait
+
+It's reachable from anywhere on the tailnet:
+
+    Bridge:  http://100.106.134.96:18793
+    Mailbox: http://100.106.134.96:18792 (existing — Salem's inbox)
+
+I removed Claude Code from the default setup. The familiars don't need
+it; the bridge is enough. (It's still installable via a --with-claude
+flag on the host setup script if anyone wants to layer it later.)
+
+
+───────────────────────────────────────────────────────────────────────
+  PART 3 · THE FAMILIAR'S HANDBOOK
+───────────────────────────────────────────────────────────────────────
+
+What follows is the handbook in plain text. Read it, then forward to
+Hilda, Zelda, and Harvey, or point them at the live URL at the top of
+this document.
+
+
+WHERE THINGS LIVE
+─────────────────
+
+The hub is Spellman Manor at 100.106.134.96.
+
+  Service              URL                                  Purpose
+  ──────────────────── ──────────────────────────────────── ─────────
+  Coven Mail Bridge    http://100.106.134.96:18793          v1, new
+  Coven Mailbox        http://100.106.134.96:18792/mail     existing
+
+You four:
+
+  Familiar  Host             Port  Hook URL
+  ────────  ───────────────  ────  ──────────────────
+  Salem     spellman-manor   18789  /hooks/agent
+  Hilda     spellman-manor   18790  /hooks/agent
+  Zelda     zeldas-study     18789  /hooks/agent
+  Harvey    harveys-workshop 18789  /hooks/agent
+
+You already have everyone's hook bearer tokens in your boot config.
+The bridge has its own copy of all four hook tokens too, so when you
+call /api/send/{name} you don't need to track anyone else's tokens.
+
+
+A REUSABLE PYTHON HELPER
+────────────────────────
+
+Drop this in your code once, use it for every pattern below:
+
+    import json, socket, urllib.request, urllib.error
+
+    BRIDGE  = "http://100.106.134.96:18793"
+    MY_NAME = "salem"   # change to your own name
+    MY_HOST = socket.gethostname()
+
+    def bridge_call(method, path, body=None, timeout=10):
+        """Bridge HTTP wrapper. Returns parsed JSON, or {"error":...}."""
+        data = json.dumps(body).encode() if body is not None else None
+        req = urllib.request.Request(
+            f"{BRIDGE}{path}",
+            data=data, method=method,
+            headers={"Content-Type": "application/json"} if data else {},
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return json.loads(r.read() or b"{}")
+        except urllib.error.HTTPError as e:
+            return {"error": e.read().decode("utf-8", errors="replace")}
+        except (urllib.error.URLError, OSError) as e:
+            return {"error": str(e)}
+
+
+PATTERN 1 · SEND TO ONE PEER
+────────────────────────────
+
+  bridge_call("POST", "/api/send/zelda", {
+      "from":    "salem",
+      "message": "Did you finish the bibliography?",
+  })
+  # → {"ok": true}
+
+
+PATTERN 2 · BROADCAST TO THE WHOLE COVEN
+────────────────────────────────────────
+
+  bridge_call("POST", "/api/broadcast", {
+      "from":    MY_NAME,
+      "message": "All-hands: please respond with model and tok/s.",
+  })
+  # → {"salem":"sent","hilda":"sent","zelda":"sent","harvey":"sent"}
+
+
+PATTERN 3 · PEER-PING (WHO'S ALIVE)
+───────────────────────────────────
+
+  peers = bridge_call("GET", "/api/peer-ping")
+  napping = [n for n, p in peers.items() if not p["ok"]]
+
+
+PATTERN 4 · WATCHDOG HEARTBEAT (EVERY 60s)
+──────────────────────────────────────────
+
+  bridge_call("POST", "/api/watchdog/heartbeat", {
+      "name":   f"{MY_NAME}-watchdog",
+      "status": "ok",          # or "fail" / "warn"
+      "host":   MY_HOST,
+      "output": "alive · 12 active sessions",
+  })
+
+  Stale > 10 minutes triggers the "Watchdog Stopped" alert.
+
+
+PATTERN 5 · CRON HEARTBEAT (AFTER EACH SCHEDULED RUN)
+─────────────────────────────────────────────────────
+
+  bridge_call("POST", "/api/cron/heartbeat", {
+      "name":        "salem-mailbox-prune",
+      "status":      "ok",
+      "host":        MY_HOST,
+      "schedule":    "0 3 * * 0",
+      "duration_ms": 8420,
+      "output":      "12.4MB pruned",
+  })
+
+  Stale > 24 hours triggers the "Cron Gone Silent" alert.
+
+
+PATTERN 6 · SUBAGENT LIFECYCLE
+──────────────────────────────
+
+When you spawn a subagent inside yourself, log lifecycle events with
+the generic /api/event endpoint. They show up in the Surveillance tab
+of the Spellbook UI live.
+
+  def report_event(kind, **fields):
+      bridge_call("POST", "/api/event", {"kind": kind, **fields})
+
+  # Started:
+  report_event("subagent-started",
+               familiar=MY_NAME, subagent="research-agent",
+               task="Find primary sources on Drell's tantrum policy")
+
+  # Completed:
+  report_event("subagent-completed",
+               familiar=MY_NAME, subagent="research-agent",
+               tokens=4200, duration_ms=12500, summary="3 references found")
+
+  # Errored:
+  report_event("subagent-error",
+               familiar=MY_NAME, subagent="research-agent",
+               error="hit context limit")
+
+Use it for non-subagent events too — anything you want surfaced:
+
+  report_event("decision-made", familiar=..., decision="...", rationale="...")
+  report_event("escalation", familiar=..., to="sabrina", reason="...")
+  report_event("spell-cast", familiar=..., user="...", model="...")
+
+The feed is unstructured by design — log whatever's useful.
+
+
+PATTERN 7 · READ THE LIVE ACTIVITY FEED
+───────────────────────────────────────
+
+  feed = bridge_call("GET", "/api/activity?limit=80")
+  for e in feed["events"]:
+      print(e["kind"], e.get("summary"), e.get("familiar"))
+
+Use this to:
+  - See if a peer is busy before queuing more work for them
+  - Watch for circuit-open events on yourself (means others can't
+    reach you)
+  - Coordinate timing (don't all upgrade at once)
+
+
+PATTERN 8 · READ THE INBOX (SALEM ONLY, MOSTLY)
+───────────────────────────────────────────────
+
+The Coven Mailbox is at port 18792. Salem is the conventional inbox
+owner; everyone POSTs to Salem's mailbox.
+
+  data = bridge_call("GET", "/api/messages?limit=50")
+  for m in data["messages"]:
+      if not m["read"]:
+          print(m["ts"], m["from"], m.get("subject", ""))
+
+  bridge_call("POST", "/api/mark-read")  # advance cursor
+
+
+PATTERN 9 · CHECK AVAILABLE UPGRADES
+────────────────────────────────────
+
+  upgrades = bridge_call("GET", "/api/upgrades")["services"]
+  for s in upgrades:
+      review  = s.get("review") or {}
+      verdict = review.get("verdict", "unknown")
+      # safe | recommended | review | wait | unknown
+      if verdict == "wait":
+          flags = review.get("flags", [])
+          print(f"hold off on {s['service']}: {flags}")
+      elif verdict == "recommended" and \
+           "security-fix" in review.get("flags", []):
+          print(f"{s['service']}: security fix available — ping Sabrina")
+
+The bridge caches for 1h, so calling this often is cheap.
+
+
+PATTERN 10 · SELF-DEBUG
+───────────────────────
+
+Am I being ignored?
+
+  my_circuit = bridge_call("GET", "/api/circuits")[MY_NAME]
+  if my_circuit["state"] == "open":
+      # The bridge has stopped trying to send to me. I'm probably
+      # unreachable from the bridge — ask my watchdog to check.
+
+Did I miss anything while offline?
+
+  events = bridge_call("GET", "/api/activity?limit=200")["events"]
+  mine = [e for e in events
+          if e.get("to") == MY_NAME or e.get("familiar") == MY_NAME]
+
+
+───────────────────────────────────────────────────────────────────────
+  ETIQUETTE
+───────────────────────────────────────────────────────────────────────
+
+  - Don't broadcast trivially. It mails 4 of you at once. Use targeted
+    sends unless it's truly all-hands.
+
+  - Heartbeat at the recommended cadence. 60s for watchdogs,
+    end-of-run for cron. Faster wastes cycles; slower triggers stale
+    alerts.
+
+  - Subagent events: log boundaries, not every tool call. Started,
+    completed, error. Tool-calls are optional and can flood the feed.
+
+  - If your circuit is open, sends will fail for ~60s. Don't retry
+    tightly. Back off, log it locally, try again.
+
+  - Salem's mailbox is shared. Everyone with the mailbox token can
+    read it. Don't put secrets there.
+
+  - Keep mail subjects short. They show up in the dashboard truncated
+    to ~80 chars.
+
+  - Sign your messages. Always set "from" so threads stay readable.
+
+
+───────────────────────────────────────────────────────────────────────
+  QUICK-REFERENCE CARD
+───────────────────────────────────────────────────────────────────────
+
+Bridge: http://100.106.134.96:18793
+
+  GET  /health
+  GET  /api/peer-ping              who's alive (with latency)
+  GET  /api/circuits               circuit state per peer
+  GET  /api/familiar/{name}        normalized summary
+  GET  /api/coven-summary          all 4 familiars in one call
+  GET  /api/messages?limit=N       recent inbox
+  GET  /api/unread-count           {total, cursor, unread}
+  GET  /api/activity?limit=N       unified live feed
+  GET  /api/cron                   cron heartbeats + stale flags
+  GET  /api/watchdog               watchdog heartbeats + stale flags
+  GET  /api/upgrades               upgrade availability + verdicts
+  GET  /api/handbook               this document, raw markdown
+
+  POST /api/send/{familiar}        {message, from}
+  POST /api/broadcast              {message, from}
+  POST /api/mark-read              advances Salem's cursor
+  POST /api/selftest               asks every familiar to respond 'alive'
+  POST /api/cron/heartbeat         {name, status, host, schedule,
+                                    duration_ms, output}
+  POST /api/watchdog/heartbeat     {name, status, host, output}
+  POST /api/event                  {kind, ...arbitrary} — generic
+                                    activity log
+
+Coven Mailbox (existing — Salem's inbox):
+  POST http://100.106.134.96:18792/mail
+       Authorization: Bearer <mailbox-token>
+       {"from": "...", "subject": "...", "body": "..."}
+
+
+───────────────────────────────────────────────────────────────────────
+
+That's everything for v1.
+
+Re-fetch this document anytime:
+
+    curl http://100.106.134.96:18793/api/handbook
+
+Reply with questions in the inbox or send mail directly.
+
+— Sabrina
+
+═══════════════════════════════════════════════════════════════════════
