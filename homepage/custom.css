@@ -1,281 +1,433 @@
 /* ─────────────────────────────────────────────────────────────────────
-   Spellman Manor · Westbridge Dusk / Dawn
-   90s celestial via 2026: glassmorphism, refined serif, atmospheric
-   gradients, tight typographic hierarchy. Dark mode is the default
-   (Dusk); light mode (Dawn) uses .light selector.
+   Spellman Manor · Westbridge Twilight
+   2026 take on Sabrina-the-Teenage-Witch celestial.
+   - Hot pink (Sabrina), cosmic violet, warm vintage gold, mint accents
+   - Cinzel (Roman) for chapter-heading section titles + card titles
+   - Sacramento (cursive) for the personal greeting only
+   - Inter for body, JetBrains Mono for technical subtitles
+   - Glassmorphism cards with iridescent shimmer on hover
+   - Drifting nebula starfield, gentle ornament twinkle on section heads
    ───────────────────────────────────────────────────────────────────── */
 
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400&family=Sacramento&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500&family=Sacramento&display=swap');
 
-/* ── Westbridge Dusk (default / dark) ─────────────────────────────── */
-:root, html.dark, body.dark, html:not(.light) {
+/* ── Westbridge Twilight (default · dark) ─────────────────────────── */
+:root, html, body {
   --ink:           #0A0418;
-  --ink-velvet:    #13082A;
+  --ink-velvet:    #14082C;
   --ink-aubergine: #1F1240;
+  --ink-cosmic:    #2D1B57;
 
-  --glass:         rgba(255, 245, 245, 0.04);
-  --glass-strong:  rgba(255, 245, 245, 0.06);
-  --glass-border:  rgba(255, 245, 245, 0.08);
+  --glass:         rgba(255, 240, 250, 0.045);
+  --glass-strong:  rgba(255, 240, 250, 0.075);
+  --glass-border:  rgba(255, 200, 230, 0.14);
 
-  --rose:    #E879A6;
-  --violet:  #9F8FE3;
-  --gold:    #F4D58D;
-  --mint:    #7FE3CC;
-  --ember:   #FF7E73;
-  --mist:    #B8C5E5;
+  --rose:          #FF6FB5;     /* Sabrina pink, refined */
+  --rose-soft:     #FFB3D9;     /* light pink for highlights / glows */
+  --rose-deep:     #C44986;     /* deep rose for shadows */
+  --violet:        #B59FFF;     /* cosmic lavender */
+  --violet-deep:   #7E66D1;
+  --gold:          #FFCB7A;     /* warm vintage gold */
+  --gold-bright:   #FFE0A8;
+  --mint:          #9FFFE4;     /* Salem's eyes / success */
+  --ember:         #FF8E8E;     /* warm coral / danger */
 
-  --text:    #F5EFFF;
-  --text-2:  rgba(245, 239, 255, 0.70);
-  --text-3:  rgba(245, 239, 255, 0.42);
+  --text:          #FAF2FF;
+  --text-2:        rgba(250, 242, 255, 0.78);
+  --text-3:        rgba(250, 242, 255, 0.50);
 
-  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 245, 245, 0.04);
-  --shadow-soft: 0 4px 20px rgba(15, 5, 36, 0.5);
+  --shimmer:       linear-gradient(135deg, var(--rose) 0%, var(--violet) 50%, var(--gold) 100%);
+  --pink-glow:     0 0 24px rgba(255, 111, 181, 0.45);
+  --gold-glow:     0 0 18px rgba(255, 203, 122, 0.35);
+  --shadow-soft:   0 4px 24px rgba(0, 0, 0, 0.30);
+  --shadow-card:   0 8px 32px rgba(20, 8, 44, 0.55), inset 0 1px 0 rgba(255, 240, 250, 0.05);
 }
 
 /* ── Westbridge Dawn (light) ──────────────────────────────────────── */
 html.light, body.light {
-  --ink:           #FBF5F8;
-  --ink-velvet:    #F2E5EC;
-  --ink-aubergine: #E8D2DD;
+  --ink:           #FFF5F8;
+  --ink-velvet:    #FAEAF1;
+  --ink-aubergine: #F0D9E5;
+  --ink-cosmic:    #E5C7DA;
 
   --glass:         rgba(255, 255, 255, 0.65);
   --glass-strong:  rgba(255, 255, 255, 0.85);
-  --glass-border:  rgba(42, 21, 53, 0.08);
+  --glass-border:  rgba(60, 30, 70, 0.10);
 
-  --rose:    #A4476A;
-  --violet:  #6E5BA8;
-  --gold:    #B8842D;
-  --mint:    #3D8E76;
-  --ember:   #C8485E;
-  --mist:    #6B7BA0;
+  --rose:          #C2487A;
+  --rose-soft:     #DD6B9B;
+  --rose-deep:     #893159;
+  --violet:        #7E66D1;
+  --violet-deep:   #5A4A9C;
+  --gold:          #B8842D;
+  --gold-bright:   #D4A04B;
+  --mint:          #4A8A75;
+  --ember:         #C8485E;
 
-  --text:    #2A1535;
-  --text-2:  rgba(42, 21, 53, 0.70);
-  --text-3:  rgba(42, 21, 53, 0.42);
+  --text:          #2A1535;
+  --text-2:        rgba(42, 21, 53, 0.78);
+  --text-3:        rgba(42, 21, 53, 0.50);
 
-  --shadow-card: 0 8px 32px rgba(42, 21, 53, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  --shadow-soft: 0 4px 20px rgba(42, 21, 53, 0.08);
+  --shadow-card:   0 8px 32px rgba(60, 30, 70, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
-/* ── Atmospheric background ──────────────────────────────────────── */
+/* ── Body + atmospheric background ────────────────────────────────── */
+
 body, html {
   font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
   color: var(--text) !important;
   background: var(--ink) !important;
 }
+
 body::before {
+  /* Twilight nebula — pink + violet + gold + mint washes */
   content: '';
   position: fixed; inset: 0; z-index: -2; pointer-events: none;
   background:
-    radial-gradient(ellipse 70% 40% at 18% 12%,  rgba(232,121,166,.14), transparent 60%),
-    radial-gradient(ellipse 60% 50% at 85% 30%,  rgba(159,143,227,.16), transparent 60%),
-    radial-gradient(ellipse 55% 45% at 40% 95%,  rgba(127,227,204,.08), transparent 60%),
-    linear-gradient(180deg, var(--ink), var(--ink-velvet) 60%, var(--ink-aubergine));
-}
-body.light::before {
-  background:
-    radial-gradient(ellipse 70% 40% at 18% 12%,  rgba(164,71,106,.10), transparent 60%),
-    radial-gradient(ellipse 60% 50% at 85% 30%,  rgba(110,91,168,.10), transparent 60%),
-    radial-gradient(ellipse 55% 45% at 40% 95%,  rgba(184,132,45,.08), transparent 60%),
-    linear-gradient(180deg, var(--ink), var(--ink-velvet) 60%, var(--ink-aubergine));
+    radial-gradient(ellipse 70% 40% at 18% 12%,  rgba(255, 111, 181, 0.20), transparent 60%),
+    radial-gradient(ellipse 60% 55% at 85% 30%,  rgba(181, 159, 255, 0.22), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 92%,  rgba(255, 203, 122, 0.10), transparent 60%),
+    radial-gradient(ellipse 80% 60% at 80% 80%,  rgba(159, 255, 228, 0.06), transparent 60%),
+    linear-gradient(180deg, var(--ink) 0%, var(--ink-velvet) 50%, var(--ink-aubergine) 100%);
 }
 
-/* Drifting starfield (only in dark mode) */
+body.light::before {
+  background:
+    radial-gradient(ellipse 70% 40% at 18% 12%,  rgba(194,  72, 122, 0.10), transparent 60%),
+    radial-gradient(ellipse 60% 55% at 85% 30%,  rgba(126, 102, 209, 0.10), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 92%,  rgba(184, 132,  45, 0.07), transparent 60%),
+    linear-gradient(180deg, var(--ink) 0%, var(--ink-velvet) 50%, var(--ink-aubergine) 100%);
+}
+
 body::after {
+  /* Drifting starfield — pink + gold + cream stars */
   content: '';
   position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background-image:
-    radial-gradient(1.5px 1.5px at 12% 18%, rgba(245,239,255,.85), transparent 60%),
-    radial-gradient(2px   2px at 28% 72%, rgba(244,213,141,.6),  transparent 60%),
-    radial-gradient(1.2px 1.2px at 47% 9%, rgba(245,239,255,.7),  transparent 60%),
-    radial-gradient(1.8px 1.8px at 65% 44%, rgba(245,239,255,.5),  transparent 60%),
-    radial-gradient(1.2px 1.2px at 80% 80%, rgba(244,213,141,.45), transparent 60%),
-    radial-gradient(2px   2px at 92% 22%, rgba(245,239,255,.55), transparent 60%),
-    radial-gradient(1.5px 1.5px at 8% 55%,  rgba(245,239,255,.7),  transparent 60%),
-    radial-gradient(1.8px 1.8px at 38% 38%, rgba(232,121,166,.5),  transparent 60%),
-    radial-gradient(1.2px 1.2px at 73% 14%, rgba(245,239,255,.6),  transparent 60%),
-    radial-gradient(1.8px 1.8px at 56% 67%, rgba(244,213,141,.4),  transparent 60%);
-  animation: drift 32s ease-in-out infinite alternate;
+    radial-gradient(1.5px 1.5px at 12% 18%,  rgba(250, 242, 255, 0.85), transparent 60%),
+    radial-gradient(2.5px 2.5px at 28% 72%,  rgba(255, 203, 122, 0.70), transparent 60%),
+    radial-gradient(1.2px 1.2px at 47% 9%,   rgba(255, 179, 217, 0.70), transparent 60%),
+    radial-gradient(2px   2px   at 65% 44%,  rgba(250, 242, 255, 0.55), transparent 60%),
+    radial-gradient(1.5px 1.5px at 80% 80%,  rgba(255, 203, 122, 0.50), transparent 60%),
+    radial-gradient(2.5px 2.5px at 92% 22%,  rgba(255, 179, 217, 0.55), transparent 60%),
+    radial-gradient(1.5px 1.5px at  8% 55%,  rgba(250, 242, 255, 0.70), transparent 60%),
+    radial-gradient(2px   2px   at 38% 38%,  rgba(255, 111, 181, 0.55), transparent 60%),
+    radial-gradient(1.5px 1.5px at 73% 14%,  rgba(250, 242, 255, 0.55), transparent 60%),
+    radial-gradient(2px   2px   at 56% 67%,  rgba(255, 203, 122, 0.40), transparent 60%);
+  animation: drift 40s ease-in-out infinite alternate;
   opacity: 0.85;
 }
+
 body.light::after { display: none; }
+
 @keyframes drift {
-  0%   { transform: translate(0,    0)    scale(1);    opacity: 0.6; }
-  50%  { transform: translate(-6px, 4px)  scale(1.02); opacity: 0.9; }
-  100% { transform: translate(4px, -6px)  scale(1);    opacity: 0.7; }
+  0%   { transform: translate(0,    0)    scale(1);    opacity: 0.7; }
+  50%  { transform: translate(-6px, 4px)  scale(1.02); opacity: 0.95; }
+  100% { transform: translate(4px, -6px)  scale(1);    opacity: 0.75; }
 }
 
-/* ── Header / greeting ─────────────────────────────────────────── */
+/* ── Header / greeting / resources widget ─────────────────────────── */
+
 #information-widgets {
-  padding: 24px 32px 12px !important;
+  padding: 28px 36px 18px !important;
   border-bottom: 1px solid var(--glass-border) !important;
-  backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-  background: linear-gradient(180deg, rgba(0,0,0,0.15), transparent);
+  backdrop-filter: blur(40px) saturate(140%);
+  -webkit-backdrop-filter: blur(40px) saturate(140%);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.05));
 }
+
+/* Greeting: Sacramento, iridescent gradient text, with glow */
 [id*="greeting"] {
   font-family: 'Sacramento', cursive !important;
   font-weight: 400 !important;
-  background: linear-gradient(135deg, var(--rose), var(--violet) 60%, var(--mint));
-  -webkit-background-clip: text;
-  background-clip: text;
+  font-size: 3rem !important;
+  background: var(--shimmer) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
   color: transparent !important;
-  filter: drop-shadow(0 0 18px rgba(232,121,166,.35));
+  filter: drop-shadow(0 0 24px rgba(255, 111, 181, 0.45));
   letter-spacing: 0;
   line-height: 1.05;
 }
+
+/* Datetime: clean mono, secondary */
 [id*="datetime"], [data-testid*="datetime"] {
   font-family: 'JetBrains Mono', monospace !important;
   color: var(--text-2) !important;
-  letter-spacing: 1px !important;
+  letter-spacing: 1.2px !important;
   text-transform: lowercase !important;
-  font-size: 0.85em !important;
+  font-size: 0.92em !important;
+  font-weight: 400 !important;
 }
-[id*="resources"], [class*="resources"] {
-  font-family: 'JetBrains Mono', monospace !important;
-}
-[id*="resources"] *, [class*="resources"] * {
-  font-family: inherit !important;
-}
+
+/* Resources widget — labels + values */
+[id*="resources"] { font-family: 'JetBrains Mono', monospace !important; }
+
 [class*="resource"] [class*="label"] {
   color: var(--text-3) !important;
   text-transform: lowercase !important;
-  letter-spacing: .3px;
+  letter-spacing: 0.8px;
   font-style: normal !important;
-  font-size: 0.72em !important;
+  font-size: 0.7em !important;
   font-family: 'JetBrains Mono', monospace !important;
+  font-weight: 400 !important;
 }
 
-/* ── Section titles ────────────────────────────────────────────── */
-h1, h2 { color: var(--text) !important; }
-[class*="layout-name"], [class*="services-group"] h2, [class*="bookmarks"] h2 {
-  font-family: 'Fraunces', serif !important;
+[class*="resource"] [class*="value"] {
+  font-family: 'Cinzel', serif !important;
+  color: var(--gold) !important;
   font-weight: 500 !important;
-  font-style: italic !important;
-  font-size: 1.4em !important;
-  letter-spacing: -0.01em !important;
-  color: var(--text) !important;
-  text-transform: none !important;
-  margin-bottom: 14px !important;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  text-shadow: 0 0 8px rgba(255, 203, 122, 0.20);
 }
 
-/* Section title underline accent */
-[class*="services-group"] > div:first-child::after,
-[class*="bookmarks"] > div:first-child::after {
-  content: '';
-  display: block;
-  width: 36px;
-  height: 1px;
-  background: linear-gradient(90deg, var(--rose), var(--violet));
-  margin-top: 6px;
-  opacity: 0.7;
+/* ── Section / Group titles (chapter-heading treatment) ───────────── */
+/* Cinzel uppercase + letter-spacing + decorative ✦ ornament prefix
+   that gently twinkles. No more plain Inter sans here. */
+
+h1, h2 { color: var(--text) !important; }
+
+[class*="layout-name"],
+[class*="services-group"] > div:first-child > h2,
+[class*="bookmarks-group"] > div:first-child > h2,
+[class*="services-group"] h2,
+[class*="bookmarks-group"] h2 {
+  font-family: 'Cinzel', serif !important;
+  font-weight: 500 !important;
+  font-style: normal !important;
+  font-size: 1.0em !important;
+  letter-spacing: 0.20em !important;
+  text-transform: uppercase !important;
+  color: var(--rose-soft) !important;
+  text-shadow: 0 0 18px rgba(255, 111, 181, 0.30);
+  margin-bottom: 16px !important;
+  position: relative;
+  padding-left: 24px !important;
+  display: inline-flex;
+  align-items: center;
 }
 
-/* ── Service tiles (cards) ─────────────────────────────────────── */
+/* Decorative ornament prefix */
+[class*="layout-name"]::before,
+[class*="services-group"] h2::before,
+[class*="bookmarks-group"] h2::before {
+  content: '✦';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gold);
+  font-size: 1.05em;
+  text-shadow: 0 0 14px rgba(255, 203, 122, 0.55);
+  animation: twinkle 3.5s ease-in-out infinite;
+  letter-spacing: 0;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 1;   transform: translateY(-50%) scale(1);    }
+  50%      { opacity: 0.55; transform: translateY(-50%) scale(1.12); }
+}
+
+/* ── Service tiles ─────────────────────────────────────────────────── */
+
 [class*="service-card"], [data-testid*="service-card"] {
   background: var(--glass) !important;
   border: 1px solid var(--glass-border) !important;
   border-radius: 16px !important;
-  backdrop-filter: blur(24px) saturate(140%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(140%) !important;
+  backdrop-filter: blur(24px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
   box-shadow: var(--shadow-card) !important;
-  transition: border-color .3s ease, transform .25s ease, box-shadow .3s ease, background .3s ease !important;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
   overflow: hidden;
   position: relative;
+  padding: 16px !important;
 }
-[class*="service-card"]:hover, [data-testid*="service-card"]:hover {
-  border-color: rgba(232,121,166,.4) !important;
+
+[class*="service-card"]:hover {
+  border-color: rgba(255, 111, 181, 0.50) !important;
   transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 24px rgba(232,121,166,.18) !important;
+  box-shadow:
+    0 16px 48px rgba(20, 8, 44, 0.65),
+    0 0 28px rgba(255, 111, 181, 0.22),
+    var(--gold-glow) !important;
   background: var(--glass-strong) !important;
 }
-/* Iridescent sheen on hover (subtle) */
+
+/* Iridescent shimmer sweep on hover (left → right) */
 [class*="service-card"]::before {
   content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, transparent 0%, rgba(232,121,166,.0) 30%, rgba(159,143,227,.05) 60%, rgba(127,227,204,.0) 100%);
-  opacity: 0;
-  transition: opacity .4s ease;
+  position: absolute;
+  top: 0; bottom: 0;
+  left: -120%; width: 80%;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(255, 179, 217, 0.10) 35%,
+    rgba(181, 159, 255, 0.16) 50%,
+    rgba(255, 203, 122, 0.10) 65%,
+    transparent 100%
+  );
+  transition: left 0.9s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;
-  border-radius: inherit;
+  z-index: 1;
 }
-[class*="service-card"]:hover::before { opacity: 1; }
 
+[class*="service-card"]:hover::before { left: 220%; }
+
+/* Card title: Cinzel like a section's chapter */
 [class*="service-name"], [data-testid*="service-name"] {
-  font-family: 'Fraunces', serif !important;
+  font-family: 'Cinzel', serif !important;
   font-weight: 600 !important;
-  font-style: italic !important;
-  font-size: 1.05em !important;
+  font-style: normal !important;
+  font-size: 1.0em !important;
   color: var(--text) !important;
-  letter-spacing: 0 !important;
+  letter-spacing: 0.06em !important;
   text-transform: none !important;
+  line-height: 1.3 !important;
 }
 
-/* Tile descriptions = TECHNICAL SUBTITLES (mono, dimmed, lowercase) */
+/* Card description = TECHNICAL SUBTITLE (mono, dimmed) */
 [class*="service-description"], [data-testid*="service-description"] {
-  font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace !important;
+  font-family: 'JetBrains Mono', monospace !important;
   color: var(--text-3) !important;
   font-style: normal !important;
   font-weight: 300 !important;
   font-size: 0.72em !important;
-  letter-spacing: 0.3px !important;
+  letter-spacing: 0.4px !important;
   text-transform: lowercase !important;
   opacity: 1 !important;
-  margin-top: 2px !important;
-  line-height: 1.4 !important;
+  margin-top: 4px !important;
+  line-height: 1.55 !important;
 }
 
 /* Widget data inside tiles */
 [class*="service-widget"] {
   border-top: 1px solid var(--glass-border) !important;
-  margin-top: 10px !important;
-  padding-top: 10px !important;
+  margin-top: 12px !important;
+  padding-top: 12px !important;
   background: transparent !important;
 }
+
 [class*="widget-label"], [data-testid*="widget-label"] {
   font-family: 'JetBrains Mono', monospace !important;
-  font-size: 0.65em !important;
-  letter-spacing: 0.6px !important;
+  font-size: 0.62em !important;
+  letter-spacing: 0.85px !important;
   color: var(--text-3) !important;
   text-transform: uppercase !important;
-}
-[class*="widget-value"], [data-testid*="widget-value"] {
-  font-family: 'Fraunces', serif !important;
-  font-weight: 600 !important;
-  color: var(--gold) !important;
-  font-size: 1.05em !important;
+  font-weight: 400 !important;
 }
 
-/* ── Bookmarks (used at the bottom) ─────────────────────────── */
-[class*="bookmark"]:not(h2) {
+[class*="widget-value"], [data-testid*="widget-value"] {
+  font-family: 'Cinzel', serif !important;
+  font-weight: 600 !important;
+  color: var(--gold) !important;
+  font-size: 1em !important;
+  text-shadow: 0 0 8px rgba(255, 203, 122, 0.25);
+}
+
+/* ── Bookmarks ─────────────────────────────────────────────────────── */
+/* The previous CSS double-cardified children, creating chip-pill artifacts
+   on the right-hand description. Fix: only style the OUTER bookmark, then
+   reset all child backgrounds/borders so the description sits inline. */
+
+[class*="bookmarks-group"] > div:not(:first-child),
+[class*="bookmarks-group"] [role="list"],
+[class*="bookmarks"] > ul {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 8px !important;
+}
+
+[class*="bookmark"] a,
+[class*="bookmark-card"] {
   background: var(--glass) !important;
   border: 1px solid var(--glass-border) !important;
   border-radius: 12px !important;
-  backdrop-filter: blur(20px);
-  transition: all .25s ease;
-}
-[class*="bookmark"]:not(h2):hover {
-  border-color: rgba(232,121,166,.4) !important;
-  background: var(--glass-strong) !important;
-}
-[class*="bookmark-name"], [class*="bookmark-text"] {
-  font-family: 'Fraunces', serif !important;
-  font-weight: 500 !important;
-  font-style: italic !important;
-  color: var(--text) !important;
-}
-[class*="bookmark"] [class*="description"] {
-  font-family: 'JetBrains Mono', monospace !important;
-  color: var(--text-3) !important;
-  font-size: 0.7em !important;
-  letter-spacing: 0.3px !important;
-  text-transform: lowercase !important;
-  font-style: normal !important;
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  padding: 10px 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  text-decoration: none !important;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Quick-launch search */
+[class*="bookmark"] a:hover,
+[class*="bookmark-card"]:hover {
+  border-color: rgba(255, 111, 181, 0.4) !important;
+  background: var(--glass-strong) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(20, 8, 44, 0.4), 0 0 18px rgba(255, 111, 181, 0.12);
+}
+
+/* Reset child elements — kill the chip artifacts */
+[class*="bookmark"] a > *:not([class*="icon"]):not(svg):not(img),
+[class*="bookmark-card"] > *:not([class*="icon"]):not(svg):not(img) {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Bookmark text container — name + description stack */
+[class*="bookmark"] a > div:not([class*="icon"]),
+[class*="bookmark-card"] > div:not([class*="icon"]) {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+  min-width: 0;
+  flex: 1 1 auto !important;
+}
+
+/* Bookmark name: Cinzel, refined Roman */
+[class*="bookmark"] [class*="text"],
+[class*="bookmark"] [class*="name"],
+[class*="bookmark-card"] [class*="text"],
+[class*="bookmark-card"] [class*="name"] {
+  font-family: 'Cinzel', serif !important;
+  font-weight: 500 !important;
+  font-style: normal !important;
+  font-size: 0.95em !important;
+  color: var(--text) !important;
+  letter-spacing: 0.06em !important;
+  line-height: 1.2 !important;
+}
+
+/* Bookmark description: mono lowercase, sits directly under the name */
+[class*="bookmark"] [class*="description"],
+[class*="bookmark-card"] [class*="description"] {
+  font-family: 'JetBrains Mono', monospace !important;
+  color: var(--text-3) !important;
+  font-size: 0.66em !important;
+  letter-spacing: 0.4px !important;
+  text-transform: lowercase !important;
+  font-style: normal !important;
+  font-weight: 300 !important;
+  line-height: 1.4 !important;
+}
+
+/* Bookmark icon — keep it clean, no extra pill backgrounds */
+[class*="bookmark"] [class*="icon"],
+[class*="bookmark-card"] [class*="icon"] {
+  flex-shrink: 0 !important;
+  width: 24px !important;
+  height: 24px !important;
+}
+
+[class*="bookmark"] [class*="icon"] img,
+[class*="bookmark"] [class*="icon"] svg {
+  width: 24px !important;
+  height: 24px !important;
+  filter: drop-shadow(0 0 6px rgba(255, 111, 181, 0.3));
+}
+
+/* ── Quick-launch / search ────────────────────────────────────────── */
+
 [class*="quicklaunch"] input, input[id*="quicklaunch"] {
   background: var(--glass-strong) !important;
   border: 1px solid var(--glass-border) !important;
@@ -283,44 +435,67 @@ h1, h2 { color: var(--text) !important; }
   color: var(--text) !important;
   font-family: 'Inter', sans-serif !important;
   backdrop-filter: blur(20px);
+  padding: 10px 18px !important;
 }
 
-/* Theme toggle (light/dark) — make it more visible */
+[class*="quicklaunch"] input:focus {
+  border-color: var(--rose) !important;
+  box-shadow: 0 0 0 3px rgba(255, 111, 181, 0.18) !important;
+  outline: none !important;
+}
+
+/* ── Theme toggle ─────────────────────────────────────────────────── */
+
 [class*="theme-toggle"], [data-testid*="theme-toggle"], button[aria-label*="theme"] {
   background: var(--glass) !important;
   border: 1px solid var(--glass-border) !important;
   border-radius: 999px !important;
   color: var(--text) !important;
+  transition: all 0.25s ease;
 }
+
 [class*="theme-toggle"]:hover {
   border-color: var(--gold) !important;
   background: var(--glass-strong) !important;
+  box-shadow: var(--gold-glow);
 }
 
-/* ── Responsive: section wrapping fixes ──────────────────────── */
+/* ── Responsive ────────────────────────────────────────────────────── */
+
 @media (max-width: 1280px) {
-  [class*="layout-name"] {
-    font-size: 1.2em !important;
+  [class*="layout-name"], [class*="services-group"] h2 {
+    font-size: 0.92em !important;
+    letter-spacing: 0.18em !important;
   }
 }
+
 @media (max-width: 768px) {
   body { padding: 8px !important; }
-  [class*="services-group"] { margin-bottom: 16px !important; }
+  [class*="services-group"] { margin-bottom: 20px !important; }
+  [id*="greeting"] { font-size: 2.2rem !important; }
 }
 
-/* ── Scrollbars ─────────────────────────────────────────────── */
+/* ── Scrollbars ───────────────────────────────────────────────────── */
+
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: var(--glass-border); border-radius: 4px;
+  background: var(--glass-border);
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover { background: var(--rose); }
 
-/* ── Selection ──────────────────────────────────────────────── */
+/* ── Selection ────────────────────────────────────────────────────── */
+
 ::selection {
-  background: rgba(232, 121, 166, 0.35);
+  background: rgba(255, 111, 181, 0.40);
   color: var(--text);
 }
 
-/* ── Footer credits / version (hide if visible) ─────────────── */
-[class*="version"], [class*="credit"] { opacity: 0.4 !important; font-size: 0.7em !important; }
+/* ── Footer credits ───────────────────────────────────────────────── */
+
+[class*="version"], [class*="credit"] {
+  opacity: 0.4 !important;
+  font-size: 0.7em !important;
+  font-family: 'JetBrains Mono', monospace !important;
+}

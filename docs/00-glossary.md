@@ -91,6 +91,8 @@ but lean into a more 2026 glassmorphism aesthetic.
 | `--ember` | `#FF7E73` | `#C8485E` | danger / open circuits |
 | `--text` | `#F5EFFF` | `#2A1535` | primary copy |
 
-Fonts: **Fraunces** (italic serif for titles), **Inter** (body),
-**JetBrains Mono** (technical subtitles), **Sacramento** (the personal
-greeting — "Welcome home, Sabrina" only).
+Fonts: **Cinzel** (Roman, mystical — for chapter-heading section
+titles + card titles), **Inter** (body), **JetBrains Mono**
+(technical subtitles), **Sacramento** (cursive — for the personal
+greeting "Welcome home, Sabrina" only, with iridescent gradient text
+fill).
