@@ -108,16 +108,18 @@ header {
   position: relative;
 }
 
-/* Sparkle ornaments framing the title (hide on small/portrait) */
+/* Sparkle ornaments framing the title — uses mask-image so CSS controls
+   the color (background-image with currentColor doesn't inherit). */
 header::before, header::after {
   content: '';
   position: absolute;
-  width: clamp(20px, 3vmin, 32px);
-  height: clamp(20px, 3vmin, 32px);
-  background: url("sparkle.svg") no-repeat center / contain;
+  width: clamp(28px, 4vmin, 44px);
+  height: clamp(28px, 4vmin, 44px);
+  background-color: var(--gold);
+  mask: url("sparkle.svg") no-repeat center / contain;
+  -webkit-mask: url("sparkle.svg") no-repeat center / contain;
   filter: drop-shadow(0 0 16px var(--gold-glow))
           drop-shadow(0 0 8px var(--rose-glow));
-  color: var(--gold);
   animation: sparkle-pulse 2.5s ease-in-out infinite;
   top: clamp(20px, 4vh, 48px);
 }
@@ -261,6 +263,9 @@ header::after  { right: clamp(20px, 4vw, 48px); animation-delay: 1.25s; }
      the inside to scroll if it overflows on tiny screens. */
   min-height: 0;
 }
+/* Card titles are centered as a group (sparkle inline + text), and so
+   are the tech-sub line + everything below — keeps the visual rhythm
+   symmetrical across all card content. */
 .card h2 {
   font-family: 'Cinzel Decorative', serif;
   font-weight: 700;
@@ -269,25 +274,30 @@ header::after  { right: clamp(20px, 4vw, 48px); animation-delay: 1.25s; }
   font-size: clamp(13px, 1.7vmin, 18px);
   margin: 0 0 4px;
   text-transform: uppercase;
-  position: relative;
-  padding-left: clamp(20px, 2.5vmin, 30px);
   text-shadow: 0 0 14px var(--rose-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(6px, 0.9vmin, 12px);
 }
 .card h2::before {
   content: '';
-  position: absolute;
-  left: 0; top: 50%;
-  transform: translateY(-50%);
-  width: clamp(15px, 1.8vmin, 22px);
-  height: clamp(15px, 1.8vmin, 22px);
-  background: url("sparkle.svg") no-repeat center / contain;
+  width: clamp(16px, 2vmin, 24px);
+  height: clamp(16px, 2vmin, 24px);
+  flex-shrink: 0;
+  background-color: var(--gold);
+  mask: url("sparkle.svg") no-repeat center / contain;
+  -webkit-mask: url("sparkle.svg") no-repeat center / contain;
   filter: drop-shadow(0 0 12px var(--gold-glow));
-  color: var(--gold);
   animation: ornament-twinkle 3s ease-in-out infinite;
 }
+.card .tech, .card .tech-sub {
+  text-align: center;
+  padding-left: 0 !important;
+}
 @keyframes ornament-twinkle {
-  0%, 100% { opacity: 1;   transform: translateY(-50%) scale(1)    rotate(0deg);   }
-  50%      { opacity: 0.7; transform: translateY(-50%) scale(1.20) rotate(60deg);  }
+  0%, 100% { opacity: 1;   transform: scale(1)    rotate(0deg);  }
+  50%      { opacity: 0.7; transform: scale(1.20) rotate(60deg); }
 }
 .big-number {
   font-family: 'Cinzel Decorative', serif;
@@ -368,9 +378,10 @@ footer {
   display: inline-block;
   width: clamp(20px, 2.5vmin, 32px);
   height: clamp(20px, 2.5vmin, 32px);
-  background: url("crescent.svg") no-repeat center / contain;
+  background-color: var(--gold);
+  mask: url("crescent.svg") no-repeat center / contain;
+  -webkit-mask: url("crescent.svg") no-repeat center / contain;
   filter: drop-shadow(0 0 12px var(--gold-glow));
-  color: var(--gold);
   animation: moon-drift 18s ease-in-out infinite;
   font-size: 0;
 }
