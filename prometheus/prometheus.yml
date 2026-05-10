@@ -54,7 +54,7 @@ scrape_configs:
       credentials_file: /etc/prometheus/tokens/harvey.token
     static_configs:
       - targets: ['100.79.115.101:18789']
-        labels: { familiar: harvey, host: harveys-workshop, role: mortal }
+        labels: { familiar: harvey, host: harveys-big-game, role: mortal }
 
   # ── Coven Mail Bridge: exposes mail-flow metrics ──────────────────────────
   - job_name: coven-mail

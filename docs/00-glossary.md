@@ -9,7 +9,7 @@ small monospace font underneath. This page is the master key.
 | Themed name | Tech | Tailscale IP |
 |---|---|---|
 | **Spellman Manor** | mac mini | `100.106.134.96` |
-| **Harvey's Workshop** | mac pro | `100.79.115.101` |
+| **Harvey's Big Game** | mac pro | `100.79.115.101` |
 | **Zelda's Labtop** | macbook pro | `100.112.73.96` |
 | **The Magic Mirror** | android tv (viewer only) | — |
 
@@ -20,7 +20,7 @@ small monospace font underneath. This page is the master key.
 | 🐈‍⬛ **Salem** | `openclaw familiar · spellman-manor:18789` | Mac mini | The cat. Schemes. |
 | ☕ **Hilda** | `openclaw familiar · spellman-manor:18790` | Mac mini | Chaos energy aunt. |
 | 📖 **Zelda** | `openclaw familiar · zeldas-labtop:18789` | MacBook Pro | Precise, scholarly aunt. |
-| 🛠 **Harvey** | `openclaw familiar · harveys-workshop:18789` | Mac Pro | Steady mortal. |
+| 🛠 **Harvey** | `openclaw familiar · harveys-big-game:18789` | Mac Pro | Steady mortal. |
 
 ## Services in the dashboard stack
 
@@ -98,17 +98,23 @@ flips dramatically on the toggle.
 | `--text` | `#FFF0F8` | `#2A0D35` (near-black aubergine) | primary copy |
 
 Fonts:
-- **Pacifico** (cursive, 400) — the personal greeting "Welcome home,
-  Sabrina" only. Closest commercial match to the actual Sabrina the
-  Teenage Witch logo: chunky, bouncy, connected letterforms with
-  exaggerated swashes. Filled with the iridescent gradient that drifts
-  through pink → lavender → cyan → gold every 8 seconds.
+- **Custom hand-drawn SVG wordmark** (`/images/sabrina-wordmark.svg`)
+  — used for "Welcome home, Sabrina" on Homepage AND for the
+  "Sabrina" title on Magic Mirror. Cursive letterforms drawn as SVG
+  paths with thick strokes, a 5-point star above the i, and a final
+  tail-swash. Filled with an SVG `<linearGradient>` whose stops
+  animate via SMIL, drifting through pink → lavender → cyan → gold
+  → pink every 8 seconds. No external font dependency.
 - **Cinzel Decorative** (400 / 700 / 900) — chapter-heading section
   titles + card titles. Roman inscriptional with flourishes.
 - **Quicksand** (400 / 500 / 600 / 700) — body copy. Rounded,
-  friendly, 90s-coded.
+  friendly, 90s-coded. Also used for the small "Welcome home,"
+  prefix above the wordmark.
 - **JetBrains Mono** (300 / 400 / 500) — technical subtitles in
   lowercase letter-spaced.
+- **Pacifico** — used only for "The Spellbook" page title in the
+  bridge UI. Not used anywhere else (the Sabrina greeting is the
+  custom SVG wordmark, no font).
 
 ### Where each mode looks dramatically different
 

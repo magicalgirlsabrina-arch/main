@@ -15,7 +15,7 @@ tailscale status
 curl http://harvey.tailXXXX.ts.net:18789/health
 
 # 3. Check the familiar's log on its own host
-ssh harveys-workshop "tail -50 ~/.openclaw/openclaw.log"
+ssh harveys-big-game "tail -50 ~/.openclaw/openclaw.log"
 ```
 
 If `tailscale status` shows the host but the curl times out, the OpenClaw
@@ -150,7 +150,7 @@ managed Macs and non-TTY shells. Use the .dmg directly:
 1. Download from https://docs.docker.com/desktop/install/mac-install/
 2. Drag Docker.app into Applications, open it.
 
-## Can't SSH into Zelda's Labtop or Harvey's Workshop
+## Can't SSH into Zelda's Labtop or Harvey's Big Game
 
 macOS doesn't enable Remote Login by default. On the host that needs
 to be reachable:
@@ -158,7 +158,7 @@ to be reachable:
 - **GUI:** System Settings → General → Sharing → enable **Remote Login**
 - **CLI:** `sudo systemsetup -setremotelogin on`
 
-Once enabled, `ssh sabrinaryan@harveys-workshop.<your-tailnet>` works
+Once enabled, `ssh sabrinaryan@harveys-big-game.<your-tailnet>` works
 over Tailscale.
 
 ## `exec format error` on Apple Silicon

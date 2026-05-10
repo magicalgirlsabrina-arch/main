@@ -1,13 +1,18 @@
 # Familiar tiles route through the Coven Mail Bridge (`/api/familiar/{name}`)
 # so they get a consistent shape and survive OpenClaw API changes.
-# The themed name is the title; description = technical subtitle (monospaced,
-# dimmed lavender — see custom.css → .service-description).
+# Tile titles use the v4 Sabrina palette: #FF1493 hot pink, #B19CD9
+# lavender, #FFD700 gold, #5FFFE6 mint, #FF6B6B ember.
+#
+# All hrefs use Spellman Manor's IP (not `localhost`) so tapping a tile
+# on your iPhone over Tailscale opens the actual app — not a 404 on
+# the phone's own port. Homepage substitutes the value from .env at
+# render time.
 
 - Sabrina's Locker:
     - Coven Mail:
-        href: http://localhost:18793/
+        href: http://{{HOMEPAGE_VAR_SPELLMAN_MANOR_IP}}:18793/
         description: coven-mail-bridge · spellbook UI
-        icon: mdi-mail-#E879A6
+        icon: mdi-mail-#FF1493
         widget:
           type: customapi
           url: http://coven-mail:18793/api/unread-count
@@ -21,8 +26,8 @@
 
     - Coven Status:
         description: live peer-ping · all 4 familiars
-        icon: mdi-heart-pulse-#E879A6
-        href: http://localhost:18793/#debug
+        icon: mdi-heart-pulse-#FF1493
+        href: http://{{HOMEPAGE_VAR_SPELLMAN_MANOR_IP}}:18793/#debug
         widget:
           type: customapi
           url: http://coven-mail:18793/api/peer-ping
@@ -42,8 +47,8 @@
 
     - Surveillance:
         description: activity · cron · watchdog · upgrades
-        icon: mdi-radar-#9F8FE3
-        href: http://localhost:18793/#surveillance
+        icon: mdi-radar-#B19CD9
+        href: http://{{HOMEPAGE_VAR_SPELLMAN_MANOR_IP}}:18793/#surveillance
         widget:
           type: customapi
           url: http://coven-mail:18793/api/activity?limit=1
@@ -53,15 +58,15 @@
               format: text
 
     - Howling Hat:
-        href: http://localhost:9093
+        href: http://{{HOMEPAGE_VAR_SPELLMAN_MANOR_IP}}:9093
         description: alertmanager · :9093
-        icon: mdi-bell-ring-#FF7E73
+        icon: mdi-bell-ring-#FF6B6B
 
 - Coven:
     - Salem:
         href: http://{{HOMEPAGE_VAR_SPELLMAN_MANOR_IP}}:{{HOMEPAGE_VAR_SALEM_GATEWAY_PORT}}
         description: openclaw familiar · spellman-manor:18789
-        icon: mdi-cat-#F4D58D
+        icon: mdi-cat-#FFD700
         widget:
           type: customapi
           url: http://coven-mail:18793/api/familiar/salem
@@ -78,7 +83,7 @@
     - Hilda:
         href: http://{{HOMEPAGE_VAR_SPELLMAN_MANOR_IP}}:{{HOMEPAGE_VAR_HILDA_GATEWAY_PORT}}
         description: openclaw familiar · spellman-manor:18790
-        icon: mdi-tea-outline-#E879A6
+        icon: mdi-tea-outline-#FF1493
         widget:
           type: customapi
           url: http://coven-mail:18793/api/familiar/hilda
@@ -93,9 +98,9 @@
               format: number
 
     - Zelda:
-        href: http://{{HOMEPAGE_VAR_ZELDAS_STUDY_IP}}:{{HOMEPAGE_VAR_ZELDA_GATEWAY_PORT}}
+        href: http://{{HOMEPAGE_VAR_ZELDAS_LABTOP_IP}}:{{HOMEPAGE_VAR_ZELDA_GATEWAY_PORT}}
         description: openclaw familiar · zeldas-labtop:18789
-        icon: mdi-book-open-page-variant-#9F8FE3
+        icon: mdi-book-open-page-variant-#B19CD9
         widget:
           type: customapi
           url: http://coven-mail:18793/api/familiar/zelda
@@ -110,9 +115,9 @@
               format: number
 
     - Harvey:
-        href: http://{{HOMEPAGE_VAR_HARVEYS_WORKSHOP_IP}}:{{HOMEPAGE_VAR_HARVEY_GATEWAY_PORT}}
-        description: openclaw familiar · harveys-workshop:18789
-        icon: mdi-tools-#7FE3CC
+        href: http://{{HOMEPAGE_VAR_HARVEYS_BIG_GAME_IP}}:{{HOMEPAGE_VAR_HARVEY_GATEWAY_PORT}}
+        description: openclaw familiar · harveys-big-game:18789
+        icon: mdi-football-helmet-#5FFFE6
         widget:
           type: customapi
           url: http://coven-mail:18793/api/familiar/harvey
@@ -129,34 +134,34 @@
 - Households:
     - Spellman Manor:
         description: mac mini · 100.106.134.96 · hub
-        icon: mdi-home-heart-#E879A6
-        href: http://localhost:8090
+        icon: mdi-home-heart-#FF1493
+        href: http://{{HOMEPAGE_VAR_SPELLMAN_MANOR_IP}}:8090
 
-    - Harvey's Workshop:
+    - Harvey's Big Game:
         description: mac pro · 100.79.115.101
-        icon: mdi-shield-crown-#7FE3CC
+        icon: mdi-stadium-#5FFFE6
 
     - Zelda's Labtop:
         description: macbook pro · 100.112.73.96
-        icon: mdi-laptop-#9F8FE3
+        icon: mdi-laptop-#B19CD9
 
 - Other Realm:
     - Vital Signs:
-        href: http://localhost:8090
+        href: http://{{HOMEPAGE_VAR_SPELLMAN_MANOR_IP}}:8090
         description: beszel · :8090 · per-host monitoring
-        icon: mdi-heart-pulse-#E879A6
+        icon: mdi-heart-pulse-#FF1493
 
     - Scrying Glass:
-        href: http://localhost:3001
+        href: http://{{HOMEPAGE_VAR_SPELLMAN_MANOR_IP}}:3001
         description: grafana · :3001
         icon: grafana.png
 
     - Magic Mirror:
-        href: http://localhost:8080
+        href: http://{{HOMEPAGE_VAR_SPELLMAN_MANOR_IP}}:8080
         description: nginx static · :8080 · android tv kiosk
-        icon: mdi-television-shimmer-#9F8FE3
+        icon: mdi-television-shimmer-#B19CD9
 
     - Spellbook:
-        href: http://localhost:18793/
+        href: http://{{HOMEPAGE_VAR_SPELLMAN_MANOR_IP}}:18793/
         description: coven-mail-bridge · :18793
-        icon: mdi-book-open-blank-variant-#F4D58D
+        icon: mdi-book-open-blank-variant-#FFD700

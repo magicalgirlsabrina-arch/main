@@ -23,7 +23,7 @@ The fancy name is for vibes; the subtitle is for actually finding things.
 | Themed name | Real device | Tailnet IP | Familiars hosted |
 |---|---|---|---|
 | **Spellman Manor** *(mac mini · hub · always on)* | Mac mini | `100.106.134.96` | Salem :18789 · Hilda :18790 |
-| **Harvey's Workshop** *(mac pro)* | Mac Pro | `100.79.115.101` | Harvey :18789 |
+| **Harvey's Big Game** *(mac pro)* | Mac Pro | `100.79.115.101` | Harvey :18789 |
 | **Zelda's Labtop** *(macbook pro)* | MacBook Pro | `100.112.73.96` | Zelda :18789 |
 | **The Magic Mirror** *(android tv · viewer only)* | Android TV | — | — |
 | **Other Realm** *(primary ssd)* | SSD | — | — |

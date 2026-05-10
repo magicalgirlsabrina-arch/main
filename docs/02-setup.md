@@ -95,7 +95,7 @@ For Zelda + Harvey (on the other two Macs), enable Remote Login first:
 Then SSH in and run:
 ```sh
 ssh zeldas-labtop.<your-tailnet>  "$(cat scripts/grab-gateway-token.sh) zelda"
-ssh harveys-workshop.<your-tailnet> "$(cat scripts/grab-gateway-token.sh) harvey"
+ssh harveys-big-game.<your-tailnet> "$(cat scripts/grab-gateway-token.sh) harvey"
 ```
 
 **Option B — print them at the bottom of the host setup script:**
@@ -125,8 +125,8 @@ On each of the other two Macs (Mac Pro and MacBook Pro):
 
 ```sh
 # Copy the script over from the mini (replace <tailnet> with what Step 3 printed)
-scp ~/spellman-manor/scripts/setup-familiar-host.sh harveys-workshop.<tailnet>:~/
-ssh harveys-workshop.<tailnet>
+scp ~/spellman-manor/scripts/setup-familiar-host.sh harveys-big-game.<tailnet>:~/
+ssh harveys-big-game.<tailnet>
 ./setup-familiar-host.sh spellman-manor.<tailnet>
 ```
 

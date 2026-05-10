@@ -91,20 +91,37 @@ Change those, and the rest of the dashboard follows. Try a different palette:
 The same vars are mirrored in `coven-mail-bridge/server.py` (Spellbook UI)
 and `magic-mirror/style.css` (TV kiosk). Update all three for a coherent look.
 
-### Changing the greeting font
+### Changing the greeting wordmark
 
-The greeting "Welcome home, Sabrina" uses **Pacifico** (chunky bouncy
-cursive — closest commercial match to the actual show logo). To swap:
+"Welcome home, Sabrina" doesn't use a font — the cursive "Sabrina" is
+a hand-drawn **SVG wordmark** at `homepage/images/sabrina-wordmark.svg`
+(also mirrored to `magic-mirror/sabrina-wordmark.svg` so the kiosk can
+serve its own copy). The "Welcome home," prefix is in Quicksand.
 
-1. Pick a font from https://fonts.google.com/?category=Handwriting
-   that's chunky/bouncy — try **Lobster**, **Cookie**, **Sacramento**,
-   **Caveat Brush**, or **Bilbo Swash Caps**
-2. Update the `@import` URL at the top of `homepage/custom.css` (and
-   the same `<link>` in `coven-mail-bridge/server.py` + `magic-mirror/index.html`)
-3. Change `[id*="greeting"] { font-family: 'Pacifico', cursive; ... }`
-   to your new font.
+Edit the wordmark SVG to change the lettering. Inside the SVG:
 
-The same iridescent gradient text-fill works for any cursive script.
+- Each letter is a `<path>` inside a `<g>` with `stroke-width="13"`,
+  `stroke-linecap="round"`, and a `skewX(-8)` transform for italic lean.
+  Adjust `stroke-width` for thinner/thicker strokes.
+- The dot of the i is a separate `<path>` 5-point star.
+- The iridescent fill is a `<linearGradient id="sabrina-shimmer">`
+  with three `<stop>` elements, each animating its `stop-color`
+  through the palette via SMIL `<animate>`. Edit the `values=` to
+  pick different colors.
+- The tail-swash from the final 'a' is a separate thinner `<path>`.
+- The whole thing has a `<filter id="sabrina-glow">` Gaussian blur
+  for the soft halo.
+
+To swap which letterforms render, open the SVG in a vector tool
+(Figma, Affinity, Inkscape) or hand-edit the path d attributes.
+
+After editing on Homepage's copy, run `cp homepage/images/sabrina-wordmark.svg
+magic-mirror/sabrina-wordmark.svg` so the Magic Mirror reflects the change too.
+
+For the small "Welcome home," prefix above the wordmark, that IS just
+text — change it in `homepage/custom.css` (`[id*="greeting"]::before
+{ content: 'Welcome home,'; ... }`) and `magic-mirror/index.html`
+(`<div class="welcome-prefix">...</div>`).
 
 ## Swapping the SVG decorative assets
 
@@ -208,7 +225,7 @@ magic-mirror` and re-install on the home screen.
 
 The themed names are decorative — the underlying technology doesn't care.
 Search-and-replace any of these:
-- "Spellman Manor", "Harvey's Workshop", "Zelda's Labtop"
+- "Spellman Manor", "Harvey's Big Game", "Zelda's Labtop"
 - "The Discovery of Magic", "The Spellbook", "The Magic Mirror", etc.
 
 You don't have to match the show — make it yours. The architecture

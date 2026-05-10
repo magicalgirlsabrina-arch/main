@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 200" preserveAspectRatio="xMidYMid meet">
+  <!--
+    Custom hand-drawn "Sabrina" wordmark — chunky cursive in the style
+    of the actual Sabrina the Teenage Witch logo. Each letter is a
+    stroke path with thick rounded line caps. The dot of the i is
+    replaced with a 5-point star (per the show). Iridescent gradient
+    fill animates through pink → lavender → cyan → gold every 8s.
+  -->
+
+  <defs>
+    <!-- Iridescent gradient with SMIL stop-color animation. The 3
+         stops cycle through the full palette so the wordmark visibly
+         shimmers without any external CSS animation. -->
+    <linearGradient id="sabrina-shimmer" x1="0%" y1="20%" x2="100%" y2="80%">
+      <stop offset="0%" stop-color="#FF1493">
+        <animate attributeName="stop-color"
+                 values="#FF1493;#FF80C8;#B19CD9;#5BE0FF;#FFD700;#FF1493"
+                 dur="8s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" stop-color="#B19CD9">
+        <animate attributeName="stop-color"
+                 values="#B19CD9;#5BE0FF;#FFD700;#FF1493;#FF80C8;#B19CD9"
+                 dur="8s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#FFD700">
+        <animate attributeName="stop-color"
+                 values="#FFD700;#FF1493;#FF80C8;#B19CD9;#5BE0FF;#FFD700"
+                 dur="8s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+
+    <!-- Soft outer glow -->
+    <filter id="sabrina-glow" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Letters: chunky cursive strokes, slight italic lean (~10°) via skew -->
+  <g transform="translate(20 0) skewX(-8)"
+     stroke="url(#sabrina-shimmer)"
+     stroke-width="13"
+     fill="none"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     filter="url(#sabrina-glow)">
+
+    <!-- S with curling top + bottom flourish (signature show element) -->
+    <path d="M 110 50
+             Q  70 28  45 50
+             Q  25 75  60 92
+             Q 105 100  80 128
+             Q  45 152  88 165
+             Q 130 168 158 148"/>
+
+    <!-- a -->
+    <path d="M 178 110
+             Q 178 85 200 85
+             Q 226 85 226 112
+             Q 226 138 202 145
+             Q 180 145 180 125
+             M 226 125
+             Q 230 152 252 158"/>
+
+    <!-- b -->
+    <path d="M 268 30 L 268 150
+             M 268 95
+             Q 295 80 318 100
+             Q 335 125 312 152
+             Q 280 162 262 145"/>
+
+    <!-- r — vertical + flag -->
+    <path d="M 348 100 L 348 155
+             M 348 105
+             Q 372 80 398 92"/>
+
+    <!-- i — vertical (star above is separate) -->
+    <path d="M 422 100 L 422 155"/>
+
+    <!-- n — two humps -->
+    <path d="M 458 155 L 458 100
+             Q 472 82 495 95 L 495 155
+             M 495 110
+             Q 510 82 532 95 L 532 155"/>
+
+    <!-- a — final letter with extended swash flowing right -->
+    <path d="M 565 110
+             Q 565 85 588 85
+             Q 615 85 615 112
+             Q 615 138 590 145
+             Q 568 145 568 125
+             M 615 125
+             Q 622 158 660 168
+             Q 695 168 706 142"/>
+  </g>
+
+  <!-- 5-point star above the i — gradient fill, slight pulse -->
+  <g transform="translate(20 0) skewX(-8)" filter="url(#sabrina-glow)">
+    <path d="M 422 32
+             L 430 56
+             L 455 56
+             L 435 72
+             L 443 96
+             L 422 81
+             L 401 96
+             L 409 72
+             L 389 56
+             L 414 56 Z"
+          fill="url(#sabrina-shimmer)">
+      <animateTransform attributeName="transform"
+                        type="rotate"
+                        from="0 422 64"
+                        to="360 422 64"
+                        dur="14s"
+                        repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- Decorative tail-swash extending right from the final 'a' -->
+  <path transform="translate(20 0) skewX(-8)"
+        d="M 706 142
+           Q 730 140 740 130"
+        stroke="url(#sabrina-shimmer)"
+        stroke-width="6"
+        stroke-linecap="round"
+        fill="none"
+        opacity="0.85"
+        filter="url(#sabrina-glow)"/>
+</svg>

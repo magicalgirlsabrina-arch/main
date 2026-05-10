@@ -58,7 +58,7 @@ Hilda, Zelda, Salem will reply with their hypotheses. Compare answers.
 
 **Option B — borrow Harvey's own Claude:**
 ```sh
-curl -X POST http://harveys-workshop.tailXXXX.ts.net:18794/ask \
+curl -X POST http://harveys-big-game.tailXXXX.ts.net:18794/ask \
   -H 'Content-Type: application/json' \
   -d '{"prompt":"Read ~/.openclaw/openclaw.log last 200 lines and tell me what is slow."}'
 ```

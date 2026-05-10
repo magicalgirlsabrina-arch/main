@@ -164,7 +164,7 @@ You four:
   Salem     spellman-manor   18789  /hooks/agent
   Hilda     spellman-manor   18790  /hooks/agent
   Zelda     zeldas-labtop     18789  /hooks/agent
-  Harvey    harveys-workshop 18789  /hooks/agent
+  Harvey    harveys-big-game 18789  /hooks/agent
 
 You already have everyone's hook bearer tokens in your boot config.
 The bridge has its own copy of all four hook tokens too, so when you

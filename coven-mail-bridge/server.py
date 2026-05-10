@@ -1036,7 +1036,7 @@ _SPELLBOOK_HTML = r"""<!doctype html>
         <option value="salem">🐈‍⬛ Salem · spellman-manor:18789</option>
         <option value="hilda">☕ Hilda · spellman-manor:18790</option>
         <option value="zelda">📖 Zelda · zeldas-labtop:18789</option>
-        <option value="harvey">🛠 Harvey · harveys-workshop:18789</option>
+        <option value="harvey">🛠 Harvey · harveys-big-game:18789</option>
       </select>
       <label>From</label>
       <input id="send-from" value="sabrina">

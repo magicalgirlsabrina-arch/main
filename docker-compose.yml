@@ -14,8 +14,8 @@ services:
       HOMEPAGE_ALLOWED_HOSTS: "*"
       # Hosts (Tailscale IPs)
       SPELLMAN_MANOR_IP:   ${SPELLMAN_MANOR_IP}
-      HARVEYS_WORKSHOP_IP: ${HARVEYS_WORKSHOP_IP}
-      ZELDAS_STUDY_IP:     ${ZELDAS_STUDY_IP}
+      HARVEYS_BIG_GAME_IP: ${HARVEYS_BIG_GAME_IP}
+      ZELDAS_LABTOP_IP:     ${ZELDAS_LABTOP_IP}
       # Familiar gateway ports + tokens
       SALEM_GATEWAY_PORT:   ${SALEM_GATEWAY_PORT}
       HILDA_GATEWAY_PORT:   ${HILDA_GATEWAY_PORT}
@@ -35,12 +35,21 @@ services:
     volumes:
       - ${COVEN_MAILBOX_DIR}:/mailbox:rw
       - ./docs/13-familiar-handbook.md:/app/handbook.md:ro
+    extra_hosts:
+      # Bridge runs on Spellman Manor; reaching the host's tailnet IP
+      # from inside Docker for Mac doesn't always work (Docker NATs
+      # everything through a Linux VM). 'spellman-manor' here resolves
+      # to the host gateway, which routes via the Mac's loopback to
+      # Salem (:18789) and Hilda (:18790). For Zelda and Harvey on
+      # other Macs, the real tailnet IP works through Docker for Mac's
+      # default outbound routing.
+      - "spellman-manor:host-gateway"
     environment:
       MAILBOX_DIR: /mailbox
-      SALEM_HOST:  ${SPELLMAN_MANOR_IP}
-      HILDA_HOST:  ${SPELLMAN_MANOR_IP}
-      ZELDA_HOST:  ${ZELDAS_STUDY_IP}
-      HARVEY_HOST: ${HARVEYS_WORKSHOP_IP}
+      SALEM_HOST:  spellman-manor
+      HILDA_HOST:  spellman-manor
+      ZELDA_HOST:  ${ZELDAS_LABTOP_IP}
+      HARVEY_HOST: ${HARVEYS_BIG_GAME_IP}
       SALEM_GATEWAY_PORT:  ${SALEM_GATEWAY_PORT}
       HILDA_GATEWAY_PORT:  ${HILDA_GATEWAY_PORT}
       ZELDA_GATEWAY_PORT:  ${ZELDA_GATEWAY_PORT}
