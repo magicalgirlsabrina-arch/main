@@ -25,7 +25,8 @@ network as the mini; nothing is exposed to the public internet.
 **You're done.** The mini is now reachable from your phone whenever
 Tailscale is "on." Test:
 ```
-http://spellman-manor.<your-tailnet>.ts.net:3000     ← Homepage
+http://spellman-manor.<your-tailnet>.ts.net:3000     ← Homepage (raw)
+http://spellman-manor.<your-tailnet>.ts.net:3030     ← Spellman Manor (PWA-installable)
 http://spellman-manor.<your-tailnet>.ts.net:18793/   ← Spellbook
 http://spellman-manor.<your-tailnet>.ts.net:8080     ← Magic Mirror
 ```
@@ -102,24 +103,49 @@ HTTPS URL for the cleanest experience.
 
 ---
 
-## Installing The Spellbook as an iOS web app (PWA)
+## Installing as an iOS web app (PWA)
 
-Once you can reach the URL on your iPhone, install it as a real app:
+Three apps are installable. Each has its own themed icon:
 
-1. Open Spellbook in **Safari** (not Chrome — only Safari can install
-   PWAs on iOS):
-   ```
-   http://spellman-manor.<tailnet>.ts.net:18793/
-   ```
-2. Tap the **Share** button (square with up arrow).
-3. Scroll down → **Add to Home Screen**.
-4. Name it "Spellbook" → **Add**.
+| App | URL | Icon | Use it for |
+|---|---|---|---|
+| **Spellman Manor** | `:3030` ← (PWA-wrapped Homepage) | crescent + sparkle on pink/violet | the full dashboard |
+| **The Spellbook** | `:18793/` | gold sparkle on pink/violet | mail + console + surveillance |
+| **The Magic Mirror** | `:8080` | gold crescent on midnight | TV / kiosk view |
 
-The app icon (gold sparkle on pink-violet gradient) appears on your
-home screen. Tap to open. It launches **fullscreen** with no Safari
-chrome — just the dashboard. Status bar matches the dark theme.
+> **Important on iOS**: open in **Safari** (not Chrome — only Safari
+> can install PWAs on iOS).
 
-The same works for the Magic Mirror page (port 8080).
+For each one, the install flow is identical:
+
+1. Open the URL in Safari
+2. Tap the **Share** button (square with up arrow)
+3. Scroll down → **Add to Home Screen**
+4. Name it → **Add**
+
+The app icon appears on your home screen. Tap → launches **fullscreen**
+with no Safari chrome, status bar matches the dark theme, no address
+bar visible. Native-app feel.
+
+### Why the `:3030` proxy exists for Homepage
+
+Homepage (the `:3000` dashboard at the heart of this stack) doesn't
+expose enough config to fully customize its PWA manifest, apple-touch-icon,
+or iOS-specific meta tags. So a small nginx container — **The Veil**
+on `:3030` — sits in front of Homepage and:
+
+1. Serves a custom `/manifest.json` with the Spellman Manor name + Sabrina theme
+2. Overrides `/apple-touch-icon.png` (and `.svg` etc.) with our gold-sparkle icon
+3. Injects iOS PWA meta tags into the `<head>` of every Homepage HTML response
+
+The actual Homepage app at `:3000` keeps working unchanged. `:3030` is
+just the "PWA-installable port" — open it for the install flow, then
+it behaves identically to `:3000` in every other way (it's a transparent
+reverse proxy).
+
+If you don't care about the custom icon and just want install-as-app,
+`:3000` will install with whatever favicon Homepage exposes — it works,
+just looks generic.
 
 ### What makes this work
 
@@ -139,18 +165,26 @@ All served by the bridge itself — no extra setup.
 
 ### What it looks like installed
 
-| Spec | Spellbook | Magic Mirror |
-|---|---|---|
-| Icon | Gold sparkle on pink-violet gradient | Gold crescent on midnight |
-| Name on home screen | "Spellbook" | "Mirror" |
-| Status bar | Translucent over dark | Translucent over dark |
-| Display mode | `standalone` (no browser chrome) | `standalone` |
-| Orientation | `portrait` | `any` |
+| Spec | Spellman Manor (`:3030`) | Spellbook (`:18793`) | Magic Mirror (`:8080`) |
+|---|---|---|---|
+| Icon | Crescent + sparkle on pink/violet/midnight | Gold sparkle on pink/violet | Gold crescent on midnight |
+| Name on home screen | "Spellman" | "Spellbook" | "Mirror" |
+| Status bar | Translucent over dark | Translucent over dark | Translucent over dark |
+| Display mode | `standalone` | `standalone` | `standalone` |
+| Orientation | any | portrait | any |
 
 ### Troubleshooting iOS PWA install
 
 - **"Add to Home Screen" missing** → you opened it in Chrome/Firefox, not Safari. Use Safari.
-- **App icon shows as a screenshot of the page** → manifest didn't load. Confirm `/manifest.json` returns JSON: `curl http://spellman-manor.<tailnet>.ts.net:18793/manifest.json`
+- **App icon shows as a screenshot of the page** → manifest didn't load.
+  Confirm by hitting one of these in your browser:
+  ```
+  http://spellman-manor.<tailnet>.ts.net:3030/manifest.json    ← Homepage PWA
+  http://spellman-manor.<tailnet>.ts.net:18793/manifest.json   ← Spellbook
+  http://spellman-manor.<tailnet>.ts.net:8080/manifest.json    ← Magic Mirror
+  ```
+  Each should return JSON with a Sabrina-themed icon path.
+- **The Veil (`:3030`) returns 502 Bad Gateway** → Homepage container (`:3000`) isn't running. `docker compose ps homepage` to check.
 - **Opens in Safari with chrome instead of fullscreen** → `apple-mobile-web-app-capable` meta tag missing. Hard-refresh in Safari, then re-install.
 - **Notch / home indicator overlapping content** → fixed via `viewport-fit=cover` + `env(safe-area-inset-*)` padding in CSS. Already handled.
 

@@ -25,6 +25,7 @@ case "$cmd" in
     docker compose up -d
     echo ""
     echo "✨ The Discovery of Magic → http://localhost:3000"
+    echo "🪟 The Veil (PWA install) → http://localhost:3030  ← open in Safari to install"
     echo "📜 The Spellbook         → http://localhost:18793/"
     echo "🪞 The Magic Mirror      → http://localhost:8080"
     echo "💗 Vital Signs           → http://localhost:8090"
