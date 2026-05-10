@@ -1,9 +1,13 @@
 /*  🪞 The Magic Mirror — TV-optimized kiosk view
     Spellman Manor · 90s Celestial × Gen Z Y2K
-    Show-accurate Sabrina pink (#FF3FA4), lavender (#C8A2DB),
-    spell gold (#E8C547), midnight navy bg. Cinzel Decorative for
-    titles, Sacramento for greeting, Quicksand for body, JetBrains
-    Mono for tech subtitles. Iridescent shimmer + glossy bubbles. */
+    OG hot pink #FF1493, lavender #B19CD9, gold #FFD700, electric cyan.
+    Pacifico greeting (Sabrina-logo style), Cinzel Decorative for titles,
+    Quicksand body, JetBrains Mono tech subtitles.
+
+    Layout: CSS Grid. Header / coven row / cards row / footer flow as
+    grid rows; 1fr on cards row absorbs spare space. Sizes use
+    clamp() with vmin so the same layout works on a 4K TV, a phone,
+    and everything in between — no clipping, no overflow.            */
 
 :root {
   --ink:           #0F0524;
@@ -40,13 +44,27 @@
 }
 
 * { box-sizing: border-box; }
+
 html, body {
-  margin: 0; padding: 0; width: 100%; height: 100vh; overflow: hidden;
+  margin: 0; padding: 0;
+  width: 100%; min-height: 100vh;
   font-family: 'Quicksand', system-ui, sans-serif;
   font-weight: 500;
   color: var(--text);
   background: var(--ink);
+  overflow-x: hidden;
 }
+
+/* Body is a CSS Grid so each section can claim/give space cleanly. */
+body {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;  /* header · coven · cards (flex) · footer */
+  min-height: 100vh;
+  gap: clamp(8px, 1.5vh, 18px);
+  padding-bottom: clamp(50px, 7vh, 70px);  /* clear the fixed footer */
+}
+
+/* ── Atmospheric background ───────────────────────────────────────── */
 
 body::before {
   content: ''; position: fixed; inset: 0; z-index: -2;
@@ -61,55 +79,58 @@ body::before {
 body::after {
   content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background-image:
-    radial-gradient(2px 2px at 12% 18%,    rgba(244, 234, 251, 0.95), transparent 60%),
-    radial-gradient(2.5px 2.5px at 28% 72%, rgba(232, 197, 71, 0.85),  transparent 60%),
-    radial-gradient(1.5px 1.5px at 47% 9%,  rgba(255, 110, 199, 0.85), transparent 60%),
-    radial-gradient(2px 2px at 65% 44%,    rgba(244, 234, 251, 0.65), transparent 60%),
-    radial-gradient(1.8px 1.8px at 80% 80%, rgba(232, 197, 71, 0.60),  transparent 60%),
-    radial-gradient(2.5px 2.5px at 92% 22%, rgba(255, 110, 199, 0.7),  transparent 60%),
-    radial-gradient(1.5px 1.5px at  8% 55%, rgba(244, 234, 251, 0.85), transparent 60%),
-    radial-gradient(2px 2px at 38% 38%,    rgba(255, 63, 164, 0.65),   transparent 60%),
-    radial-gradient(1.8px 1.8px at 73% 14%, rgba(244, 234, 251, 0.7),  transparent 60%),
-    radial-gradient(2px 2px at 56% 67%,    rgba(232, 197, 71, 0.50),   transparent 60%),
-    radial-gradient(1.5px 1.5px at 22% 35%, rgba(168, 224, 255, 0.6),  transparent 60%),
-    radial-gradient(2px 2px at 88% 55%,    rgba(244, 234, 251, 0.6),   transparent 60%);
+    radial-gradient(2.5px 2.5px at 12% 18%,    rgba(255, 240, 248, 1.0),  transparent 60%),
+    radial-gradient(3px 3px at 28% 72%,        rgba(255, 215, 0, 0.95),   transparent 60%),
+    radial-gradient(1.8px 1.8px at 47% 9%,     rgba(255, 128, 200, 0.95), transparent 60%),
+    radial-gradient(2.5px 2.5px at 65% 44%,    rgba(255, 240, 248, 0.75), transparent 60%),
+    radial-gradient(2px 2px at 80% 80%,        rgba(255, 215, 0, 0.75),   transparent 60%),
+    radial-gradient(3px 3px at 92% 22%,        rgba(255, 128, 200, 0.85), transparent 60%),
+    radial-gradient(1.8px 1.8px at  8% 55%,    rgba(255, 240, 248, 0.95), transparent 60%),
+    radial-gradient(2.5px 2.5px at 38% 38%,    rgba(255, 20, 147, 0.85),  transparent 60%),
+    radial-gradient(2px 2px at 73% 14%,        rgba(255, 240, 248, 0.80), transparent 60%),
+    radial-gradient(2.5px 2.5px at 56% 67%,    rgba(255, 215, 0, 0.65),   transparent 60%),
+    radial-gradient(1.8px 1.8px at 22% 35%,    rgba(91, 224, 255, 0.75),  transparent 60%),
+    radial-gradient(2.5px 2.5px at 88% 55%,    rgba(255, 240, 248, 0.70), transparent 60%);
   animation: drift 36s ease-in-out infinite alternate;
-  opacity: 0.95;
+  opacity: 1;
 }
 @keyframes drift {
-  0%   { transform: translate(0, 0)     scale(1);    opacity: 0.75; }
-  50%  { transform: translate(-8px, 6px) scale(1.02); opacity: 1;    }
-  100% { transform: translate(6px, -8px) scale(1);    opacity: 0.85; }
+  0%   { transform: translate(0, 0)     scale(1);    opacity: 0.85; }
+  50%  { transform: translate(-8px, 6px) scale(1.02); opacity: 1.0;  }
+  100% { transform: translate(6px, -8px) scale(1);    opacity: 0.90; }
 }
+
+/* ── Header ────────────────────────────────────────────────────────── */
 
 header {
   text-align: center;
-  padding: 36px 24px 16px;
+  padding: clamp(18px, 3.5vh, 36px) clamp(16px, 3vw, 24px) clamp(8px, 1.5vh, 16px);
   position: relative;
 }
 
-/* Sparkle ornaments framing the title */
+/* Sparkle ornaments framing the title (hide on small/portrait) */
 header::before, header::after {
   content: '';
   position: absolute;
-  width: 32px; height: 32px;
+  width: clamp(20px, 3vmin, 32px);
+  height: clamp(20px, 3vmin, 32px);
   background: url("sparkle.svg") no-repeat center / contain;
-  filter: drop-shadow(0 0 16px var(--gold-glow)) drop-shadow(0 0 8px var(--rose-glow));
+  filter: drop-shadow(0 0 16px var(--gold-glow))
+          drop-shadow(0 0 8px var(--rose-glow));
   color: var(--gold);
   animation: sparkle-pulse 2.5s ease-in-out infinite;
-  top: 48px;
+  top: clamp(20px, 4vh, 48px);
 }
-header::before { left: 36px; }
-header::after  { right: 36px; animation-delay: 1.25s; }
-
+header::before { left: clamp(20px, 4vw, 48px); }
+header::after  { right: clamp(20px, 4vw, 48px); animation-delay: 1.25s; }
 @keyframes sparkle-pulse {
-  0%, 100% { opacity: 0.55; transform: scale(1)    rotate(0deg);   }
-  50%      { opacity: 1;    transform: scale(1.25) rotate(45deg);  }
+  0%, 100% { opacity: 0.6;  transform: scale(1)    rotate(0deg);   }
+  50%      { opacity: 1.0;  transform: scale(1.3)  rotate(60deg);  }
 }
 
 .title {
   font-family: 'Pacifico', cursive;
-  font-size: 96px;
+  font-size: clamp(48px, 8vmin, 96px);
   font-weight: 400;
   background: var(--shimmer);
   background-size: 200% 200%;
@@ -134,45 +155,47 @@ header::after  { right: 36px; animation-delay: 1.25s; }
   font-weight: 300;
 }
 .tech-sub {
-  font-size: 14px;
+  font-size: clamp(11px, 1.4vmin, 14px);
   margin: 6px 0 4px;
   text-align: center;
 }
-.familiar .tech { font-size: 12px; margin-top: 6px; }
-.card .tech { font-size: 12px; margin: -10px 0 14px; }
+.familiar .tech { font-size: clamp(10px, 1.2vmin, 12px); margin-top: 6px; }
+.card .tech { font-size: clamp(10px, 1.2vmin, 12px); margin: clamp(-12px, -1vh, -8px) 0 clamp(8px, 1.5vh, 14px); }
 
 .clock {
   font-family: 'Cinzel Decorative', serif;
   font-weight: 700;
-  font-size: 108px;
+  font-size: clamp(56px, 9vmin, 104px);
   color: var(--cream);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   line-height: 1;
-  margin-top: 8px;
+  margin-top: clamp(2px, 0.5vh, 6px);
   text-shadow:
-    0 0 24px rgba(244, 234, 251, 0.30),
+    0 0 24px rgba(255, 240, 248, 0.30),
     0 0 12px var(--rose-glow);
 }
 .date {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 18px;
+  font-size: clamp(13px, 1.6vmin, 18px);
   color: var(--text-3);
-  letter-spacing: 4px;
+  letter-spacing: clamp(2px, 0.3vmin, 4px);
   text-transform: lowercase;
-  margin-top: 6px;
+  margin-top: clamp(2px, 0.5vh, 6px);
 }
+
+/* ── Coven row (4 familiar cards) ─────────────────────────────────── */
 
 .coven-row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-  padding: 28px 48px;
+  gap: clamp(12px, 1.8vw, 24px);
+  padding: clamp(8px, 1.5vh, 18px) clamp(20px, 3vw, 48px);
 }
 .familiar {
   background: var(--glass);
   border: 1px solid var(--glass-border);
-  border-radius: 22px;
-  padding: 26px;
+  border-radius: clamp(14px, 1.8vmin, 20px);
+  padding: clamp(14px, 2vh, 24px) clamp(10px, 1.4vw, 20px);
   text-align: center;
   backdrop-filter: blur(24px) saturate(170%);
   -webkit-backdrop-filter: blur(24px) saturate(170%);
@@ -180,12 +203,12 @@ header::after  { right: 36px; animation-delay: 1.25s; }
   transition: border-color 0.5s, box-shadow 0.5s, background 0.5s;
 }
 .familiar.online {
-  border-color: rgba(168, 240, 208, 0.55);
-  box-shadow: var(--shadow), 0 0 30px rgba(168, 240, 208, 0.25);
+  border-color: rgba(95, 255, 230, 0.55);
+  box-shadow: var(--shadow), 0 0 28px rgba(95, 255, 230, 0.20);
 }
 .familiar.offline {
-  border-color: rgba(255, 142, 142, 0.60);
-  box-shadow: var(--shadow), 0 0 30px rgba(255, 142, 142, 0.35);
+  border-color: rgba(255, 107, 107, 0.65);
+  box-shadow: var(--shadow), 0 0 28px rgba(255, 107, 107, 0.32);
   animation: gentle-pulse 3s ease-in-out infinite;
 }
 @keyframes gentle-pulse {
@@ -193,13 +216,14 @@ header::after  { right: 36px; animation-delay: 1.25s; }
   50%      { opacity: 0.75; }
 }
 .familiar .emoji {
-  font-size: 56px; margin-bottom: 8px;
+  font-size: clamp(36px, 5vmin, 56px);
+  margin-bottom: clamp(4px, 0.8vh, 10px);
   filter: drop-shadow(0 0 16px var(--rose-glow));
 }
 .familiar .name {
   font-family: 'Cinzel Decorative', serif;
   font-weight: 700;
-  font-size: 28px;
+  font-size: clamp(18px, 2.4vmin, 28px);
   letter-spacing: 0.06em;
   color: var(--cream);
   text-transform: uppercase;
@@ -207,40 +231,46 @@ header::after  { right: 36px; animation-delay: 1.25s; }
 }
 .familiar .status {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 14px;
+  font-size: clamp(11px, 1.3vmin, 14px);
   color: var(--text-3);
-  margin-top: 10px;
-  min-height: 24px;
+  margin-top: clamp(4px, 0.8vh, 10px);
+  min-height: 18px;
   text-transform: lowercase;
   letter-spacing: 0.4px;
 }
 
+/* ── Cards row (3 info cards — Coven Mail / Active Spells / Howling Hat) ── */
+
 .cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  padding: 0 48px 32px;
+  gap: clamp(12px, 1.8vw, 24px);
+  padding: 0 clamp(20px, 3vw, 48px);
+  align-content: start;
 }
 .card {
   background: var(--glass);
   border: 1px solid var(--glass-border);
-  border-radius: 22px;
-  padding: 30px 26px;
+  border-radius: clamp(14px, 1.8vmin, 20px);
+  padding: clamp(18px, 2.5vh, 28px) clamp(16px, 2vw, 26px);
   backdrop-filter: blur(24px) saturate(170%);
   -webkit-backdrop-filter: blur(24px) saturate(170%);
   box-shadow: var(--shadow);
   position: relative;
+  /* Don't let cards grow taller than their content can fill. Allow
+     the inside to scroll if it overflows on tiny screens. */
+  min-height: 0;
 }
 .card h2 {
   font-family: 'Cinzel Decorative', serif;
   font-weight: 700;
   color: var(--cream);
-  letter-spacing: 0.14em;
-  font-size: 18px;
+  letter-spacing: clamp(0.08em, 0.6vmin, 0.14em);
+  font-size: clamp(13px, 1.7vmin, 18px);
   margin: 0 0 4px;
   text-transform: uppercase;
   position: relative;
-  padding-left: 30px;
+  padding-left: clamp(20px, 2.5vmin, 30px);
   text-shadow: 0 0 14px var(--rose-glow);
 }
 .card h2::before {
@@ -248,20 +278,21 @@ header::after  { right: 36px; animation-delay: 1.25s; }
   position: absolute;
   left: 0; top: 50%;
   transform: translateY(-50%);
-  width: 22px; height: 22px;
+  width: clamp(15px, 1.8vmin, 22px);
+  height: clamp(15px, 1.8vmin, 22px);
   background: url("sparkle.svg") no-repeat center / contain;
   filter: drop-shadow(0 0 12px var(--gold-glow));
   color: var(--gold);
   animation: ornament-twinkle 3s ease-in-out infinite;
 }
 @keyframes ornament-twinkle {
-  0%, 100% { opacity: 1;   transform: translateY(-50%) scale(1)    rotate(0deg);  }
-  50%      { opacity: 0.7; transform: translateY(-50%) scale(1.18) rotate(45deg); }
+  0%, 100% { opacity: 1;   transform: translateY(-50%) scale(1)    rotate(0deg);   }
+  50%      { opacity: 0.7; transform: translateY(-50%) scale(1.20) rotate(60deg);  }
 }
 .big-number {
   font-family: 'Cinzel Decorative', serif;
   font-weight: 700;
-  font-size: 100px;
+  font-size: clamp(48px, 8vmin, 100px);
   background: linear-gradient(180deg, var(--gold-warm), var(--gold));
   -webkit-background-clip: text; background-clip: text;
   color: transparent;
@@ -275,19 +306,18 @@ header::after  { right: 36px; animation-delay: 1.25s; }
   color: var(--text-3);
   text-transform: lowercase;
   letter-spacing: 0.5px;
-  font-size: 12px;
-  margin-top: 6px;
+  font-size: clamp(10px, 1.2vmin, 12px);
+  margin-top: clamp(2px, 0.5vh, 8px);
 }
-
 .recent {
-  margin-top: 18px;
-  font-size: 14px;
+  margin-top: clamp(8px, 1.5vh, 18px);
+  font-size: clamp(12px, 1.4vmin, 14px);
   color: var(--text-2);
-  max-height: 120px;
+  max-height: clamp(60px, 10vh, 120px);
   overflow: hidden;
 }
 .recent .item {
-  padding: 8px 0;
+  padding: clamp(4px, 0.8vh, 8px) 0;
   border-top: 1px solid var(--glass-border);
   font-family: 'Quicksand', sans-serif;
 }
@@ -298,42 +328,46 @@ header::after  { right: 36px; animation-delay: 1.25s; }
   letter-spacing: 0.04em;
   text-shadow: 0 0 8px var(--rose-glow);
 }
-
 .alert-card .all-clear {
   text-align: center;
   font-family: 'Cinzel Decorative', serif;
   font-weight: 700;
-  font-size: 22px;
+  font-size: clamp(16px, 2vmin, 22px);
   color: var(--mint);
-  padding: 24px 0;
-  letter-spacing: 0.10em;
+  padding: clamp(12px, 2vh, 24px) 0;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  text-shadow: 0 0 18px rgba(168, 240, 208, 0.35);
+  text-shadow: 0 0 18px rgba(95, 255, 230, 0.40);
 }
 .alert-card .alert {
-  background: rgba(255, 142, 142, 0.12);
+  background: rgba(255, 107, 107, 0.12);
   border-left: 3px solid var(--ember);
   border-radius: 8px;
-  padding: 12px 16px;
-  margin: 8px 0;
-  font-size: 14px;
+  padding: clamp(8px, 1.5vh, 14px) clamp(12px, 1.5vw, 16px);
+  margin: clamp(4px, 0.8vh, 10px) 0;
+  font-size: clamp(11px, 1.3vmin, 14px);
   color: var(--cream);
   font-family: 'Quicksand', sans-serif;
 }
 
+/* ── Footer ────────────────────────────────────────────────────────── */
+
 footer {
   position: fixed; bottom: 0; left: 0; right: 0;
   display: flex; justify-content: space-between; align-items: center;
-  padding: 14px 36px;
+  padding: clamp(8px, 1.2vh, 14px) clamp(20px, 3vw, 36px);
   font-family: 'JetBrains Mono', monospace;
   letter-spacing: 0.6px;
   color: var(--text-3);
-  font-size: 12px;
+  font-size: clamp(10px, 1.2vmin, 12px);
   text-transform: lowercase;
+  background: linear-gradient(180deg, transparent, rgba(15, 5, 36, 0.65));
+  pointer-events: none;
 }
 #moon-phase {
   display: inline-block;
-  width: 32px; height: 32px;
+  width: clamp(20px, 2.5vmin, 32px);
+  height: clamp(20px, 2.5vmin, 32px);
   background: url("crescent.svg") no-repeat center / contain;
   filter: drop-shadow(0 0 12px var(--gold-glow));
   color: var(--gold);
@@ -346,38 +380,20 @@ footer {
 }
 .footer-text { opacity: 0.85; }
 
-/* ── Mobile / iOS responsive (the kiosk also works on a phone) ─────── */
+/* ── Mobile / portrait ─────────────────────────────────────────────── */
+
 @media (max-width: 900px) {
-  html, body { overflow: auto; height: auto; min-height: 100vh; }
-  header { padding: 32px 16px 12px; }
   header::before, header::after { display: none; }
-  .title { font-size: 64px; }
-  .clock { font-size: 64px; margin-top: 4px; }
-  .date { font-size: 14px; letter-spacing: 2.5px; }
   .coven-row {
     grid-template-columns: repeat(2, 1fr);
-    gap: 14px; padding: 18px 16px;
   }
-  .familiar { padding: 18px 14px; border-radius: 18px; }
-  .familiar .emoji { font-size: 40px; }
-  .familiar .name { font-size: 20px; }
-  .familiar .status { font-size: 12px; }
   .cards {
     grid-template-columns: 1fr;
-    gap: 14px; padding: 0 16px 24px;
   }
-  .card { padding: 22px 18px; border-radius: 18px; }
-  .card h2 { font-size: 15px; padding-left: 26px; }
-  .big-number { font-size: 72px; }
-  .alert-card .all-clear { font-size: 18px; padding: 18px 0; }
-  footer { padding: 12px 18px; }
 }
 
 @media (max-width: 480px) {
-  .title { font-size: 52px; }
-  .clock { font-size: 52px; }
-  .coven-row { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 14px 10px; }
-  .familiar { padding: 14px 10px; }
-  .familiar .name { font-size: 17px; }
-  .big-number { font-size: 60px; }
+  body { gap: 6px; padding-bottom: 60px; }
+  .coven-row, .cards { padding-left: 12px; padding-right: 12px; gap: 10px; }
+  header { padding: 16px 12px 8px; }
 }

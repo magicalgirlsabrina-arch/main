@@ -1,11 +1,15 @@
 // 🪞 The Magic Mirror — polls the Coven Mail Bridge + Alertmanager.
 //
-// The Bridge runs on the Mac mini at port 18793. From an Android TV
-// browser on the tailnet, hit the mini directly. Update BRIDGE_URL below
-// to your tailnet name (or leave it as same-origin if you proxy via nginx).
+// The Bridge runs on the Mac mini at port 18793. The Magic Mirror page
+// itself is served by nginx at port 8080. We construct the bridge URL
+// from window.location so it works on any host (localhost, tailnet,
+// IP, public). The bridge sends Access-Control-Allow-Origin: * so
+// cross-origin fetches Just Work.
 
-const BRIDGE_URL       = ''; // empty = same origin (when reverse-proxied), else 'http://spellman-manor.tailXXXX.ts.net:18793'
-const ALERTMANAGER_URL = ''; // same idea, or 'http://spellman-manor.tailXXXX.ts.net:9093'
+const HOST = window.location.hostname || 'localhost';
+const PROTO = window.location.protocol || 'http:';
+const BRIDGE_URL       = `${PROTO}//${HOST}:18793`;
+const ALERTMANAGER_URL = `${PROTO}//${HOST}:9093`;
 
 const FAMILIARS = ['salem', 'hilda', 'zelda', 'harvey'];
 
