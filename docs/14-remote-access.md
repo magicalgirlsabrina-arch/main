@@ -177,7 +177,7 @@ Plus meta tags in the HTML head:
 ```html
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#FF3FA4">
+<meta name="theme-color" content="#FF1493">
 ```
 
 All served by the bridge itself — no extra setup.

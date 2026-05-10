@@ -17,7 +17,7 @@
   <rect width="512" height="512" rx="112" fill="url(#bg)"/>
 
   <!-- Layered nebula wash -->
-  <ellipse cx="380" cy="120" rx="180" ry="100" fill="#FF3FA4" opacity="0.18"/>
+  <ellipse cx="380" cy="120" rx="180" ry="100" fill="#FF1493" opacity="0.18"/>
   <ellipse cx="100" cy="380" rx="160" ry="120" fill="#9B7EDE" opacity="0.20"/>
 
   <!-- Starfield -->

@@ -110,28 +110,61 @@ The same iridescent gradient text-fill works for any cursive script.
 
 Sparkles, moons, butterflies live in `homepage/images/` — referenced
 by `custom.css` via `url("/images/sparkle.svg")` etc. Each uses
-`fill="currentColor"` so CSS controls the color via parent's `color:`.
+`fill="currentColor"` as a fallback, but the CSS pattern below is
+what actually controls the visible color.
 
-To swap a sparkle for, say, a butterfly as the section heading
-ornament:
+### The mask-image pattern (important — there's a CSS gotcha)
+
+If you do `background: url("/images/sparkle.svg")` and rely on the
+SVG's `fill="currentColor"` to inherit the CSS `color:` value, **it
+won't work** — `currentColor` does not inherit when SVG is used as a
+background-image. The sparkle renders as black (the SVG document's
+default color) on a dark background and is invisible.
+
+The fix is to use **`mask-image`** instead, which silhouettes the SVG
+shape against a CSS-controlled `background-color`:
+
+```css
+.my-sparkle {
+  width: 22px; height: 22px;
+  background-color: var(--gold);                              /* color */
+  mask: url("/images/sparkle.svg") no-repeat center / contain;
+  -webkit-mask: url("/images/sparkle.svg") no-repeat center / contain;
+  filter: drop-shadow(0 0 12px var(--gold-glow));
+}
+```
+
+`-webkit-mask` is included for Safari < 15.4. Modern Safari, Chrome,
+and Firefox all support `mask` directly. With this pattern, you can
+swap colors purely via CSS:
+
+```css
+.my-sparkle.pink   { background-color: var(--hot-pink); }
+.my-sparkle.silver { background-color: #C0C0C0; }
+```
+
+To swap an asset wholesale:
 
 ```css
 [class*="services-group"] h2::before {
-  background: url("/images/butterfly.svg") no-repeat center / contain;
-  /* color: still controls the fill */
+  mask: url("/images/butterfly.svg") no-repeat center / contain;
+  -webkit-mask: url("/images/butterfly.svg") no-repeat center / contain;
 }
 ```
 
 To add a new SVG asset:
-1. Drop it in `homepage/images/yourthing.svg` with `fill="currentColor"`
+
+1. Drop it in `homepage/images/yourthing.svg`. Use any colors you want
+   inside the SVG — they'll be ignored when used via `mask-image`.
 2. Reference in `homepage/custom.css`:
    ```css
    .my-element::before {
      content: '';
      width: 16px; height: 16px;
      display: inline-block;
-     background: url("/images/yourthing.svg") no-repeat center / contain;
-     color: var(--gold);
+     background-color: var(--gold);
+     mask: url("/images/yourthing.svg") no-repeat center / contain;
+     -webkit-mask: url("/images/yourthing.svg") no-repeat center / contain;
    }
    ```
 

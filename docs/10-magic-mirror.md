@@ -67,11 +67,62 @@ If you ever DO want it as a permanent display:
 - Some Android TVs support "auto-launch app on boot" — set it to your
   browser pointing at the Magic Mirror URL.
 
+## How it scales (and why nothing gets clipped)
+
+The Magic Mirror uses a **CSS Grid body layout** with rows
+`auto / auto / 1fr / auto` — header, coven row, cards row, footer.
+The `1fr` on the cards row absorbs whatever vertical space is left, so
+the layout adapts cleanly from 4K TVs (3840×2160) all the way down to
+phones in portrait.
+
+Every size is `clamp(min, vmin/vh, max)` so font sizes, padding, gaps,
+and ornaments scale together. For example:
+
+```css
+.title { font-size: clamp(48px, 8vmin, 96px); }
+.clock { font-size: clamp(56px, 9vmin, 104px); }
+header { padding: clamp(18px, 3.5vh, 36px) ...; }
+```
+
+This means:
+- 4K TV → max sizes (96px title, 104px clock, 36px padding)
+- Laptop browser → middle of the range, sized via `vmin`
+- Phone portrait → min sizes (48px title, 56px clock)
+
+Plus a `@media (max-width: 900px)` breakpoint flips the coven row to
+2 columns and the cards row to 1 column for phones.
+
+If something feels too big or too small at your specific aspect ratio,
+edit the corresponding `clamp()` — only the bounds change, not the
+overall layout. e.g. to make the title smaller on TV:
+
+```css
+.title { font-size: clamp(48px, 7vmin, 80px); }   /* was 96px max */
+```
+
+## How the bridge URL is found
+
+`app.js` constructs the bridge URL from `window.location.hostname` at
+runtime, so the same static page works on any host:
+
+```js
+const HOST  = window.location.hostname || 'localhost';
+const PROTO = window.location.protocol || 'http:';
+const BRIDGE_URL = `${PROTO}//${HOST}:18793`;
+```
+
+When you open `http://spellman-manor.tail4cb40.ts.net:8080`, the page
+fetches from `http://spellman-manor.tail4cb40.ts.net:18793` automatically.
+No hardcoded tailnet names, no manual edit needed when moving hosts.
+
+The bridge sends `Access-Control-Allow-Origin: *`, so the cross-origin
+fetch from `:8080` to `:18793` Just Works.
+
 ## Customizing the Magic Mirror
 
 Edit `magic-mirror/index.html` for layout, `style.css` for colors, `app.js`
-for behavior. The whole thing is ~250 lines; reading it top-to-bottom is
-the fastest way to understand what's happening.
+for behavior. The whole thing is ~400 lines of CSS + 100 lines of JS;
+reading it top-to-bottom is the fastest way to understand what's happening.
 
 To add a new card:
 

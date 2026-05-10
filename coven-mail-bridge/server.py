@@ -670,7 +670,7 @@ _PWA_MANIFEST = """{
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "theme_color": "#FF3FA4",
+  "theme_color": "#FF1493",
   "background_color": "#1A1B4B",
   "icons": [
     { "src": "/icon-180.svg", "sizes": "180x180 192x192 256x256 any", "type": "image/svg+xml", "purpose": "any" },
@@ -682,7 +682,7 @@ _PWA_MANIFEST = """{
 _APP_ICON_SVG = r"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FF3FA4"/>
+      <stop offset="0%" stop-color="#FF1493"/>
       <stop offset="40%" stop-color="#9B7EDE"/>
       <stop offset="100%" stop-color="#1A1B4B"/>
     </linearGradient>
@@ -710,7 +710,7 @@ _APP_ICON_SVG = r"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512
 
 # Tiny favicon — same sparkle, less detail.
 _FAVICON_SVG = r"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="6" fill="#FF3FA4"/>
+  <rect width="32" height="32" rx="6" fill="#FF1493"/>
   <path d="M16 4 C16.5 11 17 13 18 14 C19 15 21 15.5 28 16 C21 16.5 19 17 18 18 C17 19 16.5 21 16 28 C15.5 21 15 19 14 18 C13 17 11 16.5 4 16 C11 15.5 13 15 14 14 C15 13 15.5 11 16 4 Z" fill="#FFD66B"/>
 </svg>"""
 
@@ -728,7 +728,7 @@ _SPELLBOOK_HTML = r"""<!doctype html>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Spellbook">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#FF3FA4">
+<meta name="theme-color" content="#FF1493">
 <meta name="mobile-web-app-capable" content="yes">
 
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Quicksand:wght@400;500;600;700&family=Pacifico&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
