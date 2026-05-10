@@ -147,6 +147,25 @@ If you don't care about the custom icon and just want install-as-app,
 `:3000` will install with whatever favicon Homepage exposes — it works,
 just looks generic.
 
+### Why The Veil's nginx config strips tags before injecting
+
+If we just *injected* PWA tags before `</head>`, you'd get duplicates
+when Homepage already emits its own `<meta name="theme-color">` or
+`<link rel="manifest">`. iOS Safari + Android Chrome handle duplicate
+`apple-touch-icon` by picking the best size (so duplicates are
+harmless), but `theme-color` duplicates pick the *first* — meaning
+Homepage's default theme would win over our hot pink.
+
+Fix: the nginx config does `sub_filter_once off` plus a list of
+"strip" directives that rename Homepage's existing tags
+(`name="theme-color"` → `name="theme-color-stripped"`) so browsers
+ignore them. Then injects ours fresh before `</head>`. View-source
+shows the originals preserved with `data-veil-stripped` attribute —
+useful for debugging, invisible to browsers.
+
+End result: no duplicates, no infinite-replace loops, no upstream
+edit to Homepage.
+
 ### What makes this work
 
 The bridge serves three PWA assets:
