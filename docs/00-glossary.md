@@ -27,7 +27,8 @@ small monospace font underneath. This page is the master key.
 | Themed name | Tech | Port | What it does |
 |---|---|---|---|
 | 🔮 **The Discovery of Magic** | `homepage` | `:3000` | Front-door dashboard |
-| 📜 **The Spellbook** | `coven-mail-bridge` | `:18793` | Mail UI + console |
+| 🪟 **The Veil** | `nginx` PWA proxy | `:3030` | PWA-installable wrapper for Homepage |
+| 📜 **The Spellbook** | `coven-mail-bridge` | `:18793` | Mail UI + console + Surveillance |
 | 🪞 **The Magic Mirror** | `nginx` (static) | `:8080` | TV kiosk page |
 | 💗 **Vital Signs of the Coven** | `beszel` | `:8090` | System monitoring |
 | 👁 **The Watcher** | `prometheus` | `:9090` | Metrics scraper |
@@ -76,23 +77,60 @@ small monospace font underneath. This page is the master key.
 | "Stale" | A heartbeat that's older than the threshold (24h cron / 10m watchdog) |
 | "Verdict" | The bridge's cheap review of a release: safe / recommended / review / wait |
 
-## The palette: Westbridge Dusk + Dawn
+## The palette: Westbridge Twilight + Dawn
 
-The dashboard is themed in two modes that share the show's celestial feel
-but lean into a more 2026 glassmorphism aesthetic.
+90s celestial Sabrina × Gen Z Y2K. Hot pink `#FF3FA4` is the show's
+actual logo color. Twilight (dark) is the default; Dawn (light) is
+the toggle.
 
-| Token | Westbridge Dusk (dark) | Westbridge Dawn (light) | Used for |
+| Token | Westbridge Twilight (dark) | Westbridge Dawn (light) | Used for |
 |---|---|---|---|
-| `--ink` | `#0A0418` | `#FBF5F8` | page background |
-| `--rose` | `#E879A6` | `#A4476A` | primary accent (Sabrina pink, refined) |
-| `--violet` | `#9F8FE3` | `#6E5BA8` | secondary accent (lavender) |
-| `--gold` | `#F4D58D` | `#B8842D` | values / highlights |
-| `--mint` | `#7FE3CC` | `#3D8E76` | success / Salem's eyes |
-| `--ember` | `#FF7E73` | `#C8485E` | danger / open circuits |
-| `--text` | `#F5EFFF` | `#2A1535` | primary copy |
+| `--ink` | `#1A1B4B` (midnight navy) | `#F4EAFB` (veil) | page background |
+| `--hot-pink` | `#FF3FA4` (Sabrina logo) | `#C12B7E` | primary accent / hover glow |
+| `--rose` | `#FF6EC7` | `#DD4A95` | secondary pink |
+| `--bubblegum` | `#FFB6D5` | `#F296B8` | highlights |
+| `--lavender` | `#C8A2DB` (bedroom drapes) | `#7E66B0` | section headings |
+| `--gold` | `#E8C547` (spell gold) | `#B8842D` | values + ornaments |
+| `--mint` | `#A8F0D0` (Salem's eyes) | `#3D8E76` | success / online indicators |
+| `--holo-sky` | `#A8E0FF` | `#5A8FBC` | iridescent gradient stop |
+| `--ember` | `#FF8E8E` | `#C8485E` | danger / open circuits |
+| `--text` | `#F4EAFB` (veil) | `#2A1535` | primary copy |
 
-Fonts: **Cinzel** (Roman, mystical — for chapter-heading section
-titles + card titles), **Inter** (body), **JetBrains Mono**
-(technical subtitles), **Sacramento** (cursive — for the personal
-greeting "Welcome home, Sabrina" only, with iridescent gradient text
-fill).
+Fonts:
+- **Cinzel Decorative** (400 / 700 / 900) — chapter-heading section
+  titles + card titles. Roman inscriptional, properly witchy.
+- **Sacramento** (cursive) — the personal greeting "Welcome home,
+  Sabrina" only, with iridescent gradient text fill that drifts.
+- **Quicksand** (400 / 500 / 600 / 700) — body copy. Rounded, friendly,
+  90s-coded.
+- **JetBrains Mono** (300 / 400 / 500) — technical subtitles in
+  lowercase letter-spaced.
+
+## Decorative SVG assets
+
+Sprinkled through the UI in `homepage/images/` and via inline data
+URIs in the Spellbook UI. All shape via `currentColor` so CSS controls
+the fill.
+
+| File | Use |
+|---|---|
+| `sparkle.svg` | 4-point pinched-diamond (the iconic Sabrina/MSN twinkle) — section heading prefix, framing the greeting |
+| `twinkle.svg` | Smaller variant — sprinkled across page edges, appears on bookmark hover |
+| `crescent.svg` | Waxing crescent moon — Magic Mirror footer ornament |
+| `star.svg` | Chunky 5-point sticker star |
+| `butterfly.svg` | Y2K morpho silhouette |
+| `jewel.svg` | Diamond / rhombus accent |
+| `app-icon-spellbook.svg` | 512×512 — gold sparkle on pink/violet/midnight gradient |
+| `app-icon-mirror.svg` | 512×512 — gold crescent on midnight + nebula |
+| `app-icon-spellman.svg` | 512×512 — crescent + sparkle composition for Homepage PWA |
+
+## PWA-installable apps (iOS / Android home-screen)
+
+Three apps install with their own themed icons. See
+[`14-remote-access.md`](14-remote-access.md).
+
+| App | URL | Icon |
+|---|---|---|
+| **Spellman Manor** | `:3030` (via The Veil) | crescent + sparkle on pink/violet/midnight |
+| **The Spellbook** | `:18793/` | gold sparkle on pink/violet |
+| **The Magic Mirror** | `:8080` | gold crescent on midnight |

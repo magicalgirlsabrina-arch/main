@@ -19,21 +19,29 @@ Spellman Manor (Mac mini)             100.106.134.96
 ├── Coven Mailbox server              :18792  /mail (POST), /health
 └── Dashboard stack (Docker)          local
     ├── Homepage                      :3000   web UI
-    ├── Coven Mail Bridge             :18793  web UI + /api/*
-    ├── Magic Mirror (nginx)          :8080   static page
+    ├── The Veil (nginx PWA proxy)    :3030   PWA-installable wrapper for :3000
+    ├── Coven Mail Bridge             :18793  web UI + /api/* + /manifest.json
+    ├── Magic Mirror (nginx)          :8080   static page + manifest.json
     ├── Beszel hub                    :8090   web UI + agent ingest
     ├── Prometheus                    :9090   web UI + scrape
     ├── Alertmanager                  :9093   web UI + alert ingest
     └── Grafana                       :3001   web UI
 
 Harvey's Workshop (Mac Pro)           100.79.115.101
-└── Harvey familiar                   :18789  + Beszel agent + Claude bridge :18794
+└── Harvey familiar                   :18789  + Beszel agent + (optional) Claude bridge :18794
 
 Zelda's Study (MacBook Pro)           100.112.73.96
-└── Zelda familiar                    :18789  + Beszel agent + Claude bridge :18794
+└── Zelda familiar                    :18789  + Beszel agent + (optional) Claude bridge :18794
 
 Magic Mirror (Android TV)             — (viewer only, no listening services)
 ```
+
+> **The Veil** at `:3030` is a thin nginx reverse proxy that
+> transparently forwards everything to Homepage on `:3000`, but
+> overrides `/manifest.json` + `/apple-touch-icon` and injects iOS
+> PWA meta tags into Homepage's `<head>`. Open `:3030` in iOS Safari
+> to install Spellman Manor as a home-screen app with the gold-
+> sparkle Sabrina icon. See [`14-remote-access.md`](14-remote-access.md).
 
 ## Data flow
 
@@ -87,10 +95,12 @@ The dashboard stack only mounts what it needs:
 | Container | Mount | Why |
 |---|---|---|
 | coven-mail | `${COVEN_MAILBOX_DIR}` → `/mailbox` (rw) | Read inbox.jsonl + write cursor.txt |
+| coven-mail | `./docs/13-familiar-handbook.md` → `/app/handbook.md` (ro) | Served at `/api/handbook` |
 | homepage | `./homepage` → `/app/config` (ro) | YAML config |
+| homepage-pwa | `./homepage-pwa/nginx.conf` (ro) + `./homepage-pwa` → `/pwa` (ro) | PWA proxy config + assets |
 | prometheus | `./prometheus/*.yml` (ro) + `./prometheus/tokens` (ro) | Config + bearer tokens |
 | grafana | `./grafana/provisioning` + `./grafana/dashboards` | Auto-import |
-| magic-mirror | `./magic-mirror` (ro) | Static HTML |
+| magic-mirror | `./magic-mirror` (ro) | Static HTML + PWA assets |
 
 ## Authentication summary
 

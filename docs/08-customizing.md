@@ -53,20 +53,78 @@ All colors live in CSS variables at the top of two files:
 
 Both define:
 ```css
-:root {
-  --pink:  #FF1493;   /* Sabrina pink */
-  --hot:   #FF6EC7;   /* Hot pink */
-  --lav:   #B19CD9;   /* Lavender */
-  --gold:  #FFD700;
-  --cream: #F5E6FF;
+:root, html, body {
+  --ink:           #1A1B4B;   /* midnight navy bg */
+  --hot-pink:      #FF3FA4;   /* Sabrina logo pink */
+  --rose:          #FF6EC7;
+  --bubblegum:     #FFB6D5;
+  --lavender:      #C8A2DB;   /* show-accurate bedroom drape */
+  --gold:          #E8C547;   /* spell gold */
+  --mint:          #A8F0D0;   /* Salem's eyes */
+  --holo-sky:      #A8E0FF;   /* Y2K iridescent stop */
+  --text:          #F4EAFB;
+  --shimmer:       linear-gradient(135deg, #FF3FA4 0%, #FF6EC7 18%,
+                                  #C8A2DB 38%, #A8E0FF 58%,
+                                  #E8C547 80%, #FF6EC7 100%);
   ...
 }
 ```
 
 Change those, and the rest of the dashboard follows. Try a different palette:
-- **Salem-noir:** swap pink for `#0A0A0A` and gold for `#1F1F1F` for a black-cat vibe
-- **Other Realm green:** swap pink for `#39FF14` and lavender for `#76FF7A`
-- **Sunset Witch:** swap to coral/peach gradients
+- **Salem-noir:** swap `--hot-pink` for `#0A0A0A` and `--gold` for `#3F3F3F` for a black-cat vibe
+- **Other Realm green:** swap `--hot-pink` for `#39FF14` and `--lavender` for `#76FF7A`
+- **Sunset Witch:** swap to coral/peach (`#FF7E73`, `#FFCB7A`, `#FFB3D9`)
+- **Coquette:** swap `--hot-pink` for `#FF8FB8`, `--gold` for `#F5E6BD`, `--lavender` for `#FAD0E5`
+
+The same vars are mirrored in `coven-mail-bridge/server.py` (Spellbook UI)
+and `magic-mirror/style.css` (TV kiosk). Update all three for a coherent look.
+
+## Swapping the SVG decorative assets
+
+Sparkles, moons, butterflies live in `homepage/images/` — referenced
+by `custom.css` via `url("/images/sparkle.svg")` etc. Each uses
+`fill="currentColor"` so CSS controls the color via parent's `color:`.
+
+To swap a sparkle for, say, a butterfly as the section heading
+ornament:
+
+```css
+[class*="services-group"] h2::before {
+  background: url("/images/butterfly.svg") no-repeat center / contain;
+  /* color: still controls the fill */
+}
+```
+
+To add a new SVG asset:
+1. Drop it in `homepage/images/yourthing.svg` with `fill="currentColor"`
+2. Reference in `homepage/custom.css`:
+   ```css
+   .my-element::before {
+     content: '';
+     width: 16px; height: 16px;
+     display: inline-block;
+     background: url("/images/yourthing.svg") no-repeat center / contain;
+     color: var(--gold);
+   }
+   ```
+
+For the Magic Mirror kiosk, copy the SVG into `magic-mirror/` too
+(it's served by a separate nginx that doesn't see `homepage/images/`).
+
+## Replacing the PWA app icons
+
+To re-skin the iOS/Android home-screen icons:
+
+| App | Icon source |
+|---|---|
+| **Spellman Manor** (`:3030`) | `homepage-pwa/apple-touch-icon.svg` |
+| **The Spellbook** (`:18793`) | inline `_APP_ICON_SVG` in `coven-mail-bridge/server.py` |
+| **The Magic Mirror** (`:8080`) | `magic-mirror/app-icon.svg` |
+
+Edit the SVG (any vector tool — Figma, Affinity, even hand-edit), keep
+512×512 viewBox + `rx="112"` rounded corner for non-iOS clients (iOS
+auto-rounds), then `docker compose restart homepage-pwa coven-mail
+magic-mirror` and re-install on the home screen.
 
 ## Adding a new dashboard tile that isn't a familiar
 

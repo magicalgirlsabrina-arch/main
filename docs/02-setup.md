@@ -110,12 +110,12 @@ When you run `./scripts/setup-familiar-host.sh` on each Mac (Step 7), it prints 
 
 This now also auto-syncs the gateway tokens from `.env` into `prometheus/tokens/*.token`, so you don't have to maintain two copies. Update `.env`, run `up`, done.
 
-You should see the seven services start, then a list of URLs. Open **http://localhost:3000** to confirm the dashboard is live.
+You should see the eight services start (Homepage, The Veil, Coven Mail Bridge, Magic Mirror, Beszel, Prometheus, Alertmanager, Grafana), then a list of URLs. Open **http://localhost:3000** to confirm the dashboard is live.
 
 ## Step 6 — Sanity check
 
 ```sh
-./scripts/spellbook.sh status     # all 7 containers should say "Up"
+./scripts/spellbook.sh status     # all 8 containers should say "Up"
 ./scripts/spellbook.sh peer       # pings the 4 familiars over Tailscale
 ```
 
@@ -153,7 +153,23 @@ http://spellman-manor.<tailnet>:8080
 
 That's the Magic Mirror. Pin to home screen for one-tap access.
 
-## Step 10 — Optional: clean HTTPS URL
+## Step 10 — Install on iPhone / iPad as a real app
+
+Three apps install with Sabrina-themed icons. See
+[`14-remote-access.md`](14-remote-access.md) for the full walkthrough.
+
+Quick version: install **Tailscale** on your iPhone, sign in with the
+same account as the mini, then open in **Safari** (not Chrome):
+
+| URL | App that installs |
+|---|---|
+| `:3030` | **Spellman Manor** (full dashboard, with Sabrina icon) |
+| `:18793/` | **The Spellbook** (mail + console) |
+| `:8080` | **The Magic Mirror** (kiosk view) |
+
+Share button → **Add to Home Screen** for each.
+
+## Step 11 — Optional: clean HTTPS URL
 
 ```sh
 ./scripts/tailscale-serve.sh

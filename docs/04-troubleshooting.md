@@ -193,6 +193,49 @@ string. `grab-gateway-token.sh` handles both shapes (and a scoped-tokens
 variant). If your OpenClaw version uses something different again, edit
 the python block in that script — it's only ~10 lines.
 
+## The Veil (`:3030`) returns 502 Bad Gateway
+
+The Veil is a reverse proxy in front of Homepage. 502 means Homepage
+itself isn't running:
+
+```sh
+docker compose ps homepage
+docker compose logs --tail=20 homepage
+```
+
+Restart it: `docker compose up -d homepage`. The Veil will start
+proxying again automatically (30s health-check loop).
+
+## iOS won't install the PWA / icon shows as page screenshot
+
+Three checks, in order:
+
+1. **You opened it in Chrome / Firefox / DuckDuckGo on iOS.** Only
+   Safari can install PWAs on iOS — they all share Safari's WebKit
+   under the hood, but `Add to Home Screen` is Safari-only.
+2. **The manifest didn't load.** Test it directly:
+   ```sh
+   curl http://spellman-manor.<tailnet>.ts.net:3030/manifest.json
+   curl http://spellman-manor.<tailnet>.ts.net:18793/manifest.json
+   curl http://spellman-manor.<tailnet>.ts.net:8080/manifest.json
+   ```
+   Each should return JSON with a Sabrina-themed icon path. If 404,
+   restart the relevant container.
+3. **The injection didn't fire (Veil only).** View-source the page
+   and look for `<link rel="manifest"` in the `<head>`. If missing,
+   the nginx `sub_filter` couldn't see Homepage's `</head>` — usually
+   because Homepage shipped a new gzip behavior. Fix: confirm
+   `proxy_set_header Accept-Encoding "";` is still in
+   `homepage-pwa/nginx.conf`.
+
+## Theme color is wrong on installed iOS PWA
+
+Means a stripped tag still made it to the head. View-source the
+installed page (Settings → Safari → Web Inspector → connect to
+Mac Console) and search for `theme-color`. If you see two `<meta>`
+tags for it, one of them needs adding to the strip list in
+`homepage-pwa/nginx.conf`. Restart `homepage-pwa` to apply.
+
 ## Disk filling up (Prometheus / Beszel data)
 
 Prometheus retains 30 days of metrics in a Docker volume. Check size:

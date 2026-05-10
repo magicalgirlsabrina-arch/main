@@ -8,7 +8,7 @@
 > If you remember nothing else from these docs, remember that.
 
 A self-hosted, themed dashboard for Sabrina's Spellman Manor setup. It does
-four things:
+five things:
 
 1. **Shows the household at a glance** — which familiars are awake, what
    models they're running, how busy they are.
@@ -18,8 +18,12 @@ four things:
    OpenClaw API metrics (spells/sec, latency), and themed alerts when
    something goes wrong.
 4. **Lets familiars debug each other** — peer-ping, circuit breakers,
-   broadcast self-tests, an HTTP "ask Claude" endpoint each Mac can
-   expose for the others.
+   broadcast self-tests. Each familiar reads the
+   [Familiar's Handbook](13-familiar-handbook.md) and self-serves over
+   plain HTTP — no Claude Code dependency.
+5. **Installs as iOS / Android home-screen apps** — three PWAs with
+   themed Sabrina icons (Spellman Manor / Spellbook / Magic Mirror).
+   See [`14-remote-access.md`](14-remote-access.md).
 
 ## Mental model
 
@@ -30,6 +34,7 @@ four things:
                         │                       │
                         │  Dashboard stack      │  ← Docker Compose
                         │   • Homepage          │
+                        │   • The Veil (PWA)    │
                         │   • Spellbook UI      │
                         │   • Magic Mirror      │
                         │   • Beszel hub        │

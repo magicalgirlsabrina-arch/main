@@ -39,6 +39,22 @@ through — they coexist on different ports.
    in one click without typing the URL each time.
 4. Optional: turn off the TV's screen saver / sleep so it stays on.
 
+## Installing on iPhone / iPad as a PWA
+
+The Magic Mirror page is also a real installable web app:
+
+1. Open the URL in **Safari** (not Chrome — only Safari can install
+   PWAs on iOS).
+2. Share button → **Add to Home Screen** → name it "Mirror" → **Add**.
+
+The icon (gold crescent moon on midnight navy) appears on your home
+screen. Launches fullscreen with no Safari chrome — useful as a
+glance-able status board on a phone or iPad on your desk. Same
+auto-refresh (10s) as the TV view.
+
+Full PWA install walkthrough including troubleshooting:
+[`14-remote-access.md`](14-remote-access.md).
+
 ## When the TV is doing other things
 
 You said you want to use the TV for other things too — that's fine.
