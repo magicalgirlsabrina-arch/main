@@ -30,7 +30,7 @@ Spellman Manor (Mac mini)             100.106.134.96
 Harvey's Workshop (Mac Pro)           100.79.115.101
 └── Harvey familiar                   :18789  + Beszel agent + (optional) Claude bridge :18794
 
-Zelda's Study (MacBook Pro)           100.112.73.96
+Zelda's Labtop (MacBook Pro)           100.112.73.96
 └── Zelda familiar                    :18789  + Beszel agent + (optional) Claude bridge :18794
 
 Magic Mirror (Android TV)             — (viewer only, no listening services)

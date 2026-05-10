@@ -150,7 +150,7 @@ managed Macs and non-TTY shells. Use the .dmg directly:
 1. Download from https://docs.docker.com/desktop/install/mac-install/
 2. Drag Docker.app into Applications, open it.
 
-## Can't SSH into Zelda's Study or Harvey's Workshop
+## Can't SSH into Zelda's Labtop or Harvey's Workshop
 
 macOS doesn't enable Remote Login by default. On the host that needs
 to be reachable:

@@ -94,7 +94,7 @@ For Zelda + Harvey (on the other two Macs), enable Remote Login first:
 
 Then SSH in and run:
 ```sh
-ssh zeldas-study.<your-tailnet>  "$(cat scripts/grab-gateway-token.sh) zelda"
+ssh zeldas-labtop.<your-tailnet>  "$(cat scripts/grab-gateway-token.sh) zelda"
 ssh harveys-workshop.<your-tailnet> "$(cat scripts/grab-gateway-token.sh) harvey"
 ```
 
@@ -132,7 +132,7 @@ ssh harveys-workshop.<tailnet>
 
 The script installs the Beszel agent (sends system metrics back to the mini) and prints that host's gateway token at the end. Copy it into `.env` on the mini, then `./scripts/spellbook.sh up` to re-sync.
 
-Repeat for `zeldas-study`.
+Repeat for `zeldas-labtop`.
 
 ## Step 8 — Distribute the Familiar's Handbook
 

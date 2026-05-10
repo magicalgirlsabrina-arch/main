@@ -3,7 +3,7 @@
 # The themed name is the title; description = technical subtitle (monospaced,
 # dimmed lavender — see custom.css → .service-description).
 
-- Sabrina's Console:
+- Sabrina's Locker:
     - Coven Mail:
         href: http://localhost:18793/
         description: coven-mail-bridge · spellbook UI
@@ -94,7 +94,7 @@
 
     - Zelda:
         href: http://{{HOMEPAGE_VAR_ZELDAS_STUDY_IP}}:{{HOMEPAGE_VAR_ZELDA_GATEWAY_PORT}}
-        description: openclaw familiar · zeldas-study:18789
+        description: openclaw familiar · zeldas-labtop:18789
         icon: mdi-book-open-page-variant-#9F8FE3
         widget:
           type: customapi
@@ -136,7 +136,7 @@
         description: mac pro · 100.79.115.101
         icon: mdi-shield-crown-#7FE3CC
 
-    - Zelda's Study:
+    - Zelda's Labtop:
         description: macbook pro · 100.112.73.96
         icon: mdi-laptop-#9F8FE3
 

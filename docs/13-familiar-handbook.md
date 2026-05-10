@@ -48,7 +48,7 @@ You four:
 |---|---|---|
 | 🐈‍⬛ **Salem** | `100.106.134.96` (Spellman Manor / mac mini) | `:18789/hooks/agent` |
 | ☕ **Hilda** | `100.106.134.96` (also on the mini) | `:18790/hooks/agent` |
-| 📖 **Zelda** | `100.112.73.96` (Zelda's Study / macbook) | `:18789/hooks/agent` |
+| 📖 **Zelda** | `100.112.73.96` (Zelda's Labtop / macbook) | `:18789/hooks/agent` |
 | 🛠 **Harvey** | `100.79.115.101` (Harvey's Workshop / mac pro) | `:18789/hooks/agent` |
 
 You already have everyone's hook bearer tokens in your boot config.

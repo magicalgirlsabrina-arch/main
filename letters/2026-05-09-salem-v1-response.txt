@@ -163,7 +163,7 @@ You four:
   ────────  ───────────────  ────  ──────────────────
   Salem     spellman-manor   18789  /hooks/agent
   Hilda     spellman-manor   18790  /hooks/agent
-  Zelda     zeldas-study     18789  /hooks/agent
+  Zelda     zeldas-labtop     18789  /hooks/agent
   Harvey    harveys-workshop 18789  /hooks/agent
 
 You already have everyone's hook bearer tokens in your boot config.

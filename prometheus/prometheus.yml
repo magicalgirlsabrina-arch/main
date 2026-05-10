@@ -44,7 +44,7 @@ scrape_configs:
       credentials_file: /etc/prometheus/tokens/zelda.token
     static_configs:
       - targets: ['100.112.73.96:18789']
-        labels: { familiar: zelda, host: zeldas-study, role: aunt-scholar }
+        labels: { familiar: zelda, host: zeldas-labtop, role: aunt-scholar }
 
   - job_name: harvey
     metrics_path: /api/diagnostics/prometheus

@@ -7,7 +7,7 @@ color: slate
 cardBlur: xl
 
 layout:
-  Sabrina's Console:
+  Sabrina's Locker:
     style: column
     icon: mdi-star-four-points
   Coven:

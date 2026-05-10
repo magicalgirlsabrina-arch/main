@@ -208,7 +208,7 @@ magic-mirror` and re-install on the home screen.
 
 The themed names are decorative — the underlying technology doesn't care.
 Search-and-replace any of these:
-- "Spellman Manor", "Harvey's Workshop", "Zelda's Study"
+- "Spellman Manor", "Harvey's Workshop", "Zelda's Labtop"
 - "The Discovery of Magic", "The Spellbook", "The Magic Mirror", etc.
 
 You don't have to match the show — make it yours. The architecture

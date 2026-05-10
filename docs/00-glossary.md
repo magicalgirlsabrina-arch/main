@@ -10,7 +10,7 @@ small monospace font underneath. This page is the master key.
 |---|---|---|
 | **Spellman Manor** | mac mini | `100.106.134.96` |
 | **Harvey's Workshop** | mac pro | `100.79.115.101` |
-| **Zelda's Study** | macbook pro | `100.112.73.96` |
+| **Zelda's Labtop** | macbook pro | `100.112.73.96` |
 | **The Magic Mirror** | android tv (viewer only) | — |
 
 ## Familiars (AI agent processes)
@@ -19,7 +19,7 @@ small monospace font underneath. This page is the master key.
 |---|---|---|---|
 | 🐈‍⬛ **Salem** | `openclaw familiar · spellman-manor:18789` | Mac mini | The cat. Schemes. |
 | ☕ **Hilda** | `openclaw familiar · spellman-manor:18790` | Mac mini | Chaos energy aunt. |
-| 📖 **Zelda** | `openclaw familiar · zeldas-study:18789` | MacBook Pro | Precise, scholarly aunt. |
+| 📖 **Zelda** | `openclaw familiar · zeldas-labtop:18789` | MacBook Pro | Precise, scholarly aunt. |
 | 🛠 **Harvey** | `openclaw familiar · harveys-workshop:18789` | Mac Pro | Steady mortal. |
 
 ## Services in the dashboard stack
