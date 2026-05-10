@@ -731,22 +731,22 @@ _SPELLBOOK_HTML = r"""<!doctype html>
 <meta name="theme-color" content="#FF3FA4">
 <meta name="mobile-web-app-capable" content="yes">
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Quicksand:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400&family=Sacramento&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Quicksand:wght@400;500;600;700&family=Pacifico&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
   :root{
-    /* Spellman Manor palette — show-accurate Sabrina + Y2K Gen Z layer */
-    --ink:#1A1B4B; --ink-velvet:#2A1B5C; --ink-aubergine:#3D1B6E; --ink-cosmic:#5E2A84;
-    --glass:rgba(255,220,240,.05); --glass-strong:rgba(255,220,240,.10);
-    --glass-border:rgba(255,63,164,.22);
-    --hot-pink:#FF3FA4; --rose:#FF6EC7; --bubblegum:#FFB6D5;
-    --rose-glow:rgba(255,63,164,.50);
-    --lavender:#C8A2DB; --violet:#9B7EDE; --deep-cosmos:#5E2A84;
-    --gold:#E8C547; --gold-warm:#FFD66B; --gold-glow:rgba(232,197,71,.45);
-    --mint:#A8F0D0; --holo-sky:#A8E0FF; --ember:#FF8E8E; --cream:#F4EAFB;
-    --text:#F4EAFB; --text-2:rgba(244,234,251,.78); --text-3:rgba(244,234,251,.50);
-    --shimmer:linear-gradient(135deg, #FF3FA4 0%, #FF6EC7 18%, #C8A2DB 38%, #A8E0FF 58%, #E8C547 80%, #FF6EC7 100%);
-    --iridescent:conic-gradient(from 180deg at 50% 50%, #FF6EC7, #C8A2DB, #A8E0FF, #FFD66B, #FFB6D5, #FF6EC7);
-    --shadow:0 8px 32px rgba(26,27,75,.55), inset 0 1px 0 rgba(244,234,251,.08);
+    /* Spellman Manor palette v4 — bolder 90s + Y2K */
+    --ink:#0F0524; --ink-velvet:#1A0838; --ink-aubergine:#2D0F4E; --ink-cosmic:#4B1F8E;
+    --glass:rgba(255,220,240,.06); --glass-strong:rgba(255,220,240,.11);
+    --glass-border:rgba(255,20,147,.32);
+    --hot-pink:#FF1493; --rose:#FF80C8; --bubblegum:#FFB3D9;
+    --rose-glow:rgba(255,20,147,.60);
+    --lavender:#B19CD9; --violet:#9B7EDE; --electric:#7B2FBE;
+    --gold:#FFD700; --gold-warm:#FFE066; --gold-glow:rgba(255,215,0,.55);
+    --mint:#5FFFE6; --cyan:#5BE0FF; --ember:#FF6B6B; --cream:#FFF0F8;
+    --text:#FFF0F8; --text-2:rgba(255,240,248,.82); --text-3:rgba(255,240,248,.55);
+    --shimmer:linear-gradient(135deg, #FF1493 0%, #FF80C8 18%, #B19CD9 38%, #5BE0FF 58%, #FFD700 80%, #FF1493 100%);
+    --iridescent:conic-gradient(from 180deg at 50% 50%, #FF80C8, #B19CD9, #5BE0FF, #FFD700, #FFB3D9, #FF80C8);
+    --shadow:0 8px 32px rgba(15,5,36,.65), inset 0 1px 0 rgba(255,240,248,.08);
   }
   *{box-sizing:border-box} html,body{margin:0;padding:0}
   body{
@@ -754,9 +754,10 @@ _SPELLBOOK_HTML = r"""<!doctype html>
     padding: max(48px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(64px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
     font-weight:500;
     background:
-      radial-gradient(ellipse 70% 40% at 18% 12%, rgba(255,63,164,.28), transparent 60%),
-      radial-gradient(ellipse 60% 55% at 85% 30%, rgba(155,126,222,.30), transparent 60%),
-      radial-gradient(ellipse 50% 40% at 50% 92%, rgba(232,197,71,.10), transparent 60%),
+      radial-gradient(ellipse 70% 40% at 18% 12%, rgba(255,20,147,.32), transparent 60%),
+      radial-gradient(ellipse 60% 55% at 85% 30%, rgba(155,126,222,.34), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 50% 92%, rgba(255,215,0,.12), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 25% 70%, rgba(255,128,200,.18), transparent 60%),
       linear-gradient(180deg, var(--ink), var(--ink-velvet) 50%, var(--ink-aubergine));
   }
   body::after{
@@ -777,11 +778,12 @@ _SPELLBOOK_HTML = r"""<!doctype html>
     50%{transform:translate(-6px,4px) scale(1.02);opacity:1}
   }
   h1{
-    font-family:'Sacramento',cursive;font-size:72px;font-weight:400;
+    font-family:'Pacifico',cursive;font-size:64px;font-weight:400;
     background:var(--shimmer);background-size:200% 200%;
     -webkit-background-clip:text;background-clip:text;
     color:transparent;text-align:center;margin:0 0 4px;
-    filter:drop-shadow(0 0 28px var(--rose-glow));line-height:1.05;
+    filter:drop-shadow(0 0 28px var(--rose-glow)) drop-shadow(0 0 12px var(--gold-glow));
+    line-height:1.1;letter-spacing:.005em;
     animation:shimmer-shift 8s ease-in-out infinite;
   }
   @keyframes shimmer-shift{

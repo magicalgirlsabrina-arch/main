@@ -6,37 +6,37 @@
     Mono for tech subtitles. Iridescent shimmer + glossy bubbles. */
 
 :root {
-  --ink:           #1A1B4B;
-  --ink-velvet:    #2A1B5C;
-  --ink-aubergine: #3D1B6E;
-  --ink-cosmic:    #5E2A84;
+  --ink:           #0F0524;
+  --ink-velvet:    #1A0838;
+  --ink-aubergine: #2D0F4E;
+  --ink-cosmic:    #4B1F8E;
 
-  --glass:         rgba(255, 220, 240, 0.05);
-  --glass-strong:  rgba(255, 220, 240, 0.10);
-  --glass-border:  rgba(255, 63, 164, 0.22);
+  --glass:         rgba(255, 220, 240, 0.06);
+  --glass-strong:  rgba(255, 220, 240, 0.11);
+  --glass-border:  rgba(255, 20, 147, 0.32);
 
-  --hot-pink:      #FF3FA4;
-  --rose:          #FF6EC7;
-  --bubblegum:     #FFB6D5;
-  --rose-glow:     rgba(255, 63, 164, 0.50);
-  --lavender:      #C8A2DB;
+  --hot-pink:      #FF1493;
+  --rose:          #FF80C8;
+  --bubblegum:     #FFB3D9;
+  --rose-glow:     rgba(255, 20, 147, 0.60);
+  --lavender:      #B19CD9;
   --violet:        #9B7EDE;
-  --gold:          #E8C547;
-  --gold-warm:     #FFD66B;
-  --gold-glow:     rgba(232, 197, 71, 0.45);
-  --mint:          #A8F0D0;
-  --holo-sky:      #A8E0FF;
-  --ember:         #FF8E8E;
-  --cream:         #F4EAFB;
+  --gold:          #FFD700;
+  --gold-warm:     #FFE066;
+  --gold-glow:     rgba(255, 215, 0, 0.55);
+  --mint:          #5FFFE6;
+  --cyan:          #5BE0FF;
+  --ember:         #FF6B6B;
+  --cream:         #FFF0F8;
 
-  --text:          #F4EAFB;
-  --text-2:        rgba(244, 234, 251, 0.78);
-  --text-3:        rgba(244, 234, 251, 0.50);
+  --text:          #FFF0F8;
+  --text-2:        rgba(255, 240, 248, 0.82);
+  --text-3:        rgba(255, 240, 248, 0.55);
 
   --shimmer:       linear-gradient(135deg,
-                     #FF3FA4 0%, #FF6EC7 18%, #C8A2DB 38%,
-                     #A8E0FF 58%, #E8C547 80%, #FF6EC7 100%);
-  --shadow:        0 8px 32px rgba(26, 27, 75, 0.55);
+                     #FF1493 0%, #FF80C8 18%, #B19CD9 38%,
+                     #5BE0FF 58%, #FFD700 80%, #FF1493 100%);
+  --shadow:        0 8px 32px rgba(15, 5, 36, 0.65);
 }
 
 * { box-sizing: border-box; }
@@ -51,9 +51,10 @@ html, body {
 body::before {
   content: ''; position: fixed; inset: 0; z-index: -2;
   background:
-    radial-gradient(ellipse 60% 40% at 18% 10%, rgba(255, 63, 164, 0.30), transparent 60%),
-    radial-gradient(ellipse 60% 50% at 85% 30%, rgba(155, 126, 222, 0.32), transparent 60%),
-    radial-gradient(ellipse 50% 45% at 50% 95%, rgba(232, 197, 71, 0.10), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 18% 10%, rgba(255, 20, 147, 0.34), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 85% 30%, rgba(155, 126, 222, 0.36), transparent 60%),
+    radial-gradient(ellipse 50% 45% at 50% 95%, rgba(255, 215, 0, 0.14), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 25% 70%, rgba(255, 128, 200, 0.20), transparent 60%),
     linear-gradient(180deg, var(--ink), var(--ink-velvet) 50%, var(--ink-aubergine));
 }
 
@@ -107,15 +108,17 @@ header::after  { right: 36px; animation-delay: 1.25s; }
 }
 
 .title {
-  font-family: 'Sacramento', cursive;
-  font-size: 110px;
+  font-family: 'Pacifico', cursive;
+  font-size: 96px;
   font-weight: 400;
   background: var(--shimmer);
   background-size: 200% 200%;
   -webkit-background-clip: text; background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 0 32px var(--rose-glow));
-  margin: 0; line-height: 1;
+  filter: drop-shadow(0 0 36px var(--rose-glow))
+          drop-shadow(0 0 16px var(--gold-glow));
+  margin: 0; line-height: 1.1;
+  letter-spacing: 0.005em;
   animation: shimmer-shift 8s ease-in-out infinite;
 }
 @keyframes shimmer-shift {

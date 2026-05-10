@@ -54,18 +54,29 @@ All colors live in CSS variables at the top of two files:
 Both define:
 ```css
 :root, html, body {
-  --ink:           #1A1B4B;   /* midnight navy bg */
-  --hot-pink:      #FF3FA4;   /* Sabrina logo pink */
-  --rose:          #FF6EC7;
-  --bubblegum:     #FFB6D5;
-  --lavender:      #C8A2DB;   /* show-accurate bedroom drape */
-  --gold:          #E8C547;   /* spell gold */
-  --mint:          #A8F0D0;   /* Salem's eyes */
-  --holo-sky:      #A8E0FF;   /* Y2K iridescent stop */
-  --text:          #F4EAFB;
-  --shimmer:       linear-gradient(135deg, #FF3FA4 0%, #FF6EC7 18%,
-                                  #C8A2DB 38%, #A8E0FF 58%,
-                                  #E8C547 80%, #FF6EC7 100%);
+  --ink:           #0F0524;   /* deep midnight bg */
+  --hot-pink:      #FF1493;   /* OG Sabrina hot pink */
+  --rose:          #FF80C8;
+  --bubblegum:     #FFB3D9;
+  --lavender:      #B19CD9;
+  --gold:          #FFD700;   /* brightest gold */
+  --mint:          #5FFFE6;   /* Salem's eyes */
+  --cyan:          #5BE0FF;   /* Y2K electric */
+  --text:          #FFF0F8;
+  --shimmer:       linear-gradient(135deg, #FF1493 0%, #FF80C8 18%,
+                                  #B19CD9 38%, #5BE0FF 58%,
+                                  #FFD700 80%, #FF1493 100%);
+  ...
+}
+
+/* Light mode is dramatically different — peachy cream bg, deep
+   purple text, deeper accents for legibility on light */
+html.light, body.light {
+  --ink:           #FFE4F1;   /* peachy pink cream bg */
+  --hot-pink:      #C2185B;   /* deeper magenta */
+  --lavender:      #7B2FBE;   /* deep electric purple */
+  --gold:          #B8860B;   /* dark goldenrod */
+  --text:          #2A0D35;   /* near-black aubergine */
   ...
 }
 ```
@@ -75,9 +86,25 @@ Change those, and the rest of the dashboard follows. Try a different palette:
 - **Other Realm green:** swap `--hot-pink` for `#39FF14` and `--lavender` for `#76FF7A`
 - **Sunset Witch:** swap to coral/peach (`#FF7E73`, `#FFCB7A`, `#FFB3D9`)
 - **Coquette:** swap `--hot-pink` for `#FF8FB8`, `--gold` for `#F5E6BD`, `--lavender` for `#FAD0E5`
+- **Lisa Frank:** ramp saturation everywhere — `--hot-pink:#FF00C8`, `--cyan:#00FFFF`, `--gold:#FFFF00`, `--mint:#00FF80`
 
 The same vars are mirrored in `coven-mail-bridge/server.py` (Spellbook UI)
 and `magic-mirror/style.css` (TV kiosk). Update all three for a coherent look.
+
+### Changing the greeting font
+
+The greeting "Welcome home, Sabrina" uses **Pacifico** (chunky bouncy
+cursive — closest commercial match to the actual show logo). To swap:
+
+1. Pick a font from https://fonts.google.com/?category=Handwriting
+   that's chunky/bouncy — try **Lobster**, **Cookie**, **Sacramento**,
+   **Caveat Brush**, or **Bilbo Swash Caps**
+2. Update the `@import` URL at the top of `homepage/custom.css` (and
+   the same `<link>` in `coven-mail-bridge/server.py` + `magic-mirror/index.html`)
+3. Change `[id*="greeting"] { font-family: 'Pacifico', cursive; ... }`
+   to your new font.
+
+The same iridescent gradient text-fill works for any cursive script.
 
 ## Swapping the SVG decorative assets
 

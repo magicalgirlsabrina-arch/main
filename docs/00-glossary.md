@@ -79,32 +79,46 @@ small monospace font underneath. This page is the master key.
 
 ## The palette: Westbridge Twilight + Dawn
 
-90s celestial Sabrina × Gen Z Y2K. Hot pink `#FF3FA4` is the show's
-actual logo color. Twilight (dark) is the default; Dawn (light) is
-the toggle.
+90s celestial Sabrina × Gen Z Y2K. Hot pink `#FF1493` is the OG show
+saturation, electric cyan `#5BE0FF` is the Y2K stop. Twilight (dark)
+is the default; Dawn (light) is a peachy-pink-cream second mode that
+flips dramatically on the toggle.
 
 | Token | Westbridge Twilight (dark) | Westbridge Dawn (light) | Used for |
 |---|---|---|---|
-| `--ink` | `#1A1B4B` (midnight navy) | `#F4EAFB` (veil) | page background |
-| `--hot-pink` | `#FF3FA4` (Sabrina logo) | `#C12B7E` | primary accent / hover glow |
-| `--rose` | `#FF6EC7` | `#DD4A95` | secondary pink |
-| `--bubblegum` | `#FFB6D5` | `#F296B8` | highlights |
-| `--lavender` | `#C8A2DB` (bedroom drapes) | `#7E66B0` | section headings |
-| `--gold` | `#E8C547` (spell gold) | `#B8842D` | values + ornaments |
-| `--mint` | `#A8F0D0` (Salem's eyes) | `#3D8E76` | success / online indicators |
-| `--holo-sky` | `#A8E0FF` | `#5A8FBC` | iridescent gradient stop |
-| `--ember` | `#FF8E8E` | `#C8485E` | danger / open circuits |
-| `--text` | `#F4EAFB` (veil) | `#2A1535` | primary copy |
+| `--ink` | `#0F0524` (deep midnight) | `#FFE4F1` (peachy cream) | page background |
+| `--hot-pink` | `#FF1493` (OG Sabrina) | `#C2185B` | primary accent / hover glow |
+| `--rose` | `#FF80C8` | `#E91E63` | secondary pink |
+| `--bubblegum` | `#FFB3D9` | `#F48FB1` | highlights |
+| `--lavender` | `#B19CD9` | `#7B2FBE` (deep electric purple) | section headings, icons |
+| `--gold` | `#FFD700` (brightest) | `#B8860B` (dark goldenrod) | values + ornaments |
+| `--mint` | `#5FFFE6` (Salem's eyes) | `#2E7D5C` | success / online |
+| `--cyan` | `#5BE0FF` (Y2K electric) | `#0288D1` | iridescent gradient stop |
+| `--ember` | `#FF6B6B` | `#C62828` | danger / open circuits |
+| `--text` | `#FFF0F8` | `#2A0D35` (near-black aubergine) | primary copy |
 
 Fonts:
+- **Pacifico** (cursive, 400) — the personal greeting "Welcome home,
+  Sabrina" only. Closest commercial match to the actual Sabrina the
+  Teenage Witch logo: chunky, bouncy, connected letterforms with
+  exaggerated swashes. Filled with the iridescent gradient that drifts
+  through pink → lavender → cyan → gold every 8 seconds.
 - **Cinzel Decorative** (400 / 700 / 900) — chapter-heading section
-  titles + card titles. Roman inscriptional, properly witchy.
-- **Sacramento** (cursive) — the personal greeting "Welcome home,
-  Sabrina" only, with iridescent gradient text fill that drifts.
-- **Quicksand** (400 / 500 / 600 / 700) — body copy. Rounded, friendly,
-  90s-coded.
+  titles + card titles. Roman inscriptional with flourishes.
+- **Quicksand** (400 / 500 / 600 / 700) — body copy. Rounded,
+  friendly, 90s-coded.
 - **JetBrains Mono** (300 / 400 / 500) — technical subtitles in
   lowercase letter-spaced.
+
+### Where each mode looks dramatically different
+
+| Element | Twilight (dark) | Dawn (light) |
+|---|---|---|
+| Background | midnight purple with pink/lavender/cyan nebula washes + 18-star drifting starfield + 6 floating SVG sparkles | peachy pink cream with subtle pink/purple/gold radial accents, no starfield (it's invisible on light), softer sparkles |
+| Glass cards | translucent dark glass, hot-pink border-glow, iridescent shimmer on hover | translucent white glass, deep-pink border-glow on hover |
+| Section titles | bubblegum pink with hot-pink glow text-shadow | hot-pink (deeper #C2185B) — no glow, sits cleanly on the cream bg |
+| Greeting | iridescent rainbow gradient text fill, drop-shadowed in pink + gold | same gradient (works on both modes via background-clip text) |
+| Crescent moon corner | gold, drifting at 14s loop | gold, drifting at 14s loop |
 
 ## Decorative SVG assets
 

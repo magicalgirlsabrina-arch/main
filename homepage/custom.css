@@ -1,103 +1,100 @@
 /* ─────────────────────────────────────────────────────────────────────
    SPELLMAN MANOR · 90s Celestial × Gen Z Y2K
-   Hot pink Sabrina palette, decorative serif, iridescent chrome accents,
-   sparkle SVG ornaments, holographic hover shimmer, drifting starfield.
+   v4 — bolder, more saturated, distinct light/dark modes,
+   Pacifico greeting (Sabrina-logo style), denser starfield, more
+   sparkle ornaments, drifting celestial accents.
 
    Core fonts:
+     - Pacifico — the personal greeting "Welcome home, Sabrina" only.
+       Chunky bouncy cursive, the closest commercial match to the
+       actual Sabrina the Teenage Witch logo.
      - Cinzel Decorative — chapter-heading section titles + card titles
-     - Sacramento — personal greeting only
      - Quicksand — body
      - JetBrains Mono — technical subtitles
-
-   Decorative SVGs in /images/:
-     sparkle.svg · twinkle.svg · crescent.svg · star.svg
-     butterfly.svg · jewel.svg
    ───────────────────────────────────────────────────────────────────── */
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Quicksand:wght@400;500;600;700&family=Sacramento&family=JetBrains+Mono:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Quicksand:wght@400;500;600;700&family=Pacifico&family=JetBrains+Mono:wght@300;400;500&display=swap');
 
-/* ── Westbridge Twilight (default · dark) ─────────────────────────── */
-/* Palette tuned to the actual Sabrina the Teenage Witch (1996-2003)
-   visual identity — hot pink #FF3FA4 from the show's logo, bubblegum
-   secondary, lavender from the bedroom drapes, midnight navy bg,
-   spell gold for accents, holo sky for the Y2K iridescent stops.    */
+/* ── Westbridge Twilight (default · dark) — bolder 90s ────────────── */
 :root, html, body {
-  --ink:           #1A1B4B;       /* midnight navy — show-accurate */
-  --ink-velvet:    #2A1B5C;
-  --ink-aubergine: #3D1B6E;
-  --ink-cosmic:    #5E2A84;       /* deep cosmos */
+  --ink:           #0F0524;       /* deeper midnight */
+  --ink-velvet:    #1A0838;
+  --ink-aubergine: #2D0F4E;
+  --ink-cosmic:    #4B1F8E;       /* raised cards */
 
-  --glass:         rgba(255, 220, 240, 0.05);
-  --glass-strong:  rgba(255, 220, 240, 0.10);
-  --glass-border:  rgba(255, 63, 164, 0.22);
+  --glass:         rgba(255, 220, 240, 0.06);
+  --glass-strong:  rgba(255, 220, 240, 0.11);
+  --glass-border:  rgba(255, 20, 147, 0.32);
 
-  --hot-pink:      #FF3FA4;       /* Sabrina logo pink — the one */
-  --rose:          #FF6EC7;       /* lighter Sabrina pink */
-  --bubblegum:     #FFB6D5;       /* show-accurate bubblegum */
-  --rose-glow:     rgba(255, 63, 164, 0.50);
-  --lavender:      #C8A2DB;       /* show-accurate lavender (bedroom drapes) */
+  --hot-pink:      #FF1493;       /* OG Sabrina hot pink — 90s saturation */
+  --rose:          #FF80C8;       /* lighter pink */
+  --bubblegum:     #FFB3D9;
+  --rose-glow:     rgba(255, 20, 147, 0.60);
+  --lavender:      #B19CD9;       /* OG lavender */
   --violet:        #9B7EDE;
-  --deep-cosmos:   #5E2A84;
-  --gold:          #E8C547;       /* show-accurate spell gold */
-  --gold-warm:     #FFD66B;
-  --gold-glow:     rgba(232, 197, 71, 0.45);
-  --mint:          #A8F0D0;       /* Salem's eyes */
-  --holo-sky:      #A8E0FF;       /* iridescent stop */
-  --ember:         #FF8E8E;
-  --cream:         #F4EAFB;       /* veil */
+  --electric:      #7B2FBE;       /* deep electric purple */
+  --gold:          #FFD700;       /* brightest gold */
+  --gold-warm:     #FFE066;
+  --gold-glow:     rgba(255, 215, 0, 0.55);
+  --mint:          #5FFFE6;       /* brighter Salem-eyes mint */
+  --cyan:          #5BE0FF;       /* electric Y2K cyan */
+  --ember:         #FF6B6B;
+  --cream:         #FFF0F8;
 
-  --text:          #F4EAFB;
-  --text-2:        rgba(244, 234, 251, 0.78);
-  --text-3:        rgba(244, 234, 251, 0.50);
+  --text:          #FFF0F8;
+  --text-2:        rgba(255, 240, 248, 0.82);
+  --text-3:        rgba(255, 240, 248, 0.55);
 
-  /* Iridescent / holographic gradients (Gen Z Y2K layer) */
+  /* Iridescent / holographic gradients — bolder stops */
   --shimmer:       linear-gradient(135deg,
-                     #FF3FA4 0%, #FF6EC7 18%, #C8A2DB 38%,
-                     #A8E0FF 58%, #E8C547 80%, #FF6EC7 100%);
+                     #FF1493 0%, #FF80C8 18%, #B19CD9 38%,
+                     #5BE0FF 58%, #FFD700 80%, #FF1493 100%);
   --chrome:        linear-gradient(180deg,
-                     #FFFFFF 0%, #FFB6D5 22%, #C8A2DB 50%,
-                     #FFB6D5 78%, #FFFFFF 100%);
+                     #FFFFFF 0%, #FFB3D9 22%, #B19CD9 50%,
+                     #FFB3D9 78%, #FFFFFF 100%);
   --iridescent:    conic-gradient(from 180deg at 50% 50%,
-                     #FF6EC7, #C8A2DB, #A8E0FF, #FFD66B, #FFB6D5, #FF6EC7);
+                     #FF80C8, #B19CD9, #5BE0FF, #FFD700, #FFB3D9, #FF80C8);
 
-  --shadow-soft:   0 4px 24px rgba(26, 27, 75, 0.6);
-  --shadow-card:   0 8px 32px rgba(26, 27, 75, 0.55), inset 0 1px 0 rgba(244, 234, 251, 0.08);
-  --shadow-glow:   0 0 24px var(--rose-glow);
-  --shadow-aura:   0 0 40px rgba(255, 63, 164, 0.20);
+  --shadow-soft:   0 4px 24px rgba(15, 5, 36, 0.7);
+  --shadow-card:   0 8px 32px rgba(15, 5, 36, 0.65), inset 0 1px 0 rgba(255, 240, 248, 0.08);
+  --shadow-glow:   0 0 32px var(--rose-glow);
+  --shadow-aura:   0 0 48px rgba(255, 20, 147, 0.28);
 }
 
-/* ── Westbridge Dawn (light) ──────────────────────────────────────── */
+/* ── Westbridge Dawn (light) — actually light, peachy pink cream ─── */
 html.light, body.light {
-  --ink:           #F4EAFB;        /* veil */
-  --ink-velvet:    #FFE4EF;
-  --ink-aubergine: #F5D2E5;
-  --ink-cosmic:    #E5C0DA;
+  --ink:           #FFE4F1;       /* peachy pink cream — bg */
+  --ink-velvet:    #FFCCE0;
+  --ink-aubergine: #FAB4D2;
+  --ink-cosmic:    #F296BC;
 
-  --glass:         rgba(255, 255, 255, 0.65);
-  --glass-strong:  rgba(255, 255, 255, 0.85);
-  --glass-border:  rgba(255, 63, 164, 0.18);
+  --glass:         rgba(255, 255, 255, 0.70);
+  --glass-strong:  rgba(255, 255, 255, 0.90);
+  --glass-border:  rgba(194, 24, 91, 0.28);
 
-  --hot-pink:      #C12B7E;
-  --rose:          #DD4A95;
-  --bubblegum:     #F296B8;
-  --rose-glow:     rgba(193, 43, 126, 0.30);
-  --lavender:      #7E66B0;
-  --violet:        #6045A0;
-  --deep-cosmos:   #5E2A84;
-  --gold:          #B8842D;
-  --gold-warm:     #D4A04B;
-  --gold-glow:     rgba(184, 132, 45, 0.30);
-  --mint:          #3D8E76;
-  --holo-sky:      #5A8FBC;
-  --cream:         #F4EAFB;
+  --hot-pink:      #C2185B;       /* deeper for contrast on light */
+  --rose:          #E91E63;
+  --bubblegum:     #F48FB1;
+  --rose-glow:     rgba(194, 24, 91, 0.32);
+  --lavender:      #7B2FBE;       /* deep electric purple for legibility */
+  --violet:        #6A1B9A;
+  --electric:      #5E2A84;
+  --gold:          #B8860B;       /* dark goldenrod */
+  --gold-warm:     #DAA520;
+  --gold-glow:     rgba(184, 134, 11, 0.32);
+  --mint:          #2E7D5C;
+  --cyan:          #0288D1;
+  --ember:         #C62828;
+  --cream:         #FFF8FB;
 
-  --text:          #2A1535;
-  --text-2:        rgba(42, 21, 53, 0.78);
-  --text-3:        rgba(42, 21, 53, 0.50);
+  --text:          #2A0D35;       /* near-black aubergine */
+  --text-2:        rgba(42, 13, 53, 0.78);
+  --text-3:        rgba(42, 13, 53, 0.52);
 
-  --shadow-card:   0 8px 32px rgba(94, 42, 132, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  --shadow-soft:   0 4px 24px rgba(194, 24, 91, 0.10);
+  --shadow-card:   0 8px 32px rgba(194, 24, 91, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.70);
   --shadow-glow:   0 0 24px var(--rose-glow);
-  --shadow-aura:   0 0 40px rgba(193, 43, 126, 0.15);
+  --shadow-aura:   0 0 36px rgba(194, 24, 91, 0.18);
 }
 
 /* ── Body + atmospheric background ────────────────────────────────── */
@@ -109,48 +106,64 @@ body, html {
   font-weight: 500 !important;
 }
 
-/* Layered nebula background — 90s celestial with Y2K saturation */
+/* Layered nebula — 90s celestial pumped */
 body::before {
   content: '';
   position: fixed; inset: 0; z-index: -3; pointer-events: none;
   background:
-    radial-gradient(ellipse 60% 35% at 18% 10%,  rgba(255, 63, 164, 0.30), transparent 60%),
-    radial-gradient(ellipse 60% 50% at 85% 25%,  rgba(155, 126, 222, 0.32), transparent 60%),
-    radial-gradient(ellipse 70% 45% at 50% 90%,  rgba(232, 197, 71, 0.10), transparent 60%),
-    radial-gradient(ellipse 55% 50% at 80% 75%,  rgba(168, 224, 255, 0.10), transparent 60%),
+    radial-gradient(ellipse 60% 35% at 18% 10%, rgba(255, 20, 147, 0.34), transparent 60%),
+    radial-gradient(ellipse 65% 50% at 85% 25%, rgba(155, 126, 222, 0.36), transparent 60%),
+    radial-gradient(ellipse 70% 45% at 50% 92%, rgba(255, 215, 0, 0.14), transparent 60%),
+    radial-gradient(ellipse 55% 50% at 80% 75%, rgba(91, 224, 255, 0.14), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 25% 70%, rgba(255, 128, 200, 0.18), transparent 60%),
     linear-gradient(180deg, var(--ink) 0%, var(--ink-velvet) 50%, var(--ink-aubergine) 100%);
 }
 
-/* Drifting starfield via radial dots */
+body.light::before {
+  background:
+    radial-gradient(ellipse 60% 35% at 18% 10%, rgba(255, 20, 147, 0.18), transparent 60%),
+    radial-gradient(ellipse 65% 50% at 85% 25%, rgba(123, 47, 190, 0.16), transparent 60%),
+    radial-gradient(ellipse 70% 45% at 50% 92%, rgba(184, 134, 11, 0.10), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 25% 70%, rgba(244, 143, 177, 0.20), transparent 60%),
+    linear-gradient(180deg, var(--ink) 0%, var(--ink-velvet) 50%, var(--ink-aubergine) 100%);
+}
+
+/* Drifting starfield — denser, brighter, more saturated */
 body::after {
   content: '';
   position: fixed; inset: 0; z-index: -2; pointer-events: none;
   background-image:
-    radial-gradient(2px 2px at 12% 18%,    rgba(244, 234, 251, 0.95), transparent 60%),
-    radial-gradient(2.5px 2.5px at 28% 72%, rgba(232, 197, 71, 0.85),  transparent 60%),
-    radial-gradient(1.5px 1.5px at 47% 9%,  rgba(255, 110, 199, 0.85), transparent 60%),
-    radial-gradient(2px 2px at 65% 44%,    rgba(244, 234, 251, 0.65), transparent 60%),
-    radial-gradient(1.8px 1.8px at 80% 80%, rgba(232, 197, 71, 0.65),  transparent 60%),
-    radial-gradient(2.5px 2.5px at 92% 22%, rgba(255, 110, 199, 0.7),  transparent 60%),
-    radial-gradient(1.5px 1.5px at  8% 55%, rgba(244, 234, 251, 0.85), transparent 60%),
-    radial-gradient(2px 2px at 38% 38%,    rgba(255, 63, 164, 0.65),   transparent 60%),
-    radial-gradient(1.8px 1.8px at 73% 14%, rgba(244, 234, 251, 0.7),  transparent 60%),
-    radial-gradient(2px 2px at 56% 67%,    rgba(232, 197, 71, 0.55),   transparent 60%),
-    radial-gradient(1.5px 1.5px at 22% 35%, rgba(168, 224, 255, 0.6),   transparent 60%),
-    radial-gradient(2px 2px at 88% 55%,    rgba(244, 234, 251, 0.6),   transparent 60%);
+    radial-gradient(2.5px 2.5px at 12% 18%,    rgba(255, 240, 248, 1.0),  transparent 60%),
+    radial-gradient(3px 3px at 28% 72%,        rgba(255, 215, 0, 0.95),   transparent 60%),
+    radial-gradient(1.8px 1.8px at 47% 9%,     rgba(255, 128, 200, 0.95), transparent 60%),
+    radial-gradient(2.5px 2.5px at 65% 44%,    rgba(255, 240, 248, 0.75), transparent 60%),
+    radial-gradient(2px 2px at 80% 80%,        rgba(255, 215, 0, 0.75),   transparent 60%),
+    radial-gradient(3px 3px at 92% 22%,        rgba(255, 128, 200, 0.85), transparent 60%),
+    radial-gradient(1.8px 1.8px at  8% 55%,    rgba(255, 240, 248, 0.95), transparent 60%),
+    radial-gradient(2.5px 2.5px at 38% 38%,    rgba(255, 20, 147, 0.85),  transparent 60%),
+    radial-gradient(2px 2px at 73% 14%,        rgba(255, 240, 248, 0.80), transparent 60%),
+    radial-gradient(2.5px 2.5px at 56% 67%,    rgba(255, 215, 0, 0.65),   transparent 60%),
+    radial-gradient(1.8px 1.8px at 22% 35%,    rgba(91, 224, 255, 0.75),  transparent 60%),
+    radial-gradient(2.5px 2.5px at 88% 55%,    rgba(255, 240, 248, 0.70), transparent 60%),
+    radial-gradient(2px 2px at 35% 88%,        rgba(255, 20, 147, 0.75),  transparent 60%),
+    radial-gradient(2.5px 2.5px at 70% 88%,    rgba(255, 215, 0, 0.65),   transparent 60%),
+    radial-gradient(1.8px 1.8px at 58% 18%,    rgba(255, 128, 200, 0.80), transparent 60%),
+    radial-gradient(2px 2px at 5% 35%,         rgba(95, 255, 230, 0.65),  transparent 60%),
+    radial-gradient(2.5px 2.5px at 95% 65%,    rgba(255, 240, 248, 0.75), transparent 60%),
+    radial-gradient(2px 2px at 45% 55%,        rgba(255, 215, 0, 0.55),   transparent 60%);
   animation: drift 36s ease-in-out infinite alternate;
-  opacity: 0.95;
+  opacity: 1;
 }
 
 body.light::after { display: none; }
 
 @keyframes drift {
-  0%   { transform: translate(0, 0)     scale(1);    opacity: 0.75; }
-  50%  { transform: translate(-6px, 4px) scale(1.02); opacity: 1;    }
-  100% { transform: translate(4px, -6px) scale(1);    opacity: 0.85; }
+  0%   { transform: translate(0, 0)     scale(1);    opacity: 0.85; }
+  50%  { transform: translate(-6px, 4px) scale(1.02); opacity: 1.0;  }
+  100% { transform: translate(4px, -6px) scale(1);    opacity: 0.90; }
 }
 
-/* SVG sparkle layer — sprinkled through the page */
+/* Floating SVG sparkles — Y2K Gen Z layer, six positions, all pulse */
 body > div::before {
   content: '';
   position: fixed; inset: 0; z-index: -1; pointer-events: none;
@@ -158,19 +171,27 @@ body > div::before {
     url("/images/sparkle.svg"),
     url("/images/twinkle.svg"),
     url("/images/sparkle.svg"),
+    url("/images/twinkle.svg"),
+    url("/images/sparkle.svg"),
     url("/images/twinkle.svg");
-  background-position: 8% 22%, 78% 12%, 92% 78%, 18% 88%;
-  background-size: 14px, 10px, 18px, 12px;
+  background-position: 6% 18%, 78% 8%, 92% 78%, 18% 88%, 50% 6%, 92% 50%;
+  background-size: 18px, 14px, 22px, 16px, 14px, 16px;
   background-repeat: no-repeat;
-  opacity: 0.45;
-  animation: twinkle-sparkle 5s ease-in-out infinite alternate;
-  filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.6));
+  opacity: 0.7;
+  animation: sparkle-drift 5s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.7));
   color: var(--gold);
 }
 
-@keyframes twinkle-sparkle {
-  0%, 100% { opacity: 0.30; transform: scale(1); }
-  50%      { opacity: 0.65; transform: scale(1.1); }
+@keyframes sparkle-drift {
+  0%, 100% { opacity: 0.45; transform: scale(1)     rotate(0deg);  }
+  50%      { opacity: 0.85; transform: scale(1.12)  rotate(15deg); }
+}
+
+body.light > div::before {
+  filter: drop-shadow(0 0 6px rgba(184, 134, 11, 0.5));
+  color: var(--gold);
+  opacity: 0.55;
 }
 
 /* ── Header / greeting / resources widget ─────────────────────────── */
@@ -183,41 +204,48 @@ body > div::before {
   background: linear-gradient(180deg, rgba(45, 15, 78, 0.40), rgba(45, 15, 78, 0.05));
   position: relative;
 }
+body.light #information-widgets {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.20));
+}
 
-/* Sparkle ornaments framing the greeting */
+/* Sparkle ornaments framing the greeting — bigger, more vivid */
 #information-widgets::before,
 #information-widgets::after {
   content: '';
   position: absolute;
-  width: 24px; height: 24px;
+  width: 32px; height: 32px;
   background: url("/images/sparkle.svg") no-repeat center / contain;
-  filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.8));
+  filter: drop-shadow(0 0 16px var(--gold-glow))
+          drop-shadow(0 0 8px var(--rose-glow));
   color: var(--gold);
   animation: sparkle-pulse 2.5s ease-in-out infinite;
   pointer-events: none;
 }
-#information-widgets::before { top: 32px; left: 24px; }
-#information-widgets::after  { top: 32px; right: 24px; animation-delay: 1.25s; }
+#information-widgets::before { top: 36px; left: 28px; }
+#information-widgets::after  { top: 36px; right: 28px; animation-delay: 1.25s; }
 
 @keyframes sparkle-pulse {
-  0%, 100% { opacity: 0.55; transform: scale(1)    rotate(0deg);   }
-  50%      { opacity: 1;    transform: scale(1.2)  rotate(45deg);  }
+  0%, 100% { opacity: 0.6;  transform: scale(1)    rotate(0deg);   }
+  50%      { opacity: 1.0;  transform: scale(1.3)  rotate(60deg);  }
 }
 
-/* Greeting: Sacramento with iridescent gradient */
+/* GREETING — Pacifico, the closest match to the Sabrina logo font.
+   Chunky bouncy cursive, iridescent gradient text fill that drifts. */
 [id*="greeting"] {
-  font-family: 'Sacramento', cursive !important;
+  font-family: 'Pacifico', cursive !important;
   font-weight: 400 !important;
-  font-size: 3.5rem !important;
+  font-size: 3.4rem !important;
   background: var(--shimmer) !important;
   background-size: 200% 200% !important;
   -webkit-background-clip: text !important;
   background-clip: text !important;
   color: transparent !important;
-  filter: drop-shadow(0 0 28px var(--rose-glow));
-  letter-spacing: 0;
-  line-height: 1.05;
+  filter: drop-shadow(0 0 32px var(--rose-glow))
+          drop-shadow(0 0 12px var(--gold-glow));
+  letter-spacing: 0.005em;
+  line-height: 1.15;
   animation: shimmer-shift 8s ease-in-out infinite;
+  -webkit-text-stroke: 0;
 }
 
 @keyframes shimmer-shift {
@@ -252,11 +280,10 @@ body > div::before {
   font-family: 'Cinzel Decorative', serif !important;
   color: var(--gold) !important;
   font-weight: 700 !important;
-  text-shadow: 0 0 10px var(--gold-glow);
+  text-shadow: 0 0 12px var(--gold-glow);
 }
 
-/* ── Section / Group titles (chapter-heading treatment) ───────────── */
-/* Cinzel Decorative caps + sparkle SVG ornament prefix that twinkles. */
+/* ── Section / Group titles ────────────────────────────────────── */
 
 h1, h2 { color: var(--text) !important; }
 
@@ -269,14 +296,20 @@ h1, h2 { color: var(--text) !important; }
   font-size: 1.05em !important;
   letter-spacing: 0.18em !important;
   text-transform: uppercase !important;
-  color: var(--rose-soft) !important;
-  text-shadow: 0 0 18px var(--rose-glow), 0 0 8px rgba(255, 110, 199, 0.4);
+  color: var(--bubblegum) !important;
+  text-shadow: 0 0 20px var(--rose-glow), 0 0 10px rgba(255, 128, 200, 0.5);
   margin-bottom: 16px !important;
   position: relative;
   padding-left: 32px !important;
   display: inline-flex;
   align-items: center;
   min-height: 24px;
+}
+body.light [class*="layout-name"],
+body.light [class*="services-group"] h2,
+body.light [class*="bookmarks-group"] h2 {
+  color: var(--hot-pink) !important;
+  text-shadow: none;
 }
 
 /* Sparkle SVG ornament prefix */
@@ -289,18 +322,18 @@ h1, h2 { color: var(--text) !important; }
   transform: translateY(-50%);
   width: 22px; height: 22px;
   background: url("/images/sparkle.svg") no-repeat center / contain;
-  filter: drop-shadow(0 0 10px var(--gold-glow))
-          drop-shadow(0 0 4px var(--rose-glow));
+  filter: drop-shadow(0 0 12px var(--gold-glow))
+          drop-shadow(0 0 6px var(--rose-glow));
   color: var(--gold);
   animation: ornament-twinkle 3s ease-in-out infinite;
 }
 
 @keyframes ornament-twinkle {
   0%, 100% { opacity: 1;   transform: translateY(-50%) scale(1)    rotate(0deg);   }
-  50%      { opacity: 0.7; transform: translateY(-50%) scale(1.18) rotate(45deg);  }
+  50%      { opacity: 0.7; transform: translateY(-50%) scale(1.20) rotate(60deg);  }
 }
 
-/* ── Service tiles (the magical artifacts) ────────────────────────── */
+/* ── Service tiles ─────────────────────────────────────────────── */
 
 [class*="service-card"], [data-testid*="service-card"] {
   background: var(--glass) !important;
@@ -316,18 +349,17 @@ h1, h2 { color: var(--text) !important; }
 }
 
 [class*="service-card"]:hover {
-  border-color: var(--rose) !important;
+  border-color: var(--hot-pink) !important;
   transform: translateY(-3px);
   box-shadow:
-    0 16px 48px rgba(26, 27, 75, 0.7),
+    0 16px 48px rgba(15, 5, 36, 0.75),
     var(--shadow-aura),
-    0 0 32px var(--rose-glow),
-    0 0 16px var(--gold-glow) !important;
+    0 0 36px var(--rose-glow),
+    0 0 18px var(--gold-glow) !important;
   background: var(--glass-strong) !important;
 }
 
-/* Iridescent conic shimmer underlay (per Y2K research — `mix-blend-mode: screen`
-   over the dark base gives that oil-slick chrome look on hover) */
+/* Iridescent conic shimmer underlay */
 [class*="service-card"]::after {
   content: '';
   position: absolute;
@@ -342,7 +374,7 @@ h1, h2 { color: var(--text) !important; }
   z-index: 0;
 }
 
-[class*="service-card"]:hover::after { opacity: 0.35; }
+[class*="service-card"]:hover::after { opacity: 0.40; }
 
 /* Holographic shimmer sweep on hover (Y2K chrome) */
 [class*="service-card"]::before {
@@ -353,10 +385,10 @@ h1, h2 { color: var(--text) !important; }
   background: linear-gradient(
     115deg,
     transparent 0%,
-    rgba(255, 179, 217, 0.10) 30%,
-    rgba(155, 126, 222, 0.18) 45%,
-    rgba(127, 255, 233, 0.16) 55%,
-    rgba(255, 215, 0, 0.14) 70%,
+    rgba(255, 179, 217, 0.14) 30%,
+    rgba(155, 126, 222, 0.22) 45%,
+    rgba(91, 224, 255, 0.20) 55%,
+    rgba(255, 215, 0, 0.18) 70%,
     transparent 100%
   );
   transition: left 0.9s cubic-bezier(0.4, 0, 0.2, 1);
@@ -366,7 +398,7 @@ h1, h2 { color: var(--text) !important; }
 
 [class*="service-card"]:hover::before { left: 220%; }
 
-/* Card title: Cinzel Decorative — the OG witchy serif */
+/* Card title: Cinzel Decorative */
 [class*="service-name"], [data-testid*="service-name"] {
   font-family: 'Cinzel Decorative', serif !important;
   font-weight: 700 !important;
@@ -376,10 +408,12 @@ h1, h2 { color: var(--text) !important; }
   letter-spacing: 0.04em !important;
   text-transform: none !important;
   line-height: 1.3 !important;
-  text-shadow: 0 0 8px rgba(255, 110, 199, 0.20);
+  text-shadow: 0 0 10px rgba(255, 20, 147, 0.25);
+}
+body.light [class*="service-name"] {
+  text-shadow: none;
 }
 
-/* Card description = TECHNICAL SUBTITLE (mono, dimmed) */
 [class*="service-description"], [data-testid*="service-description"] {
   font-family: 'JetBrains Mono', monospace !important;
   color: var(--text-3) !important;
@@ -393,7 +427,6 @@ h1, h2 { color: var(--text) !important; }
   line-height: 1.55 !important;
 }
 
-/* Widget data inside tiles */
 [class*="service-widget"] {
   border-top: 1px solid var(--glass-border) !important;
   margin-top: 12px !important;
@@ -415,12 +448,10 @@ h1, h2 { color: var(--text) !important; }
   font-weight: 700 !important;
   color: var(--gold) !important;
   font-size: 1em !important;
-  text-shadow: 0 0 10px var(--gold-glow);
+  text-shadow: 0 0 12px var(--gold-glow);
 }
 
-/* ── Bookmarks ─────────────────────────────────────────────────────── */
-/* Tight pendant-like cards with sparkle accents. Kill the chip artifact
-   by NOT styling nested children as cards. */
+/* ── Bookmarks ─────────────────────────────────────────────────── */
 
 [class*="bookmarks-group"] [role="list"],
 [class*="bookmarks"] > ul,
@@ -449,13 +480,12 @@ h1, h2 { color: var(--text) !important; }
 
 [class*="bookmark"] a:hover,
 [class*="bookmark-card"]:hover {
-  border-color: var(--rose) !important;
+  border-color: var(--hot-pink) !important;
   background: var(--glass-strong) !important;
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(20, 6, 46, 0.5), 0 0 20px var(--rose-glow);
+  box-shadow: 0 8px 24px rgba(15, 5, 36, 0.5), 0 0 24px var(--rose-glow);
 }
 
-/* Reset child elements — kill chip artifacts */
 [class*="bookmark"] a > *:not([class*="icon"]):not(svg):not(img),
 [class*="bookmark-card"] > *:not([class*="icon"]):not(svg):not(img) {
   background: transparent !important;
@@ -467,7 +497,6 @@ h1, h2 { color: var(--text) !important; }
   margin: 0 !important;
 }
 
-/* Bookmark text container — name + description stack tightly */
 [class*="bookmark"] a > div:not([class*="icon"]),
 [class*="bookmark-card"] > div:not([class*="icon"]) {
   display: flex !important;
@@ -477,7 +506,6 @@ h1, h2 { color: var(--text) !important; }
   flex: 1 1 auto !important;
 }
 
-/* Bookmark name: Cinzel Decorative, 90s witchy */
 [class*="bookmark"] [class*="text"],
 [class*="bookmark"] [class*="name"],
 [class*="bookmark-card"] [class*="text"],
@@ -485,14 +513,17 @@ h1, h2 { color: var(--text) !important; }
   font-family: 'Cinzel Decorative', serif !important;
   font-weight: 700 !important;
   font-style: normal !important;
-  font-size: 0.92em !important;
+  font-size: 0.95em !important;
   color: var(--text) !important;
   letter-spacing: 0.05em !important;
   line-height: 1.2 !important;
-  text-shadow: 0 0 6px rgba(255, 110, 199, 0.18);
+  text-shadow: 0 0 8px rgba(255, 20, 147, 0.20);
+}
+body.light [class*="bookmark"] [class*="text"],
+body.light [class*="bookmark"] [class*="name"] {
+  text-shadow: none;
 }
 
-/* Bookmark description: tech subtitle directly under the name */
 [class*="bookmark"] [class*="description"],
 [class*="bookmark-card"] [class*="description"] {
   font-family: 'JetBrains Mono', monospace !important;
@@ -505,7 +536,6 @@ h1, h2 { color: var(--text) !important; }
   line-height: 1.4 !important;
 }
 
-/* Bookmark icon — pink-glow drop shadow */
 [class*="bookmark"] [class*="icon"],
 [class*="bookmark-card"] [class*="icon"] {
   flex-shrink: 0 !important;
@@ -519,19 +549,19 @@ h1, h2 { color: var(--text) !important; }
 [class*="bookmark-card"] [class*="icon"] svg {
   width: 24px !important;
   height: 24px !important;
-  filter: drop-shadow(0 0 8px var(--rose-glow)) drop-shadow(0 0 4px var(--gold-glow));
+  filter: drop-shadow(0 0 10px var(--rose-glow)) drop-shadow(0 0 5px var(--gold-glow));
 }
 
-/* Bookmark — sparkle accent on hover (right side) */
+/* Sparkle accent on hover (right side) */
 [class*="bookmark"] a::after,
 [class*="bookmark-card"]::after {
   content: '';
   position: absolute;
   right: 14px; top: 50%;
   transform: translateY(-50%) scale(0);
-  width: 12px; height: 12px;
+  width: 14px; height: 14px;
   background: url("/images/twinkle.svg") no-repeat center / contain;
-  filter: drop-shadow(0 0 6px var(--gold-glow));
+  filter: drop-shadow(0 0 8px var(--gold-glow));
   color: var(--gold);
   opacity: 0;
   transition: opacity 0.3s ease, transform 0.3s ease;
@@ -541,10 +571,10 @@ h1, h2 { color: var(--text) !important; }
 [class*="bookmark"] a:hover::after,
 [class*="bookmark-card"]:hover::after {
   opacity: 1;
-  transform: translateY(-50%) scale(1) rotate(15deg);
+  transform: translateY(-50%) scale(1) rotate(30deg);
 }
 
-/* ── Quick-launch / search ────────────────────────────────────────── */
+/* ── Quick-launch / search ────────────────────────────────────── */
 
 [class*="quicklaunch"] input, input[id*="quicklaunch"] {
   background: var(--glass-strong) !important;
@@ -558,12 +588,12 @@ h1, h2 { color: var(--text) !important; }
 }
 
 [class*="quicklaunch"] input:focus {
-  border-color: var(--rose) !important;
-  box-shadow: 0 0 0 3px rgba(255, 20, 147, 0.20), 0 0 20px var(--rose-glow) !important;
+  border-color: var(--hot-pink) !important;
+  box-shadow: 0 0 0 3px rgba(255, 20, 147, 0.25), 0 0 24px var(--rose-glow) !important;
   outline: none !important;
 }
 
-/* ── Theme toggle (day / night) ───────────────────────────────────── */
+/* ── Theme toggle ─────────────────────────────────────────────── */
 
 [class*="theme-toggle"], [data-testid*="theme-toggle"], button[aria-label*="theme"] {
   background: var(--glass) !important;
@@ -577,10 +607,40 @@ h1, h2 { color: var(--text) !important; }
   border-color: var(--gold) !important;
   background: var(--glass-strong) !important;
   box-shadow: 0 0 20px var(--gold-glow);
-  transform: scale(1.05);
+  transform: scale(1.08) rotate(15deg);
 }
 
-/* ── Responsive ────────────────────────────────────────────────────── */
+/* ── Crescent moon corner ornament ───────────────────────────── */
+
+body::before {
+  /* moon already on body::before via nebula? add it via after */
+}
+
+#information-widgets {
+  /* sparkles already added above */
+}
+
+/* Add a crescent in the bottom-right corner of the page */
+body > div:last-child::after {
+  content: '';
+  position: fixed;
+  bottom: 24px; right: 32px;
+  width: 36px; height: 36px;
+  background: url("/images/crescent.svg") no-repeat center / contain;
+  filter: drop-shadow(0 0 14px var(--gold-glow));
+  color: var(--gold);
+  opacity: 0.55;
+  animation: moon-drift 14s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes moon-drift {
+  0%, 100% { transform: translateY(0)    rotate(-8deg); opacity: 0.5; }
+  50%      { transform: translateY(-8px) rotate(8deg);  opacity: 0.75; }
+}
+
+/* ── Responsive ────────────────────────────────────────────────── */
 
 @media (max-width: 1280px) {
   [class*="layout-name"], [class*="services-group"] h2 {
@@ -596,9 +656,10 @@ h1, h2 { color: var(--text) !important; }
   [id*="greeting"] { font-size: 2.4rem !important; }
   #information-widgets::before,
   #information-widgets::after { display: none; }
+  body > div:last-child::after { width: 28px; height: 28px; bottom: 12px; right: 14px; }
 }
 
-/* ── Scrollbars ───────────────────────────────────────────────────── */
+/* ── Scrollbars ───────────────────────────────────────────────── */
 
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -608,17 +669,17 @@ h1, h2 { color: var(--text) !important; }
 }
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, var(--hot-pink), var(--rose));
-  box-shadow: 0 0 8px var(--rose-glow);
+  box-shadow: 0 0 12px var(--rose-glow);
 }
 
-/* ── Selection ────────────────────────────────────────────────────── */
+/* ── Selection ────────────────────────────────────────────────── */
 
 ::selection {
-  background: rgba(255, 20, 147, 0.45);
+  background: rgba(255, 20, 147, 0.50);
   color: var(--cream);
 }
 
-/* ── Footer credits ───────────────────────────────────────────────── */
+/* ── Footer credits ───────────────────────────────────────────── */
 
 [class*="version"], [class*="credit"] {
   opacity: 0.4 !important;
