@@ -1,12 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 220" preserveAspectRatio="xMidYMid meet">
   <!--
-    Hand-drawn "Sabrina" wordmark in the style of the actual show logo.
-    Reference: Bickley Script (1986, Alan Meeks) — copperplate-derived
-    with flowery looping capitals + delicate lowercase. Slanted,
-    single-weight. Capital S has a big curly flourish. The dot of the
-    i is replaced with a 5-point star (signature show element).
-    Filled with iridescent gradient via SMIL, drifts every 8s.
+    "Sabrina" wordmark using Allura — the closest free copperplate
+    script to the actual show logo (Bickley Script, 1986, proprietary).
+    Renders the word as SVG text so the kerning, baseline, and curves
+    are real script type — not hand-drawn approximations. Filled with
+    the iridescent gradient (SMIL animated). 5-point star above the
+    "i" is signature show element.
+
+    Allura is loaded via @import inside the SVG so the asset is
+    self-contained — no external font dependency in the host page.
   -->
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Allura&amp;display=swap');
+    .sabrina-text {
+      font-family: 'Allura', 'Brush Script MT', cursive;
+      font-size: 230px;
+      font-weight: 400;
+    }
+  </style>
 
   <defs>
     <linearGradient id="sabrina-shimmer" x1="0%" y1="20%" x2="100%" y2="80%">
@@ -36,109 +48,65 @@
     </filter>
   </defs>
 
-  <!-- Slight italic skew + tighter strokes for the copperplate look -->
-  <g transform="translate(30 0) skewX(-10)"
-     stroke="url(#sabrina-shimmer)"
-     stroke-width="9"
-     fill="none"
-     stroke-linecap="round"
-     stroke-linejoin="round"
-     filter="url(#sabrina-glow)">
+  <!-- The wordmark — Allura, centered, with iridescent gradient fill +
+       a thin dark outline (mimics the show logo's stroke effect). -->
+  <text x="380" y="165"
+        text-anchor="middle"
+        class="sabrina-text"
+        fill="url(#sabrina-shimmer)"
+        stroke="rgba(15, 5, 36, 0.45)"
+        stroke-width="1.5"
+        paint-order="stroke fill"
+        filter="url(#sabrina-glow)">Sabrina</text>
 
-    <!-- Capital S — exaggerated curly flourish at top + bottom (the
-         signature Bickley/Sabrina shape: a top loop sweeping high,
-         curving through the body, ending in an extended underline. -->
-    <path d="M 50 70
-             C 35 50  60 28  90 38
-             C 115 48  118 70  100 80
-             C 75 92   55 100  50 118
-             C 48 138  68 152  100 152
-             C 130 152  148 145  158 130"/>
+  <!-- 5-point star floating above the "i" (signature show element).
+       Allura's "i" lands roughly at x=445 of a centered "Sabrina" at
+       x=380, font-size 230. Star is sized + positioned to read as the
+       dot. Slow rotation + SMIL keeps it twinkling. -->
+  <path d="M 445 28
+           L 451 50
+           L 474 50
+           L 455 64
+           L 462 86
+           L 445 72
+           L 428 86
+           L 435 64
+           L 416 50
+           L 439 50 Z"
+        fill="url(#sabrina-shimmer)"
+        filter="url(#sabrina-glow)">
+    <animateTransform attributeName="transform"
+                      type="rotate"
+                      from="0 445 56"
+                      to="360 445 56"
+                      dur="14s"
+                      repeatCount="indefinite"/>
+  </path>
 
-    <!-- Tail flourish from bottom of S sweeping under the letter -->
-    <path d="M 60 152
-             C 40 158  20 145  18 130"
-          stroke-width="5" opacity="0.85"/>
-
-    <!-- a — lowercase round + tail connecting forward -->
-    <path d="M 184 118
-             C 184 100  202 96   215 100
-             C 230 105  232 122  225 138
-             C 215 152  195 152  188 142
-             M 232 138
-             C 232 152  240 162  256 162"/>
-
-    <!-- b — vertical riser + bowl, tail joining -->
-    <path d="M 282 50
-             L 274 152
-             M 278 110
-             C 295 102  316 105  324 122
-             C 330 140  315 158  292 156
-             C 282 154  276 148  274 142"/>
-
-    <!-- r — slim riser with hooked top -->
-    <path d="M 360 122
-             L 354 158
-             M 358 122
-             C 370 108  386 106  396 114"/>
-
-    <!-- i — slim vertical (star above is separate, see below) -->
-    <path d="M 432 122
-             L 426 160"/>
-
-    <!-- n — riser then two humps -->
-    <path d="M 470 158
-             L 478 122
-             M 478 130
-             C 488 110  508 110  512 126
-             L 506 158
-             M 512 130
-             C 522 110  542 110  546 126
-             L 540 158"/>
-
-    <!-- a — final letter, with extended tail-swash flowing right -->
-    <path d="M 580 122
-             C 580 104  600 100  613 106
-             C 628 112  628 130  620 144
-             C 610 158  588 156  582 144
-             M 625 142
-             C 628 162  650 168  680 168
-             C 706 168  720 156  720 140"/>
-  </g>
-
-  <!-- 5-point star above the "i" — gradient fill, slow rotation -->
-  <g transform="translate(30 0) skewX(-10)" filter="url(#sabrina-glow)">
-    <path d="M 432 60
-             L 438 78
-             L 458 78
-             L 442 90
-             L 449 110
-             L 432 97
-             L 415 110
-             L 422 90
-             L 406 78
-             L 426 78 Z"
-          fill="url(#sabrina-shimmer)">
-      <animateTransform attributeName="transform"
-                        type="rotate"
-                        from="0 432 84"
-                        to="360 432 84"
-                        dur="14s"
-                        repeatCount="indefinite"/>
-    </path>
-  </g>
-
-  <!-- Small accent sparkle floating right of the wordmark -->
-  <path transform="translate(30 0) skewX(-10)"
-        d="M 720 80
-           L 723 92
-           L 735 95
-           L 723 98
-           L 720 110
-           L 717 98
-           L 705 95
-           L 717 92 Z"
+  <!-- Small accent sparkles flanking the wordmark -->
+  <path d="M 60 60
+           L 64 78
+           L 82 78
+           L 67 89
+           L 73 107
+           L 60 95
+           L 47 107
+           L 53 89
+           L 38 78
+           L 56 78 Z"
         fill="url(#sabrina-shimmer)"
         opacity="0.85"
+        filter="url(#sabrina-glow)"/>
+
+  <path d="M 700 130
+           L 703 144
+           L 717 146
+           L 703 148
+           L 700 162
+           L 697 148
+           L 683 146
+           L 697 144 Z"
+        fill="url(#sabrina-shimmer)"
+        opacity="0.75"
         filter="url(#sabrina-glow)"/>
 </svg>

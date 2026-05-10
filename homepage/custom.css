@@ -272,14 +272,11 @@ body.light #information-widgets {
   50%      { opacity: 1.0;  transform: scale(1.3)  rotate(60deg);  }
 }
 
-/* GREETING — replace Homepage's plain "Welcome home, Sabrina" text
-   with the hand-drawn SVG wordmark. Targets every plausible greeting
-   selector Homepage emits, hides any nested text via font-size:0 +
-   color:transparent on all descendants, then paints the wordmark via
-   background-image on the wrapper itself. The wordmark's own SMIL
-   animation handles the iridescent gradient drift. */
+/* GREETING — Hide Homepage's plain "Welcome home, Sabrina" text and
+   replace it with: (a) a small "Welcome home," subtitle in Quicksand
+   above, and (b) the Sabrina wordmark SVG below. Two pseudo-elements
+   on the same wrapper handle both. */
 
-/* Hide the original "Welcome home, Sabrina" text */
 [id*="greeting"], [class*="greeting"],
 [id*="information-widget-greeting"], [class*="information-widget-greeting"],
 [data-cy="greeting"] {
@@ -287,27 +284,70 @@ body.light #information-widgets {
   color: transparent !important;
   line-height: 0 !important;
   text-align: center !important;
-  display: block !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
   width: 100% !important;
-  height: clamp(96px, 14vmin, 168px) !important;
+  min-height: clamp(140px, 22vmin, 240px) !important;
   margin: 12px auto 4px !important;
+  position: relative !important;
+  background: transparent !important;
+  animation: none !important;
+}
+
+/* Welcome home, prefix — small Quicksand uppercase, sits above the wordmark */
+[id*="greeting"]::before, [class*="greeting"]::before,
+[id*="information-widget-greeting"]::before, [class*="information-widget-greeting"]::before,
+[data-cy="greeting"]::before {
+  content: 'Welcome home,' !important;
+  display: block !important;
+  visibility: visible !important;
+  font-family: 'Quicksand', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: clamp(13px, 1.6vmin, 18px) !important;
+  letter-spacing: 0.42em !important;
+  text-transform: uppercase !important;
+  color: var(--bubblegum) !important;
+  line-height: 1.2 !important;
+  margin-bottom: clamp(6px, 1vh, 14px) !important;
+  text-shadow: 0 0 14px var(--rose-glow) !important;
+  opacity: 0.92 !important;
+}
+html.light [id*="greeting"]::before, html.light [class*="greeting"]::before,
+body.light [id*="greeting"]::before, body.light [class*="greeting"]::before,
+[data-theme="light"] [id*="greeting"]::before {
+  color: var(--hot-pink) !important;
+  text-shadow: none !important;
+}
+
+/* Sabrina wordmark — sits below the prefix */
+[id*="greeting"]::after, [class*="greeting"]::after,
+[id*="information-widget-greeting"]::after, [class*="information-widget-greeting"]::after,
+[data-cy="greeting"]::after {
+  content: '' !important;
+  display: block !important;
+  visibility: visible !important;
+  width: clamp(280px, 42vmin, 540px) !important;
+  height: clamp(80px, 13vmin, 156px) !important;
   background-image: url('/images/sabrina-wordmark.svg') !important;
   background-repeat: no-repeat !important;
   background-position: center !important;
   background-size: contain !important;
   filter: drop-shadow(0 0 36px var(--rose-glow))
           drop-shadow(0 0 16px var(--gold-glow));
-  animation: greeting-bounce 6s ease-in-out infinite;
+  animation: greeting-bounce 6s ease-in-out infinite !important;
 }
 
-/* Belt-and-suspenders: kill any text rendering on descendants */
-[id*="greeting"] *, [class*="greeting"] *,
-[id*="information-widget-greeting"] *,
-[class*="information-widget-greeting"] *,
-[data-cy="greeting"] * {
+/* Belt-and-suspenders: kill any descendant text rendering */
+[id*="greeting"] > *, [class*="greeting"] > *,
+[id*="information-widget-greeting"] > *,
+[class*="information-widget-greeting"] > *,
+[data-cy="greeting"] > * {
   font-size: 0 !important;
   color: transparent !important;
   visibility: hidden !important;
+  line-height: 0 !important;
 }
 
 @keyframes greeting-bounce {
@@ -368,9 +408,14 @@ h1, h2 { color: var(--text) !important; }
   margin-bottom: 16px !important;
   position: relative;
   padding-left: 32px !important;
-  display: inline-flex;
-  align-items: center;
-  min-height: 24px;
+  display: flex !important;
+  align-items: center !important;
+  /* Reserve room for two-line wraps so all columns' tiles line up
+     horizontally regardless of how each title breaks. Without this,
+     "Sabrina's Locker" might render two lines while "Coven" stays
+     one — pushing all the tiles below them out of alignment. */
+  min-height: clamp(50px, 5.4em, 64px) !important;
+  line-height: 1.25 !important;
 }
 /* Light mode targets — Homepage may flag light theme as html.light,
    body.light, html[data-theme="light"], or [data-theme="light"]

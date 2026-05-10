@@ -9,7 +9,9 @@ cardBlur: xl
 layout:
   Sabrina's Locker:
     style: column
-    icon: mdi-star-four-points
+    # Diary, not a sparkle — this is Sabrina's locker / personal book,
+    # not just another generic celestial accent. Heart-bound notebook.
+    icon: mdi-book-heart-outline
   Coven:
     style: column
     icon: mdi-cat
