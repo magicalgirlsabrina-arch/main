@@ -228,6 +228,56 @@ Three checks, in order:
    `proxy_set_header Accept-Encoding "";` is still in
    `homepage-pwa/nginx.conf`.
 
+## Tiles show literal `{{HOMEPAGE_VAR_SPELLMAN_MANOR_IP}}` in URLs
+
+Homepage only substitutes env vars that have the `HOMEPAGE_VAR_` prefix
+on the container — without that prefix, the variable isn't exposed to
+the YAML templating engine and the `{{...}}` placeholder shows verbatim.
+
+In `docker-compose.yml`, the `homepage` service must use the prefixed
+form:
+
+```yaml
+homepage:
+  environment:
+    HOMEPAGE_VAR_SPELLMAN_MANOR_IP:    ${SPELLMAN_MANOR_IP}
+    HOMEPAGE_VAR_HARVEYS_BIG_GAME_IP:  ${HARVEYS_BIG_GAME_IP}
+    HOMEPAGE_VAR_ZELDAS_LABTOP_IP:     ${ZELDAS_LABTOP_IP}
+    # … etc for ports + tokens
+```
+
+The unprefixed form (`SPELLMAN_MANOR_IP: ${SPELLMAN_MANOR_IP}`)
+*looks* like it should work — Docker Compose will set the env var
+inside the container — but Homepage filters which vars get exposed
+to the YAML context. After fixing, `docker compose up -d homepage` to
+restart with the new env block.
+
+## Bridge: "Network is unreachable" / familiar tiles all error
+
+Symptom: every familiar tile shows "API Error Information" or
+`<urlopen error [Errno 101] Network is unreachable>`.
+
+Root cause: the bridge container can't route to the host's tailnet IP
+from inside Docker for Mac. Docker NATs container traffic through a
+Linux VM, and that VM doesn't see the Mac's tailnet0 routes.
+
+Fix (Salem + Hilda — same Mac as the bridge): set their `*_HOST` env
+to `host.docker.internal` (Docker Desktop's built-in alias for the
+Mac host). This routes via the Mac's loopback to ports 18789 / 18790
+where Salem and Hilda listen. Already wired in `docker-compose.yml`.
+
+Fix (Zelda + Harvey — different Macs): the bridge calls their tailnet
+IPs (`100.79.115.101`, `100.112.73.96`). Docker for Mac usually NATs
+those through the host correctly, but if the container still gets
+"Network is unreachable" for them:
+
+1. Confirm the host Mac can reach them: `curl http://100.112.73.96:18789/health` (from the mini's terminal). If this works, Docker is the only thing blocked.
+2. Restart Docker Desktop — networking sometimes goes sideways after a tailscale reconnect.
+3. If still broken, set up a tiny `tailscale serve` proxy on each remote Mac so the bridge can reach `https://zeldas-labtop.<tailnet>.ts.net/health` instead.
+
+The bridge handles unreachable familiars gracefully — tiles just show
+"—" for model / tok-s / sessions until connectivity returns.
+
 ## Theme color is wrong on installed iOS PWA
 
 Means a stripped tag still made it to the head. View-source the

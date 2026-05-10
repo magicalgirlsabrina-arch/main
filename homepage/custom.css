@@ -272,53 +272,42 @@ body.light #information-widgets {
   50%      { opacity: 1.0;  transform: scale(1.3)  rotate(60deg);  }
 }
 
-/* GREETING — render the custom hand-drawn Sabrina SVG wordmark instead
-   of the Homepage greeting text. The actual text gets indent-hidden;
-   the SVG is a background-image with its own animated iridescent
-   gradient (SMIL inside the SVG). The SVG's :before rendering shows
-   the "Welcome home," prefix in elegant Quicksand italic small caps,
-   sized smaller so the hand-drawn "Sabrina" is the hero. */
-[id*="greeting"] {
-  /* Hide the actual text — we replace it with the SVG wordmark */
+/* GREETING — replace Homepage's plain "Welcome home, Sabrina" text
+   with the hand-drawn SVG wordmark. Targets every plausible greeting
+   selector Homepage emits, hides any nested text via font-size:0 +
+   color:transparent on all descendants, then paints the wordmark via
+   background-image on the wrapper itself. The wordmark's own SMIL
+   animation handles the iridescent gradient drift. */
+
+/* Hide the original "Welcome home, Sabrina" text */
+[id*="greeting"], [class*="greeting"],
+[id*="information-widget-greeting"], [class*="information-widget-greeting"],
+[data-cy="greeting"] {
   font-size: 0 !important;
   color: transparent !important;
-  background: transparent !important;
-  position: relative !important;
+  line-height: 0 !important;
+  text-align: center !important;
   display: block !important;
   width: 100% !important;
-  text-align: center !important;
-  margin: 8px 0 4px !important;
-  min-height: clamp(80px, 14vmin, 160px);
-}
-
-/* Welcome home, prefix — sits above the wordmark */
-[id*="greeting"]::before {
-  content: 'Welcome home,';
-  display: block;
-  font-family: 'Quicksand', sans-serif;
-  font-weight: 600;
-  font-size: clamp(14px, 1.6vmin, 20px);
-  letter-spacing: 0.42em;
-  text-transform: uppercase;
-  color: var(--bubblegum);
-  margin-bottom: clamp(4px, 0.8vh, 12px);
-  text-shadow: 0 0 16px var(--rose-glow);
-  opacity: 0.92;
-}
-
-/* Sabrina wordmark — hand-drawn SVG with animated iridescent gradient */
-[id*="greeting"]::after {
-  content: '';
-  display: block;
-  width: clamp(280px, 40vmin, 520px);
-  max-width: 90%;
-  height: clamp(80px, 12vmin, 144px);
-  margin: 0 auto;
-  background: url('/images/sabrina-wordmark.svg') no-repeat center / contain;
+  height: clamp(96px, 14vmin, 168px) !important;
+  margin: 12px auto 4px !important;
+  background-image: url('/images/sabrina-wordmark.svg') !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: contain !important;
   filter: drop-shadow(0 0 36px var(--rose-glow))
           drop-shadow(0 0 16px var(--gold-glow));
-  /* Gentle bounce — the wordmark itself has gradient shimmer animation */
   animation: greeting-bounce 6s ease-in-out infinite;
+}
+
+/* Belt-and-suspenders: kill any text rendering on descendants */
+[id*="greeting"] *, [class*="greeting"] *,
+[id*="information-widget-greeting"] *,
+[class*="information-widget-greeting"] *,
+[data-cy="greeting"] * {
+  font-size: 0 !important;
+  color: transparent !important;
+  visibility: hidden !important;
 }
 
 @keyframes greeting-bounce {
@@ -383,11 +372,51 @@ h1, h2 { color: var(--text) !important; }
   align-items: center;
   min-height: 24px;
 }
+/* Light mode targets — Homepage may flag light theme as html.light,
+   body.light, html[data-theme="light"], or [data-theme="light"]
+   depending on version. Cover all four. */
+html.light [class*="layout-name"],
+html.light [class*="services-group"] h2,
+html.light [class*="bookmarks-group"] h2,
 body.light [class*="layout-name"],
 body.light [class*="services-group"] h2,
-body.light [class*="bookmarks-group"] h2 {
+body.light [class*="bookmarks-group"] h2,
+[data-theme="light"] [class*="layout-name"],
+[data-theme="light"] [class*="services-group"] h2,
+[data-theme="light"] [class*="bookmarks-group"] h2 {
   color: var(--hot-pink) !important;
-  text-shadow: none;
+  text-shadow: none !important;
+}
+
+/* Light-mode body text + greeting + cards must have proper contrast */
+html.light, body.light, [data-theme="light"] {
+  color: var(--text) !important;
+}
+html.light [class*="service-name"],
+body.light [class*="service-name"],
+[data-theme="light"] [class*="service-name"] {
+  text-shadow: none !important;
+  color: var(--text) !important;
+}
+html.light [class*="service-description"],
+body.light [class*="service-description"],
+[data-theme="light"] [class*="service-description"] {
+  color: var(--text-2) !important;
+}
+html.light [class*="bookmark"] [class*="text"],
+html.light [class*="bookmark"] [class*="name"],
+body.light [class*="bookmark"] [class*="text"],
+body.light [class*="bookmark"] [class*="name"],
+[data-theme="light"] [class*="bookmark"] [class*="text"],
+[data-theme="light"] [class*="bookmark"] [class*="name"] {
+  text-shadow: none !important;
+  color: var(--text) !important;
+}
+html.light [class*="widget-value"],
+body.light [class*="widget-value"],
+[data-theme="light"] [class*="widget-value"] {
+  text-shadow: none !important;
+  color: var(--gold) !important;
 }
 
 /* Sparkle SVG ornament prefix */
@@ -445,22 +474,11 @@ body.light [class*="bookmarks-group"] h2 {
               0 0 16px rgba(255, 20, 147, 0.10) !important;
 }
 
-/* Iridescent conic shimmer underlay */
-[class*="service-card"]::after {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border-radius: 18px;
-  background: var(--iridescent);
-  filter: saturate(1.4) brightness(1.05) blur(8px);
-  mix-blend-mode: screen;
-  opacity: 0;
-  transition: opacity 0.45s ease;
-  pointer-events: none;
-  z-index: 0;
-}
-
-[class*="service-card"]:hover::after { opacity: 0.40; }
+/* The iridescent ::after underlay was removed — it bled out of the
+   tile boundary on certain hover/focus states (the 'rainbow-spilling-
+   from-Salem' artifact in the v5 screenshot). Hover effect lives in
+   the contained ::before shimmer sweep below — that's all the Y2K
+   chrome we need without overflow risk. */
 
 /* Holographic shimmer sweep on hover (Y2K chrome) */
 [class*="service-card"]::before {

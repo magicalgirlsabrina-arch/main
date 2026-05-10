@@ -12,19 +12,21 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       HOMEPAGE_ALLOWED_HOSTS: "*"
-      # Hosts (Tailscale IPs)
-      SPELLMAN_MANOR_IP:   ${SPELLMAN_MANOR_IP}
-      HARVEYS_BIG_GAME_IP: ${HARVEYS_BIG_GAME_IP}
-      ZELDAS_LABTOP_IP:     ${ZELDAS_LABTOP_IP}
-      # Familiar gateway ports + tokens
-      SALEM_GATEWAY_PORT:   ${SALEM_GATEWAY_PORT}
-      HILDA_GATEWAY_PORT:   ${HILDA_GATEWAY_PORT}
-      ZELDA_GATEWAY_PORT:   ${ZELDA_GATEWAY_PORT}
-      HARVEY_GATEWAY_PORT:  ${HARVEY_GATEWAY_PORT}
-      SALEM_GATEWAY_TOKEN:  ${SALEM_GATEWAY_TOKEN}
-      HILDA_GATEWAY_TOKEN:  ${HILDA_GATEWAY_TOKEN}
-      ZELDA_GATEWAY_TOKEN:  ${ZELDA_GATEWAY_TOKEN}
-      HARVEY_GATEWAY_TOKEN: ${HARVEY_GATEWAY_TOKEN}
+      # Homepage substitutes ${HOMEPAGE_VAR_*} into services.yaml at render time.
+      # The HOMEPAGE_VAR_ prefix is required — without it Homepage doesn't
+      # expose the variable to the YAML templating engine, and tile hrefs
+      # show the literal placeholder string instead of the IP/port.
+      HOMEPAGE_VAR_SPELLMAN_MANOR_IP:    ${SPELLMAN_MANOR_IP}
+      HOMEPAGE_VAR_HARVEYS_BIG_GAME_IP:  ${HARVEYS_BIG_GAME_IP}
+      HOMEPAGE_VAR_ZELDAS_LABTOP_IP:     ${ZELDAS_LABTOP_IP}
+      HOMEPAGE_VAR_SALEM_GATEWAY_PORT:   ${SALEM_GATEWAY_PORT}
+      HOMEPAGE_VAR_HILDA_GATEWAY_PORT:   ${HILDA_GATEWAY_PORT}
+      HOMEPAGE_VAR_ZELDA_GATEWAY_PORT:   ${ZELDA_GATEWAY_PORT}
+      HOMEPAGE_VAR_HARVEY_GATEWAY_PORT:  ${HARVEY_GATEWAY_PORT}
+      HOMEPAGE_VAR_SALEM_GATEWAY_TOKEN:  ${SALEM_GATEWAY_TOKEN}
+      HOMEPAGE_VAR_HILDA_GATEWAY_TOKEN:  ${HILDA_GATEWAY_TOKEN}
+      HOMEPAGE_VAR_ZELDA_GATEWAY_TOKEN:  ${ZELDA_GATEWAY_TOKEN}
+      HOMEPAGE_VAR_HARVEY_GATEWAY_TOKEN: ${HARVEY_GATEWAY_TOKEN}
 
   # 💌 Coven Mail Bridge — exposes Salem's inbox + a send proxy
   coven-mail:
@@ -36,18 +38,18 @@ services:
       - ${COVEN_MAILBOX_DIR}:/mailbox:rw
       - ./docs/13-familiar-handbook.md:/app/handbook.md:ro
     extra_hosts:
-      # Bridge runs on Spellman Manor; reaching the host's tailnet IP
-      # from inside Docker for Mac doesn't always work (Docker NATs
-      # everything through a Linux VM). 'spellman-manor' here resolves
-      # to the host gateway, which routes via the Mac's loopback to
-      # Salem (:18789) and Hilda (:18790). For Zelda and Harvey on
-      # other Macs, the real tailnet IP works through Docker for Mac's
-      # default outbound routing.
-      - "spellman-manor:host-gateway"
+      # `host.docker.internal` already resolves on Docker Desktop, but
+      # we add it here explicitly in case Compose v2 strips the magic
+      # mapping. This is what Salem and Hilda use as their host (they
+      # live on the SAME Mac as the bridge, so we route via the Mac's
+      # loopback rather than out through the tailnet — that's what was
+      # producing 'Errno 101 Network is unreachable'). Zelda and Harvey
+      # use real tailnet IPs since they're on different Macs.
+      - "host.docker.internal:host-gateway"
     environment:
       MAILBOX_DIR: /mailbox
-      SALEM_HOST:  spellman-manor
-      HILDA_HOST:  spellman-manor
+      SALEM_HOST:  host.docker.internal
+      HILDA_HOST:  host.docker.internal
       ZELDA_HOST:  ${ZELDAS_LABTOP_IP}
       HARVEY_HOST: ${HARVEYS_BIG_GAME_IP}
       SALEM_GATEWAY_PORT:  ${SALEM_GATEWAY_PORT}

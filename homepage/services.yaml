@@ -66,7 +66,7 @@
     - Salem:
         href: http://{{HOMEPAGE_VAR_SPELLMAN_MANOR_IP}}:{{HOMEPAGE_VAR_SALEM_GATEWAY_PORT}}
         description: openclaw familiar · spellman-manor:18789
-        icon: mdi-cat-#FFD700
+        icon: mdi-cat-#FFF0F8
         widget:
           type: customapi
           url: http://coven-mail:18793/api/familiar/salem
