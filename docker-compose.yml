@@ -9,6 +9,11 @@ services:
     ports: ["3000:3000"]
     volumes:
       - ./homepage:/app/config
+      # Homepage serves /images/* from /app/public/images, NOT from
+      # /app/config/images. Mount our SVG asset folder there so the
+      # Sabrina wordmark + sparkles + crescent + butterfly + app-icons
+      # all resolve at /images/<file>.svg in the browser.
+      - ./homepage/images:/app/public/images:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       HOMEPAGE_ALLOWED_HOSTS: "*"
@@ -37,19 +42,16 @@ services:
     volumes:
       - ${COVEN_MAILBOX_DIR}:/mailbox:rw
       - ./docs/13-familiar-handbook.md:/app/handbook.md:ro
-    extra_hosts:
-      # `host.docker.internal` already resolves on Docker Desktop, but
-      # we add it here explicitly in case Compose v2 strips the magic
-      # mapping. This is what Salem and Hilda use as their host (they
-      # live on the SAME Mac as the bridge, so we route via the Mac's
-      # loopback rather than out through the tailnet — that's what was
-      # producing 'Errno 101 Network is unreachable'). Zelda and Harvey
-      # use real tailnet IPs since they're on different Macs.
-      - "host.docker.internal:host-gateway"
     environment:
       MAILBOX_DIR: /mailbox
-      SALEM_HOST:  host.docker.internal
-      HILDA_HOST:  host.docker.internal
+      # All four familiars use their tailnet IPs. The OpenClaw gateways
+      # bind to the Tailscale IP only (not loopback), so even Salem +
+      # Hilda — which run on the SAME Mac as the bridge — must be
+      # reached over the tailnet rather than via host.docker.internal.
+      # Docker for Mac NATs outbound to tailnet IPs through the host's
+      # routing, which works as long as Tailscale is up on the Mac.
+      SALEM_HOST:  ${SPELLMAN_MANOR_IP}
+      HILDA_HOST:  ${SPELLMAN_MANOR_IP}
       ZELDA_HOST:  ${ZELDAS_LABTOP_IP}
       HARVEY_HOST: ${HARVEYS_BIG_GAME_IP}
       SALEM_GATEWAY_PORT:  ${SALEM_GATEWAY_PORT}

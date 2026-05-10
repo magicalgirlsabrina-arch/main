@@ -257,26 +257,52 @@ restart with the new env block.
 Symptom: every familiar tile shows "API Error Information" or
 `<urlopen error [Errno 101] Network is unreachable>`.
 
-Root cause: the bridge container can't route to the host's tailnet IP
-from inside Docker for Mac. Docker NATs container traffic through a
-Linux VM, and that VM doesn't see the Mac's tailnet0 routes.
+Root cause (the actual one): the OpenClaw gateways on Spellman Manor
+bind to the **Tailscale IP only** (`100.106.134.96`), not to
+`127.0.0.1` or `0.0.0.0`. So `host.docker.internal` (which routes
+to the Mac host's loopback) reaches a port nothing's listening on.
 
-Fix (Salem + Hilda — same Mac as the bridge): set their `*_HOST` env
-to `host.docker.internal` (Docker Desktop's built-in alias for the
-Mac host). This routes via the Mac's loopback to ports 18789 / 18790
-where Salem and Hilda listen. Already wired in `docker-compose.yml`.
+Fix: in `docker-compose.yml`, all four `*_HOST` env vars on the
+`coven-mail` service use the tailnet IP — including Salem and Hilda
+on the same Mac as the bridge. Docker for Mac NATs the outbound call
+through the host's tailnet routing, which works as long as Tailscale
+is up on the Mac. (The previous `host.docker.internal` attempt didn't
+work because of the binding issue above.)
 
-Fix (Zelda + Harvey — different Macs): the bridge calls their tailnet
-IPs (`100.79.115.101`, `100.112.73.96`). Docker for Mac usually NATs
-those through the host correctly, but if the container still gets
-"Network is unreachable" for them:
+If after this you're still seeing "Network is unreachable" specifically
+from the bridge container:
 
-1. Confirm the host Mac can reach them: `curl http://100.112.73.96:18789/health` (from the mini's terminal). If this works, Docker is the only thing blocked.
-2. Restart Docker Desktop — networking sometimes goes sideways after a tailscale reconnect.
-3. If still broken, set up a tiny `tailscale serve` proxy on each remote Mac so the bridge can reach `https://zeldas-labtop.<tailnet>.ts.net/health` instead.
+1. Confirm the Mac itself can reach the gateway: `curl http://100.106.134.96:18789/health`
+2. Confirm OpenClaw is bound where you think: `lsof -iTCP:18789 -sTCP:LISTEN`
+3. Restart Docker Desktop — networking sometimes goes sideways after a Tailscale reconnect.
 
-The bridge handles unreachable familiars gracefully — tiles just show
-"—" for model / tok-s / sessions until connectivity returns.
+## Sabrina wordmark not showing in the greeting (404 on /images/sabrina-wordmark.svg)
+
+Symptom: the greeting area is blank where "Welcome home, Sabrina"
+should be. Browser network panel shows 404 on `/images/sabrina-wordmark.svg`.
+
+Root cause: Homepage serves files from `/app/public/`, **not** from
+`/app/config/images/` where the SVG is mounted. Without the explicit
+publish mount, the path returns 404.
+
+Fix: in `docker-compose.yml` the `homepage` service has:
+
+```yaml
+volumes:
+  - ./homepage:/app/config
+  - ./homepage/images:/app/public/images:ro   # this line
+```
+
+That mount publishes our SVG asset folder where Homepage actually
+serves from. Verify with:
+
+```sh
+curl -I http://localhost:3000/images/sabrina-wordmark.svg
+# → HTTP/1.1 200 OK + Content-Type: image/svg+xml
+```
+
+If still 404, restart the homepage container after the mount edit:
+`docker compose up -d homepage`.
 
 ## Theme color is wrong on installed iOS PWA
 

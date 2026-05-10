@@ -443,35 +443,97 @@ body.light [class*="widget-value"],
 
 /* ── Service tiles ─────────────────────────────────────────────── */
 
+/* The 'abrupt cut-off' artifact came from ancestor containers clipping
+   our box-shadow glows. Force overflow:visible on every plausible
+   wrapper so the soft pink+gold halo can extend cleanly past the
+   tile edges. */
+[class*="services-group"],
+[class*="services-list"],
+[class*="services-list"] > div,
+[class*="services-group"] > div,
+[class*="layout-grid"],
+[class*="layout-row"],
+[class*="layout-column"],
+.services-list, .services-group,
+[class*="row-wrapper"] {
+  overflow: visible !important;
+}
+
 [class*="service-card"], [data-testid*="service-card"] {
   background: var(--glass) !important;
   border: 1px solid var(--glass-border) !important;
   border-radius: 16px !important;
   backdrop-filter: blur(24px) saturate(170%) !important;
   -webkit-backdrop-filter: blur(24px) saturate(170%) !important;
-  box-shadow: var(--shadow-card) !important;
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.35s ease,
+              background 0.45s ease !important;
+  /* Allow the inside shimmer-sweep to clip but let outer glow extend. */
   overflow: hidden;
   position: relative;
   padding: 16px !important;
+
+  /* Always-on multi-layered glow — soft pink halo that fades naturally
+     past the tile edge instead of stopping abruptly. Three layered
+     shadows: tight pink edge → medium soft pink → wide diffuse gold. */
+  box-shadow:
+    0 4px 16px rgba(15, 5, 36, 0.40),
+    0 0 14px rgba(255, 20, 147, 0.12),
+    0 0 36px rgba(255, 20, 147, 0.08),
+    0 0 72px rgba(255, 215, 0, 0.05),
+    inset 0 1px 0 rgba(255, 240, 248, 0.06) !important;
 }
 
 [class*="service-card"]:hover {
   border-color: var(--hot-pink) !important;
   transform: translateY(-4px) scale(1.015);
+  /* Hover glow — bigger blur radii, softer fade, multi-stop so the
+     pink fades into gold and dissolves into the bg without a hard line. */
   box-shadow:
-    0 20px 56px rgba(15, 5, 36, 0.85),
-    var(--shadow-aura),
-    0 0 48px var(--rose-glow),
-    0 0 24px var(--gold-glow),
+    0 12px 32px rgba(15, 5, 36, 0.55),
+    0 0 24px rgba(255, 20, 147, 0.32),
+    0 0 64px rgba(255, 20, 147, 0.20),
+    0 0 110px rgba(255, 20, 147, 0.10),
+    0 0 80px rgba(255, 215, 0, 0.18),
+    0 0 140px rgba(255, 215, 0, 0.06),
     inset 0 1px 0 rgba(255, 240, 248, 0.18) !important;
   background: var(--glass-strong) !important;
 }
 
-/* Always-on subtle pink edge-glow on every tile (bedroom decor feel) */
-[class*="service-card"] {
-  box-shadow: var(--shadow-card),
-              0 0 16px rgba(255, 20, 147, 0.10) !important;
+/* Always-on tile sparkle — small twinkle at the top-right corner of
+   every tile that gently pulses. Matches the Magic Mirror vibe of
+   "every card has a little magic." */
+[class*="service-card"] > *:first-child::after {
+  /* Cant always reach a stable child to anchor on — fall back to a
+     pseudo on the outer card via a different mechanism */
+}
+[class*="service-card"]::after {
+  content: '';
+  position: absolute;
+  top: 8px; right: 10px;
+  width: 12px; height: 12px;
+  background-color: var(--gold);
+  mask: url("/images/twinkle.svg") no-repeat center / contain;
+  -webkit-mask: url("/images/twinkle.svg") no-repeat center / contain;
+  filter: drop-shadow(0 0 6px var(--gold-glow))
+          drop-shadow(0 0 3px var(--rose-glow));
+  opacity: 0.6;
+  animation: tile-twinkle 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+@keyframes tile-twinkle {
+  0%, 100% { opacity: 0.35; transform: scale(0.85) rotate(0deg);   }
+  50%      { opacity: 0.95; transform: scale(1.15) rotate(45deg);  }
+}
+
+[class*="service-card"]:hover::after {
+  opacity: 1;
+  background-color: var(--rose);
+  filter: drop-shadow(0 0 10px var(--rose-glow))
+          drop-shadow(0 0 5px var(--gold-glow));
 }
 
 /* The iridescent ::after underlay was removed — it bled out of the
