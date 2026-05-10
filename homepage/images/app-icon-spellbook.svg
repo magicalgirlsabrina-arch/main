@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#FF3FA4"/>
+      <stop offset="40%"  stop-color="#9B7EDE"/>
+      <stop offset="100%" stop-color="#1A1B4B"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#FFD66B" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#FFD66B" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sparkle" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#FFFFFF"/>
+      <stop offset="50%"  stop-color="#FFD66B"/>
+      <stop offset="100%" stop-color="#E8C547"/>
+    </linearGradient>
+  </defs>
+  <!-- Background — iOS auto-applies corner radius, but rx for non-iOS clients -->
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+
+  <!-- Glow halo behind central sparkle -->
+  <circle cx="256" cy="256" r="180" fill="url(#glow)"/>
+
+  <!-- Sprinkled small stars -->
+  <circle cx="80"  cy="100" r="4" fill="#F4EAFB" opacity="0.9"/>
+  <circle cx="430" cy="80"  r="3" fill="#FFD66B" opacity="0.9"/>
+  <circle cx="120" cy="380" r="3" fill="#FFB6D5" opacity="0.85"/>
+  <circle cx="380" cy="420" r="4" fill="#A8E0FF" opacity="0.85"/>
+  <circle cx="60"  cy="260" r="2.5" fill="#F4EAFB" opacity="0.8"/>
+  <circle cx="450" cy="280" r="3" fill="#FFD66B" opacity="0.8"/>
+
+  <!-- Tiny twinkles -->
+  <path d="M120 140 L122 152 L134 154 L122 156 L120 168 L118 156 L106 154 L118 152 Z" fill="#F4EAFB" opacity="0.85"/>
+  <path d="M400 170 L402 182 L414 184 L402 186 L400 198 L398 186 L386 184 L398 182 Z" fill="#FFD66B" opacity="0.85"/>
+  <path d="M380 360 L382 372 L394 374 L382 376 L380 388 L378 376 L366 374 L378 372 Z" fill="#FFB6D5" opacity="0.85"/>
+
+  <!-- Central sparkle — the iconic 4-point pinched diamond -->
+  <path d="M256 96
+           C260 196 264 232 280 248
+           C296 264 332 268 416 256
+           C332 244 296 240 280 224
+           C264 208 260 172 256 96
+           Z
+           M256 416
+           C252 316 248 280 232 264
+           C216 248 180 244 96 256
+           C180 268 216 272 232 288
+           C248 304 252 340 256 416
+           Z"
+        fill="url(#sparkle)"
+        filter="drop-shadow(0 0 24px rgba(255,214,107,0.8))"/>
+  <path d="M256 96
+           C264 200 268 236 280 248
+           C292 260 328 264 416 256
+           C328 248 292 252 280 264
+           C268 276 264 312 256 416
+           C248 312 244 276 232 264
+           C220 252 184 248 96 256
+           C184 264 220 260 232 248
+           C244 236 248 200 256 96 Z"
+        fill="url(#sparkle)"
+        opacity="0.95"/>
+</svg>

@@ -45,6 +45,11 @@ Endpoints:
     GET  /api/handbook                 returns the Familiar's Handbook markdown
                                        so each familiar can self-serve the manual
 
+  PWA installability (Spellbook UI as iOS / Android home-screen app)
+    GET  /manifest.json                web-app manifest
+    GET  /icon-180.svg                 apple-touch-icon
+    GET  /icon-512.svg                 maskable / large icon
+
 Auth model: Tailscale is the boundary. No app-level auth.
 """
 
@@ -547,6 +552,16 @@ class Handler(http.server.BaseHTTPRequestHandler):
         if path == "/" or path == "/spellbook":
             return self._send(200, _SPELLBOOK_HTML, "text/html; charset=utf-8")
 
+        # ─ PWA installability ─────────────────────────────────────────
+        if path == "/manifest.json" or path == "/manifest.webmanifest":
+            return self._send(200, _PWA_MANIFEST, "application/manifest+json")
+
+        if path == "/icon-180.svg" or path == "/icon-512.svg" or path == "/apple-touch-icon.svg":
+            return self._send(200, _APP_ICON_SVG, "image/svg+xml")
+
+        if path == "/favicon.svg" or path == "/favicon.ico":
+            return self._send(200, _FAVICON_SVG, "image/svg+xml")
+
         return self._send(404, {"error": "not found"})
 
     # ─ POST routes ───────────────────────────────────────────────────────
@@ -645,11 +660,77 @@ class Handler(http.server.BaseHTTPRequestHandler):
 # ── Self-served HTML (Spellbook UI) ──────────────────────────────────────
 # Kept inline to keep the bridge a single-file deploy. Theme matches
 # Homepage's Westbridge Dusk palette.
+# ── PWA assets (manifest, app icon, favicon) ─────────────────────────────
+# All inline so the bridge stays a single-file deploy.
+
+_PWA_MANIFEST = """{
+  "name": "The Spellbook",
+  "short_name": "Spellbook",
+  "description": "Coven Mail Bridge UI for Spellman Manor",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#FF3FA4",
+  "background_color": "#1A1B4B",
+  "icons": [
+    { "src": "/icon-180.svg", "sizes": "180x180 192x192 256x256 any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/icon-512.svg", "sizes": "512x512 any",                 "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}"""
+
+# 512×512 app icon (also serves at /icon-180 — SVG scales).
+_APP_ICON_SVG = r"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF3FA4"/>
+      <stop offset="40%" stop-color="#9B7EDE"/>
+      <stop offset="100%" stop-color="#1A1B4B"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFD66B" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#FFD66B" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sparkle" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="50%" stop-color="#FFD66B"/>
+      <stop offset="100%" stop-color="#E8C547"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <circle cx="256" cy="256" r="180" fill="url(#glow)"/>
+  <circle cx="80" cy="100" r="4" fill="#F4EAFB" opacity="0.9"/>
+  <circle cx="430" cy="80" r="3" fill="#FFD66B" opacity="0.9"/>
+  <circle cx="120" cy="380" r="3" fill="#FFB6D5" opacity="0.85"/>
+  <circle cx="380" cy="420" r="4" fill="#A8E0FF" opacity="0.85"/>
+  <circle cx="60" cy="260" r="2.5" fill="#F4EAFB" opacity="0.8"/>
+  <circle cx="450" cy="280" r="3" fill="#FFD66B" opacity="0.8"/>
+  <path d="M256 96 C260 196 264 232 280 248 C296 264 332 268 416 256 C332 244 296 240 280 224 C264 208 260 172 256 96 Z M256 416 C252 316 248 280 232 264 C216 248 180 244 96 256 C180 268 216 272 232 288 C248 304 252 340 256 416 Z" fill="url(#sparkle)"/>
+  <path d="M256 96 C264 200 268 236 280 248 C292 260 328 264 416 256 C328 248 292 252 280 264 C268 276 264 312 256 416 C248 312 244 276 232 264 C220 252 184 248 96 256 C184 264 220 260 232 248 C244 236 248 200 256 96 Z" fill="url(#sparkle)" opacity="0.95"/>
+</svg>"""
+
+# Tiny favicon — same sparkle, less detail.
+_FAVICON_SVG = r"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="6" fill="#FF3FA4"/>
+  <path d="M16 4 C16.5 11 17 13 18 14 C19 15 21 15.5 28 16 C21 16.5 19 17 18 18 C17 19 16.5 21 16 28 C15.5 21 15 19 14 18 C13 17 11 16.5 4 16 C11 15.5 13 15 14 14 C15 13 15.5 11 16 4 Z" fill="#FFD66B"/>
+</svg>"""
+
+
 _SPELLBOOK_HTML = r"""<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <title>The Spellbook</title>
+
+<!-- PWA / iOS web app -->
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icon-180.svg">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Spellbook">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#FF3FA4">
+<meta name="mobile-web-app-capable" content="yes">
+
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Quicksand:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400&family=Sacramento&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -670,7 +751,8 @@ _SPELLBOOK_HTML = r"""<!doctype html>
   *{box-sizing:border-box} html,body{margin:0;padding:0}
   body{
     font-family:'Quicksand',system-ui,sans-serif;color:var(--text);min-height:100vh;
-    padding:48px 24px 64px;font-weight:500;
+    padding: max(48px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(64px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
+    font-weight:500;
     background:
       radial-gradient(ellipse 70% 40% at 18% 12%, rgba(255,63,164,.28), transparent 60%),
       radial-gradient(ellipse 60% 55% at 85% 30%, rgba(155,126,222,.30), transparent 60%),
@@ -891,6 +973,35 @@ _SPELLBOOK_HTML = r"""<!doctype html>
   .upgrade-item .flag{padding:2px 9px;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:10px;background:rgba(255,142,142,.15);color:var(--ember);letter-spacing:.4px}
   .upgrade-item a{color:var(--violet);text-decoration:none}
   .upgrade-item a:hover{color:var(--rose)}
+
+  /* ── Mobile / iOS responsive breakpoints ─────────────────────── */
+  @media (max-width: 720px) {
+    body { padding: max(28px, env(safe-area-inset-top)) 14px max(32px, env(safe-area-inset-bottom)); }
+    h1 { font-size: 56px; }
+    .tech { font-size: 11px; margin-bottom: 18px; }
+    .container { max-width: 100%; }
+    .tabs { gap: 4px; padding: 0 4px; }
+    .tab { padding: 8px 14px; font-size: 11px; letter-spacing: 1px; }
+    .card { padding: 18px 16px; border-radius: 14px; }
+    .card h2 { font-size: 15px; padding-left: 22px; }
+    .card .tech-sub { padding-left: 22px; }
+    label { font-size: 9.5px; }
+    textarea, input, select { font-size: 16px; padding: 11px 12px; }  /* 16px = no iOS zoom */
+    .btn { padding: 11px 20px; font-size: 11px; width: 100%; margin-bottom: 8px; }
+    .feed-row { grid-template-columns: 70px 1fr; gap: 10px; padding: 10px 12px; font-size: 12px; }
+    .feed-row .kind { display: none; }  /* hide kind column on small screens, color stays via what */
+    .feed-row .when { font-size: 10px; }
+    .upgrade-item .head { flex-direction: column; align-items: flex-start; }
+    .msg { padding: 14px 16px; }
+    .from { font-size: 13px; }
+    .ts { float: none; display: block; margin-bottom: 4px; }
+    .body { font-size: 13px; }
+  }
+
+  @media (max-width: 380px) {
+    h1 { font-size: 44px; }
+    .tab { padding: 7px 11px; font-size: 10px; letter-spacing: 0.5px; }
+  }
 </style>
 </head><body>
 <div class="container">

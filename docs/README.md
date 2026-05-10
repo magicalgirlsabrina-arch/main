@@ -22,6 +22,7 @@ For day-to-day:
 - [`09-debugging.md`](09-debugging.md) — peer debugging + workflows
 - [`10-magic-mirror.md`](10-magic-mirror.md) — the TV kiosk
 - [`12-watchdog-cron.md`](12-watchdog-cron.md) — wiring cron + watchdog heartbeats
+- [`14-remote-access.md`](14-remote-access.md) — Tailscale on iOS + iOS web app install
 
 When something breaks:
 - [`04-troubleshooting.md`](04-troubleshooting.md)

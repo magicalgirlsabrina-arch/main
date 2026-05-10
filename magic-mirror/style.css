@@ -342,3 +342,39 @@ footer {
   50%      { transform: translateY(-6px) rotate(8deg);  }
 }
 .footer-text { opacity: 0.85; }
+
+/* ── Mobile / iOS responsive (the kiosk also works on a phone) ─────── */
+@media (max-width: 900px) {
+  html, body { overflow: auto; height: auto; min-height: 100vh; }
+  header { padding: 32px 16px 12px; }
+  header::before, header::after { display: none; }
+  .title { font-size: 64px; }
+  .clock { font-size: 64px; margin-top: 4px; }
+  .date { font-size: 14px; letter-spacing: 2.5px; }
+  .coven-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px; padding: 18px 16px;
+  }
+  .familiar { padding: 18px 14px; border-radius: 18px; }
+  .familiar .emoji { font-size: 40px; }
+  .familiar .name { font-size: 20px; }
+  .familiar .status { font-size: 12px; }
+  .cards {
+    grid-template-columns: 1fr;
+    gap: 14px; padding: 0 16px 24px;
+  }
+  .card { padding: 22px 18px; border-radius: 18px; }
+  .card h2 { font-size: 15px; padding-left: 26px; }
+  .big-number { font-size: 72px; }
+  .alert-card .all-clear { font-size: 18px; padding: 18px 0; }
+  footer { padding: 12px 18px; }
+}
+
+@media (max-width: 480px) {
+  .title { font-size: 52px; }
+  .clock { font-size: 52px; }
+  .coven-row { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 14px 10px; }
+  .familiar { padding: 14px 10px; }
+  .familiar .name { font-size: 17px; }
+  .big-number { font-size: 60px; }
+}

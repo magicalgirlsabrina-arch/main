@@ -87,6 +87,10 @@ Full walkthrough: [`docs/02-setup.md`](docs/02-setup.md)
   ```sh
   curl http://100.106.134.96:18793/api/handbook
   ```
+- **Spellbook installs as a real iOS / Android app.** Open in Safari
+  → Share → **Add to Home Screen**. Launches fullscreen with the
+  themed icon (gold sparkle on pink-violet gradient). See
+  [`docs/14-remote-access.md`](docs/14-remote-access.md).
 - **Surveillance** — live activity feed (mail · circuits · cron · watchdog),
   per-job heartbeat tracking, available-upgrade scanner with auto-fetched
   GitHub release notes + cheap "verdict" review (safe / recommended /
